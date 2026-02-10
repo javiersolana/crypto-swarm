@@ -1,0 +1,34 @@
+======================================================================
+       CRYPTO SWARM INTELLIGENCE - WEEKLY ALPHA REPORT
+       Generated: 2026-02-09 09:35 UTC
+       Mode: PAPER
+======================================================================
+
+--- PIPELINE SUMMARY ---
+  Tokens scanned:    10
+  Passed audit:      0
+  Sentiment scored:  0
+  Technical scored:  0
+  Final positions:   0
+
+--- CAPITAL ALLOCATION ---
+  Total Capital:     EUR 300.00
+  Reserve:           EUR 50.00
+  Investable:        EUR 250.00
+  Allocated:         EUR 0.00
+  Available:         EUR 250.00
+
+--- NO POSITIONS RECOMMENDED ---
+  The swarm could not find tokens meeting all safety criteria.
+  This is normal - safety first. Will scan again next week.
+
+--- RISK WARNINGS ---
+  - This is for EDUCATIONAL/RESEARCH purposes only
+  - Paper trading mode: NO real money at risk
+  - New DEX tokens are EXTREMELY risky (>90% lose value)
+  - Never invest more than you can afford to lose
+  - Past scans do not predict future performance
+
+======================================================================
+  Crypto Swarm Intelligence v1.0 - Research Tool
+======================================================================

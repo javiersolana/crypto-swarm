@@ -1,0 +1,112 @@
+======================================================================
+       CRYPTO SWARM INTELLIGENCE - WEEKLY ALPHA REPORT
+       Generated: 2026-02-09 10:16 UTC
+       Mode: PAPER
+======================================================================
+
+--- PIPELINE SUMMARY ---
+  Tokens scanned:    30
+  Passed audit:      11
+  Sentiment scored:  11
+  Technical scored:  11
+  Final positions:   5
+
+--- CAPITAL ALLOCATION ---
+  Total Capital:     EUR 300.00
+  Reserve:           EUR 50.00
+  Investable:        EUR 250.00
+  Allocated:         EUR 250.00
+  Available:         EUR 0.00
+
+--- RECOMMENDED POSITIONS ---
+
+  #1 Klaus / WETH 838.861%
+     Network:        base
+     Address:        0x19fb7605774255515d...
+     Entry Price:    $0.00000027
+     Current Price:  $0.00000152
+     Allocation:     EUR 52.01 (20.8%)
+     Stop-Loss:      $0.00000019 (-30%)
+     Take-Profit:    $0.00000054 (+100%)
+     Composite:      7.3/10
+       Scout:        7.2/10
+       Forense:      7.2/10
+       Narrator:     6.4/10
+       Quant:        7.5/10
+       Executor:     8.0/10
+     Key Signals:    possible_wash_trading, has_website, has_twitter, has_branding, positive_momentum
+
+  #2 COPPERINU / SOL
+     Network:        solana
+     Address:        61Wj56QgGyyB966T7YsM...
+     Entry Price:    $0.00696788
+     Current Price:  $0.00683684
+     Allocation:     EUR 50.58 (20.2%)
+     Stop-Loss:      $0.00487752 (-30%)
+     Take-Profit:    $0.01393576 (+100%)
+     Composite:      7.1/10
+       Scout:        6.3/10
+       Forense:      8.0/10
+       Narrator:     6.4/10
+       Quant:        6.5/10
+       Executor:     7.5/10
+     Key Signals:    has_website, has_twitter, has_telegram, has_branding, rsi_neutral
+
+  #3 BigTrout / SOL
+     Network:        solana
+     Address:        EKwF2HD6X4rHHr4322EJ...
+     Entry Price:    $0.00000653
+     Current Price:  $0.00191455
+     Allocation:     EUR 49.80 (19.9%)
+     Stop-Loss:      $0.00000457 (-30%)
+     Take-Profit:    $0.00001306 (+100%)
+     Composite:      7.0/10
+       Scout:        7.8/10
+       Forense:      7.7/10
+       Narrator:     6.1/10
+       Quant:        7.0/10
+       Executor:     6.0/10
+     Key Signals:    possible_wash_trading, has_website, has_twitter, has_branding, minor_dip
+
+  #4 WAR / USD1
+     Network:        solana
+     Address:        8opvqaWysX1oYbXuTL8P...
+     Entry Price:    $0.01480173
+     Current Price:  $0.02948410
+     Allocation:     EUR 49.23 (19.7%)
+     Stop-Loss:      $0.01036121 (-30%)
+     Take-Profit:    $0.02960346 (+100%)
+     Composite:      6.9/10
+       Scout:        6.4/10
+       Forense:      8.0/10
+       Narrator:     6.4/10
+       Quant:        6.5/10
+       Executor:     6.5/10
+     Key Signals:    has_website, has_twitter, has_branding, positive_momentum, rsi_favorable
+
+  #5 LIQUID / SOL
+     Network:        solana
+     Address:        71mfKdePwyWXtiF1mqu2...
+     Entry Price:    $0.00002499
+     Current Price:  $0.00142183
+     Allocation:     EUR 48.38 (19.4%)
+     Stop-Loss:      $0.00001749 (-30%)
+     Take-Profit:    $0.00004998 (+100%)
+     Composite:      6.8/10
+       Scout:        8.3/10
+       Forense:      7.7/10
+       Narrator:     6.1/10
+       Quant:        6.2/10
+       Executor:     5.5/10
+     Key Signals:    possible_wash_trading, has_website, has_twitter, has_branding, moderate_pump_86pct
+
+--- RISK WARNINGS ---
+  - This is for EDUCATIONAL/RESEARCH purposes only
+  - Paper trading mode: NO real money at risk
+  - New DEX tokens are EXTREMELY risky (>90% lose value)
+  - Never invest more than you can afford to lose
+  - Past scans do not predict future performance
+
+======================================================================
+  Crypto Swarm Intelligence v1.0 - Research Tool
+======================================================================

@@ -1,0 +1,22 @@
+nohup: ignoring input
+2026-02-10 22:32:10 [alpha_monitor] INFO: Wallet monitor: tracking 50 wallets (check every 120s)
+2026-02-10 22:32:11 [alert_monitor] INFO: Telegram alert sent successfully
+2026-02-10 22:32:11 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-10 22:32:17 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/GbqbsRyBHVPHEv7xLEsikXmdpPPiApLTJesDBbL5pump/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-10 22:32:17 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/G9YU3K1MiPTv7Krui5omkPBPP21GChPPE3c9izRKbonk/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-10 22:32:18 [wallet_tracker] INFO: No new buys detected from tracked wallets.
+2026-02-10 22:32:18 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 6s (50 wallets, 0 cached, 0 errors)
+2026-02-10 22:34:18 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-10 22:34:18 [wallet_tracker] INFO: No new buys detected from tracked wallets.
+2026-02-10 22:34:18 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-10 22:36:18 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-10 22:36:18 [wallet_tracker] INFO: No new buys detected from tracked wallets.
+2026-02-10 22:36:18 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-10 22:38:18 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-10 22:38:24 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/GbqbsRyBHVPHEv7xLEsikXmdpPPiApLTJesDBbL5pump/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-10 22:38:24 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/G9YU3K1MiPTv7Krui5omkPBPP21GChPPE3c9izRKbonk/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-10 22:38:27 [wallet_tracker] INFO: Found 8 new buy signals from smart wallets!
+2026-02-10 22:38:27 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 9s (50 wallets, 0 cached, 0 errors)
+2026-02-10 22:40:27 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-10 22:40:27 [wallet_tracker] INFO: Found 8 new buy signals from smart wallets!
+2026-02-10 22:40:27 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)

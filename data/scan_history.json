@@ -1,0 +1,248 @@
+[
+  {
+    "timestamp": "2026-02-09T09:53:36.329350+00:00",
+    "stats": {
+      "scanned": 30,
+      "audited": 11,
+      "sentiment": 11,
+      "technical": 11,
+      "positions": 5
+    },
+    "top_candidates": [
+      {
+        "name": "LIQUID / SOL",
+        "address": "71mfKdePwyWXtiF1mqu2aaCdMKnKuN664z2vEM2Xpump",
+        "network": "solana",
+        "scout_score": 8.251460816063823,
+        "composite_score": 6.9
+      },
+      {
+        "name": "BigTrout / SOL",
+        "address": "EKwF2HD6X4rHHr4322EJeK9QBGkqhpHZQSanSUmWkecG",
+        "network": "solana",
+        "scout_score": 7.811852440636904,
+        "composite_score": 6.5
+      },
+      {
+        "name": "SNR / WETH 838.861%",
+        "address": "0xe1231f809124e4aa556cd9d8c28cb33f02c75b07",
+        "network": "base",
+        "scout_score": 7.248557684159091,
+        "composite_score": 6.45
+      },
+      {
+        "name": "Klaus / WETH 838.861%",
+        "address": "0x19fb7605774255515dbf5b7f2178579e07e3cb07",
+        "network": "base",
+        "scout_score": 7.24805822544697,
+        "composite_score": 7.41
+      },
+      {
+        "name": "yoshi / WETH 838.861%",
+        "address": "0x799e7c0811e3ad741b45eab15773888e5996db07",
+        "network": "base",
+        "scout_score": 7.247770934984849,
+        "composite_score": null
+      },
+      {
+        "name": "JUNO / WETH 838.861%",
+        "address": "0x4e6c9f48f73e54ee5f3ab7e2992b2d733d0d0b07",
+        "network": "base",
+        "scout_score": 7.227537861772728,
+        "composite_score": null
+      },
+      {
+        "name": "AntiHunter / WETH 838.861%",
+        "address": "0xe2f3fae4bc62e21826018364aa30ae45d430bb07",
+        "network": "base",
+        "scout_score": 7.197438860515152,
+        "composite_score": 6.5
+      },
+      {
+        "name": "wojak / WETH",
+        "address": "0x8de39b057cc6522230ab19c0205080a8663331ef",
+        "network": "ethereum",
+        "scout_score": 7.001391453772862,
+        "composite_score": 7.17
+      },
+      {
+        "name": "OPAL / SOL",
+        "address": "2PzS5SYYWjUFvzXNFaMmRkpjkxGX6R5v8DnKYtdcpump",
+        "network": "solana",
+        "scout_score": 6.663537885483699,
+        "composite_score": 6.68
+      },
+      {
+        "name": "BFS / USDC",
+        "address": "2k8yZaJjf61unHriuqdmvbxe7CUhEYML5kVJDbcotKjU",
+        "network": "solana",
+        "scout_score": 6.598875368229351,
+        "composite_score": 6.39
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-09T10:16:03.667007+00:00",
+    "stats": {
+      "scanned": 30,
+      "audited": 11,
+      "sentiment": 11,
+      "technical": 11,
+      "positions": 5
+    },
+    "top_candidates": [
+      {
+        "name": "Baby Sinclair",
+        "address": "8MdkXe5G77xaMheVQxLqAYV8e2m2Dfc5ZbuXup2epump",
+        "network": "solana",
+        "scout_score": 8.890120450572635,
+        "composite_score": 6.77
+      },
+      {
+        "name": "LIQUID / SOL",
+        "address": "71mfKdePwyWXtiF1mqu2aaCdMKnKuN664z2vEM2Xpump",
+        "network": "solana",
+        "scout_score": 8.253232610743733,
+        "composite_score": 6.8
+      },
+      {
+        "name": "BigTrout / SOL",
+        "address": "EKwF2HD6X4rHHr4322EJeK9QBGkqhpHZQSanSUmWkecG",
+        "network": "solana",
+        "scout_score": 7.8107734468899785,
+        "composite_score": 7.0
+      },
+      {
+        "name": "FOCUS",
+        "address": "DALddkQK6BWC3fLNbtY3chzWGVTzABYwzkHrvAuupump",
+        "network": "solana",
+        "scout_score": 7.25,
+        "composite_score": null
+      },
+      {
+        "name": "Klaus / WETH 838.861%",
+        "address": "0x19fb7605774255515dbf5b7f2178579e07e3cb07",
+        "network": "base",
+        "scout_score": 7.24823765819697,
+        "composite_score": 7.31
+      },
+      {
+        "name": "SNR / WETH 838.861%",
+        "address": "0xe1231f809124e4aa556cd9d8c28cb33f02c75b07",
+        "network": "base",
+        "scout_score": 7.248059814689394,
+        "composite_score": 6.29
+      },
+      {
+        "name": "yoshi / WETH 838.861%",
+        "address": "0x799e7c0811e3ad741b45eab15773888e5996db07",
+        "network": "base",
+        "scout_score": 7.247839704113636,
+        "composite_score": null
+      },
+      {
+        "name": "JUNO / WETH 838.861%",
+        "address": "0x4e6c9f48f73e54ee5f3ab7e2992b2d733d0d0b07",
+        "network": "base",
+        "scout_score": 7.2280063186818175,
+        "composite_score": null
+      },
+      {
+        "name": "AntiHunter / WETH 838.861%",
+        "address": "0xe2f3fae4bc62e21826018364aa30ae45d430bb07",
+        "network": "base",
+        "scout_score": 7.193835117015151,
+        "composite_score": 6.54
+      },
+      {
+        "name": "$POKEMON30 / SOL",
+        "address": "B1RB6i7gvxYoyx8Us1eFrJxr7DZv3RzLmBHdfPwDpump",
+        "network": "solana",
+        "scout_score": 6.72803343443877,
+        "composite_score": null
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-09T14:52:44.641949+00:00",
+    "stats": {
+      "scanned": 82,
+      "audited": 28,
+      "sentiment": 28,
+      "technical": 28,
+      "positions": 5
+    },
+    "top_candidates": [
+      {
+        "name": "The Crypto Dog",
+        "address": "21CnrFRqvEVkQZUTFmTXjcsJTLZhRY51ohoaCPwRpump",
+        "network": "solana",
+        "scout_score": 8.937984961142465,
+        "composite_score": 7.74
+      },
+      {
+        "name": "COS / WETH 838.861%",
+        "address": "0x6eefbfc95c7810adf53ac232d1de911839918749",
+        "network": "base",
+        "scout_score": 8.091339029857767,
+        "composite_score": 8.27
+      },
+      {
+        "name": "BigTrout / SOL",
+        "address": "EKwF2HD6X4rHHr4322EJeK9QBGkqhpHZQSanSUmWkecG",
+        "network": "solana",
+        "scout_score": 7.908096454775698,
+        "composite_score": 6.85
+      },
+      {
+        "name": "LIQUID / SOL",
+        "address": "71mfKdePwyWXtiF1mqu2aaCdMKnKuN664z2vEM2Xpump",
+        "network": "solana",
+        "scout_score": 7.771393590390623,
+        "composite_score": 6.77
+      },
+      {
+        "name": "BLOWFISH / SOL",
+        "address": "CFB4Ff7W87uN9Gf2DSj63L7prZycJvzQeg1MbGxwBcqC",
+        "network": "solana",
+        "scout_score": 7.727454313617448,
+        "composite_score": 7.9
+      },
+      {
+        "name": "OSO / flETH",
+        "address": "0xc78fabc2cb5b9cf59e0af3da8e3bc46d47753a4e",
+        "network": "base",
+        "scout_score": 7.708164311339435,
+        "composite_score": 8.17
+      },
+      {
+        "name": "yoshi / WETH 838.861%",
+        "address": "0x799e7c0811e3ad741b45eab15773888e5996db07",
+        "network": "base",
+        "scout_score": 7.499722923733333,
+        "composite_score": null
+      },
+      {
+        "name": "SELFCLAW / WETH 838.861%",
+        "address": "0x9ae5f51d81ff510bf961218f833f79d57bfbab07",
+        "network": "base",
+        "scout_score": 7.49580318889697,
+        "composite_score": null
+      },
+      {
+        "name": "JUNO / WETH 838.861%",
+        "address": "0x4e6c9f48f73e54ee5f3ab7e2992b2d733d0d0b07",
+        "network": "base",
+        "scout_score": 7.480891959218182,
+        "composite_score": null
+      },
+      {
+        "name": "wojak / WETH",
+        "address": "0x8de39b057cc6522230ab19c0205080a8663331ef",
+        "network": "ethereum",
+        "scout_score": 7.446352638970173,
+        "composite_score": 7.61
+      }
+    ]
+  }
+]

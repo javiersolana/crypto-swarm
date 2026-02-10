@@ -1,0 +1,21 @@
+nohup: ignoring input
+2026-02-10 22:40:46 [alpha_monitor] INFO: Alpha Monitor daemon starting (interval: 15 min)
+2026-02-10 22:40:46 [alpha_monitor] INFO: APIs configured: Helius (wallet tracking), CryptoPanic (news), GitHub (dev activity)
+2026-02-10 22:40:47 [alert_monitor] INFO: Telegram alert sent successfully
+2026-02-10 22:40:47 [alpha_monitor] INFO: 
+--- Alpha Cycle #1 at 21:40 UTC ---
+2026-02-10 22:40:47 [alpha_monitor] INFO: ==================================================
+2026-02-10 22:40:47 [alpha_monitor] INFO: ALPHA MONITOR: Starting scan cycle
+2026-02-10 22:40:47 [alpha_monitor] INFO: ==================================================
+2026-02-10 22:40:47 [scout] INFO: === THE SCOUT: Starting token scan ===
+2026-02-10 22:40:47 [scout] INFO: Scanning new pools on solana (5 pages)...
+2026-02-10 22:40:48 [api_client] INFO:   [gecko] solana new_pools page 1: 20 pools
+2026-02-10 22:40:53 [api_client] INFO:   [gecko] solana new_pools page 2: 20 pools
+2026-02-10 22:41:00 [api_client] INFO:   [gecko] solana new_pools page 3: 20 pools
+2026-02-10 22:41:06 [api_client] INFO:   [gecko] solana new_pools page 4: 20 pools
+2026-02-10 22:41:13 [api_client] INFO:   [gecko] solana new_pools page 5: 20 pools
+2026-02-10 22:41:13 [scout] INFO:   Found 100 new pools on solana
+2026-02-10 22:41:13 [scout] INFO: Scanning new pools on base (5 pages)...
+2026-02-10 22:41:17 [api_client] INFO:   [gecko] base new_pools page 1: 20 pools
+2026-02-10 22:41:24 [api_client] INFO:   [gecko] base new_pools page 2: 20 pools
+2026-02-10 22:41:35 [api_client] INFO:   [gecko] base new_pools page 3: 20 pools

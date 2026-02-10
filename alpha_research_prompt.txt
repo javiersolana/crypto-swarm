@@ -1,0 +1,330 @@
+# PROMPT PARA CLAUDE CODE: Alpha Hunter - Búsqueda de Herramientas Secretas
+
+## MISIÓN
+Eres un investigador de "información asimétrica". Tu trabajo es encontrar herramientas, APIs y fuentes de datos que el 99% de traders crypto NO conocen, pero que dan ventaja competitiva real.
+
+## OBJETIVO FINAL
+Construir un sistema que me haga ganar dinero encontrando oportunidades ANTES que el resto del mercado.
+
+---
+
+## FASE 1: INVESTIGACIÓN PROFUNDA (Research Mode)
+
+### 🔍 CATEGORÍAS A INVESTIGAR
+
+#### A) FUENTES DE DATOS ON-CHAIN (Lo que las ballenas ven)
+
+**Busca herramientas para:**
+1. **Wallet Tracking Avanzado**
+   - ¿APIs que tracean billeteras de traders exitosos en tiempo real?
+   - Ejemplo: Si una wallet ganó 100x en 5 tokens, ¿puedo copiar sus compras?
+   - Buscar: Arkham Intelligence API, Nansen alternatives, Breadcrumbs.app
+
+2. **Mempool Monitoring** (transacciones ANTES de confirmarse)
+   - ¿Puedo ver qué tokens están comprando AHORA mismo?
+   - Buscar: Blocknative, Eden Network, Bloxroute
+   - ¿Hay forma gratuita de acceder a esto?
+
+3. **DEX Aggregators Avanzados**
+   - No solo DexScreener/GeckoTerminal
+   - Buscar: Defined.fi, Birdeye, DEX Aggregator APIs ocultas
+   - ¿Cuál tiene datos más rápidos/completos?
+
+**TU TAREA:** 
+- Investiga 5-10 herramientas en cada categoría
+- Evalúa: ¿Gratuita? ¿API pública? ¿Qué ventaja da?
+- **Implementa las 2 mejores** en el sistema
+
+---
+
+#### B) ANÁLISIS DE SMART MONEY (¿Quién sabe antes que yo?)
+
+**Busca herramientas para:**
+1. **Copy-Trading de Wallets Ganadoras**
+   - Identificar wallets con track record >10x
+   - Alertarme cuando compran algo NUEVO
+   - Buscar: Photon Bot, Pepeboost, BullX APIs
+
+2. **Insider Detection**
+   - Detectar tokens donde insiders están acumulando
+   - Volumen inusual en wallets conectadas al equipo dev
+   - Buscar: Bubblemaps (visualización de holders), Token Sniffer avanzado
+
+3. **Sniper Bot Intelligence**
+   - ¿Qué tokens están siendo "sniped" por bots profesionales?
+   - Si bots gastan gas en snipear, señal de confianza
+   - Buscar: Solana Tracker, Cielo Finance
+
+**TU TAREA:**
+- Investiga cómo acceder a datos de "smart wallets"
+- Crea lista de 20-50 wallets exitosas para seguir
+- **Implementa sistema de alertas** cuando estas wallets compran
+
+---
+
+#### C) FUENTES DE NARRATIVA TEMPRANA (Antes del hype)
+
+**Busca herramientas para:**
+1. **Análisis de Twitter/X Avanzado**
+   - No solo contar menciones
+   - Detectar: ¿Quién habla? ¿Es influencer real o bot?
+   - Buscar: LunarCrush alternatives, Santiment free tier, Twitter API v2
+
+2. **Telegram/Discord Scraping**
+   - Grupos privados donde se habla de gemas
+   - Detectar tokens mencionados ANTES de explotar
+   - Buscar: TeleTracker, Discord bots de monitoreo
+
+3. **GitHub Activity**
+   - Tokens con commits activos = proyecto real
+   - Forks/stars creciendo = interés creciendo
+   - Buscar: GitHub API para crypto repos
+
+4. **On-Chain Funding Events**
+   - Detectar cuando VCs/fondos mueven dinero a nuevos proyectos
+   - Buscar: Crunchbase crypto, DefiLlama raises
+
+**TU TAREA:**
+- Elige 2-3 fuentes de "señales tempranas"
+- **Implementa scoring** que cruce múltiples señales
+- Ejemplo: Token en GitHub activo + influencer pequeño hablando + smart wallet comprando = 🚨 ALERTA
+
+---
+
+#### D) HERRAMIENTAS DE ANÁLISIS TÉCNICO AVANZADO
+
+**Busca herramientas para:**
+1. **Order Book Analysis**
+   - Detectar buy walls / sell walls
+   - ¿Alguien está acumulando sin mover precio?
+   - Buscar: APIs de exchanges con order book data
+
+2. **Market Making Detection**
+   - Distinguir volumen real vs wash trading
+   - Buscar: Kaiko, CryptoQuant alternatives
+
+3. **Liquidation Heatmaps**
+   - ¿Dónde hay stop-losses masivos?
+   - Predecir movimientos de precio
+   - Buscar: Coinglass, Binance liquidation data
+
+**TU TAREA:**
+- Investiga qué datos son accesibles sin pagar
+- **Implementa 1-2 indicadores únicos** no disponibles en el sistema actual
+
+---
+
+## FASE 2: ESTRATEGIAS AVANZADAS (Implementation)
+
+### 🧠 PATRONES A IMPLEMENTAR
+
+#### 1. **"Shadow Wallet Strategy"**
+**Concepto:** Seguir wallets exitosas en tiempo real
+```
+IF wallet_exitosa compra token_nuevo:
+    AND token tiene <2h de vida
+    AND liquidity > $100k
+    AND NO es honeypot
+    → ALERTA INMEDIATA + auto-analizar con Forense
+```
+
+#### 2. **"Triple Confirmation Strategy"**
+**Concepto:** Solo alertar si 3+ señales independientes coinciden
+```
+Token score = 0
+IF smart_wallet_buying: +3 puntos
+IF github_commits_activos: +2 puntos
+IF influencer_pequeño_menciona: +2 puntos
+IF volumen_creciendo_sin_pump: +3 puntos
+
+IF score >= 7: ALERTA MÁXIMA PRIORIDAD
+```
+
+#### 3. **"Anti-Rug Score Extremo"**
+**Concepto:** Paranoia máxima en seguridad
+```
+Rechazar automáticamente si:
+- Dev wallet tiene >15% supply
+- Liquidity lock <6 meses
+- Contract tiene funciones sospechosas (pause, blacklist)
+- Token nombre es copia de otro popular
+- Website creado hace <7 días
+```
+
+#### 4. **"Momentum Shift Detection"**
+**Concepto:** Detectar cuando algo está por explotar
+```
+IF volumen_1h > volumen_24h_promedio * 5
+   AND precio_cambio < 20% (no pumpeó todavía)
+   AND holders_nuevos > 100 en última hora
+   → ALERTA: "Momentum building"
+```
+
+---
+
+## FASE 3: IMPLEMENTACIÓN (Build It)
+
+### 📦 ESTRUCTURA DE ARCHIVOS
+
+Crea estos módulos nuevos:
+```
+crypto-swarm/
+├── alpha/                        # Nuevo directorio
+│   ├── smart_wallet_tracker.py   # Seguir wallets exitosas
+│   ├── mempool_scanner.py        # Transacciones pre-confirmación
+│   ├── social_intel.py           # Twitter/Telegram scraping
+│   ├── github_activity.py        # Actividad de repos
+│   └── triple_confirm.py         # Estrategia de confirmación múltiple
+├── config_alpha.py               # Configuración de nuevas APIs
+└── swarm_v2.py                   # Orquestador mejorado
+```
+
+### 🔧 CONFIGURACIÓN
+
+**Archivo:** `config_alpha.py`
+
+Incluye:
+- API keys (dejar vacías, yo las lleno)
+- Lista de smart wallets a seguir
+- Umbrales de scoring
+- Configuración de notificaciones Telegram
+
+---
+
+## FASE 4: TESTING & VALIDACIÓN
+
+### ✅ PRUEBAS OBLIGATORIAS
+
+1. **Test de Precisión**
+```bash
+   # Escanear últimas 24h de tokens
+   # ¿Cuántos habrían dado >2x si comprabas en el momento de alerta?
+   python3 test_backtest.py --hours 24
+```
+
+2. **Test de Velocidad**
+```bash
+   # ¿Cuánto tarda desde que token aparece hasta alerta?
+   # Objetivo: <5 minutos
+   python3 test_latency.py
+```
+
+3. **Test Anti-Scam**
+```bash
+   # De 100 tokens alertados, ¿cuántos son scams?
+   # Objetivo: <5%
+   python3 test_scam_rate.py
+```
+
+---
+
+## ENTREGABLES
+
+### 📊 REPORTE DE INVESTIGACIÓN
+
+Formato:
+```markdown
+# Alpha Tools Research Report
+
+## 1. HERRAMIENTAS ENCONTRADAS
+
+### A) Smart Wallet Tracking
+- **Herramienta:** [nombre]
+- **Acceso:** Gratuito/API/Scraping
+- **Ventaja:** [qué información única da]
+- **Implementado:** ✅/❌
+- **Razón:** [por qué sí o no]
+
+[Repetir para cada herramienta]
+
+## 2. IMPLEMENTACIONES
+
+### A) smart_wallet_tracker.py
+- **Qué hace:** Sigue 20 wallets con track record >10x
+- **Cómo funciona:** [explicación]
+- **Uso:** `python3 alpha/smart_wallet_tracker.py --monitor`
+
+[Repetir para cada módulo]
+
+## 3. RESULTADOS DE TESTING
+
+- Tokens escaneados: [X]
+- Alertas generadas: [Y]
+- Precisión (si comprabas): [Z]%
+- Scams evitados: [W]
+
+## 4. VENTAJA COMPETITIVA
+
+Antes: Llegaba tarde, tokens ya +400%
+Ahora: [describir mejora]
+```
+
+---
+
+## COMANDOS DE EJECUCIÓN
+```bash
+# 1. Configurar APIs (yo lleno las keys)
+nano config_alpha.py
+
+# 2. Ejecutar sistema completo v2
+python3 swarm_v2.py --capital 300 --mode paper
+
+# 3. Monitor de smart wallets (background)
+nohup python3 alpha/smart_wallet_tracker.py --wallets best_performers.json &
+
+# 4. Ver alertas de alta prioridad
+tail -f data/alpha_alerts.json
+
+# 5. Backtest de últimas 48h
+python3 test_backtest.py --hours 48
+```
+
+---
+
+## CRITERIOS DE ÉXITO
+
+El sistema v2 es exitoso si:
+
+1. ✅ Detecta tokens <1h después de creación (no a las 24h)
+2. ✅ Score de precisión >70% (7 de 10 tokens suben >2x)
+3. ✅ Tasa de scams <5%
+4. ✅ Me alerta ANTES de que el precio suba >50%
+5. ✅ Uso de información que el 95% de traders NO tienen
+
+---
+
+## RESTRICCIONES
+
+- Priorizar herramientas GRATUITAS (pero documenta las de pago por si acaso)
+- No hacer scraping agresivo que me baneen IPs
+- Código debe ser auditable (explicar qué hace cada API call)
+- Respetar rate limits de APIs
+
+---
+
+## NOTAS IMPORTANTES
+
+**Sobre "herramientas secretas":**
+- No existen herramientas 100% secretas
+- La ventaja está en COMBINAR múltiples fuentes
+- El 95% de traders usa solo CoinGecko/DexScreener
+- TU ventaja: smart wallet tracking + confirmación múltiple + velocidad
+
+**Sobre ganar dinero:**
+- Esto NO es garantía de ganancias
+- La ventaja es probabilística (70% vs 30%)
+- Siempre hay riesgo de pérdida total
+- Trato esto como R&D, no como ingreso garantizado
+
+---
+
+**EJECUTA AHORA:**
+
+Fase 1 (Investigación): Dedica 1-2 horas a buscar herramientas
+Fase 2 (Diseño): Decide qué implementar basado en viabilidad
+Fase 3 (Build): Construye los módulos
+Fase 4 (Test): Valida con datos reales
+
+**Prioridad:** Smart Wallet Tracking > Social Intel > Mempool (si es viable)
+
+GO! 🚀
