@@ -18,6 +18,7 @@ import argparse
 import json
 import os
 import sys
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone, timedelta
@@ -111,7 +112,7 @@ class HeliusClient(APIClient):
             resp.raise_for_status()
             data = resp.json()
             if use_cache:
-                self._cache[cache_key] = (time.time(), data)
+                self._set_cached(cache_key, data)
             return data
         except Exception as e:
             log.debug(f"[helius] Request failed ({e.__class__.__name__}): {endpoint}")
@@ -320,6 +321,111 @@ class WalletDB:
         save_json(self.trades_file, trades)
 
 
+# ─── Helius WebSocket (Real-time Solana Wallet Monitoring) ────────────────
+
+class HeliusWebSocket:
+    """Real-time Solana wallet monitoring via Helius Enhanced WebSocket.
+
+    Subscribes to transactionSubscribe for all tracked Solana wallets.
+    Fires callback on each buy event. Auto-reconnects with exponential backoff.
+    """
+
+    def __init__(self, wallet_addresses: list[str], on_buy_callback: callable):
+        self.addresses = wallet_addresses
+        self.on_buy = on_buy_callback
+        self._ws = None
+        self._thread = None
+        self._stop = threading.Event()
+        self._connected = False
+        self._reconnect_delay = config_alpha.WS_RECONNECT_BASE_DELAY
+
+    def start(self):
+        """Start WebSocket listener in daemon thread."""
+        self._thread = threading.Thread(target=self._run_loop, daemon=True, name="helius-ws")
+        self._thread.start()
+
+    def stop(self):
+        self._stop.set()
+        if self._ws:
+            try:
+                self._ws.close()
+            except Exception:
+                pass
+
+    @property
+    def is_connected(self):
+        return self._connected
+
+    def _run_loop(self):
+        """Main loop: connect, subscribe, listen. Reconnect on failure."""
+        while not self._stop.is_set():
+            try:
+                self._connect_and_listen()
+            except Exception as e:
+                log.warning(f"[WS] Disconnected: {e}")
+                self._connected = False
+            if not self._stop.is_set():
+                log.info(f"[WS] Reconnecting in {self._reconnect_delay}s...")
+                self._stop.wait(timeout=self._reconnect_delay)
+                self._reconnect_delay = min(self._reconnect_delay * 2, config_alpha.WS_RECONNECT_MAX_DELAY)
+
+    def _connect_and_listen(self):
+        import websocket as ws_lib
+
+        ws_url = config_alpha.HELIUS_WS_URL
+        if not ws_url:
+            log.warning("[WS] No HELIUS_API_KEY, cannot start WebSocket")
+            self._stop.wait(timeout=60)
+            return
+
+        ws = ws_lib.WebSocket()
+        ws.connect(ws_url, timeout=10)
+        self._ws = ws
+        self._connected = True
+        self._reconnect_delay = config_alpha.WS_RECONNECT_BASE_DELAY  # reset on success
+        log.info(f"[WS] Connected to Helius WebSocket ({len(self.addresses)} wallets)")
+
+        # Subscribe to transactions for tracked wallets
+        sub_msg = json.dumps({
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "transactionSubscribe",
+            "params": [
+                {"accountInclude": self.addresses},
+                {"commitment": "confirmed", "encoding": "jsonParsed",
+                 "transactionDetails": "full", "maxSupportedTransactionVersion": 0}
+            ]
+        })
+        ws.send(sub_msg)
+        ws.settimeout(config_alpha.WS_PING_INTERVAL + 10)
+
+        while not self._stop.is_set():
+            try:
+                raw = ws.recv()
+                if not raw:
+                    break
+                data = json.loads(raw)
+                self._handle_message(data)
+            except ws_lib.WebSocketTimeoutException:
+                # Send ping to keep alive
+                ws.ping()
+            except Exception as e:
+                log.warning(f"[WS] Receive error: {e}")
+                break
+
+        ws.close()
+        self._connected = False
+
+    def _handle_message(self, data: dict):
+        """Parse WS message and fire callback if it's a buy."""
+        params = data.get("params", {})
+        result = params.get("result", {})
+        tx = result.get("transaction", {})
+        if not tx:
+            return
+        self.on_buy(tx)
+
+
 # ─── Smart Wallet Tracker Core ────────────────────────────────────────────
 
 # Max parallel wallet scans
@@ -340,6 +446,52 @@ class SmartWalletTracker:
         self.solana_rpc = SolanaRPCClient()
         self.dexscreener = DexScreenerClient()
         self._seen_txs = set()  # avoid duplicate alerts
+        self._ws = None  # HeliusWebSocket instance
+        self._ws_callback = None  # external callback for WS events
+
+    def start_websocket(self, on_signal_callback: callable):
+        """Start real-time WebSocket monitoring for Solana wallets."""
+        wallets = self.db.load_wallets()
+        sol_addrs = [a for a, w in wallets.items() if w.get("chain") == "solana"]
+        if not sol_addrs:
+            log.info("[WS] No Solana wallets to monitor")
+            return
+        if not config_alpha.HELIUS_WS_URL:
+            log.info("[WS] No HELIUS_API_KEY, skipping WebSocket")
+            return
+
+        self._ws_callback = on_signal_callback
+        self._ws = HeliusWebSocket(sol_addrs, self._on_ws_event)
+        self._ws.start()
+        log.info(f"[WS] Started monitoring {len(sol_addrs)} Solana wallets")
+
+    def stop_websocket(self):
+        """Stop WebSocket monitoring."""
+        if self._ws:
+            self._ws.stop()
+            self._ws = None
+
+    @property
+    def ws_connected(self) -> bool:
+        return self._ws is not None and self._ws.is_connected
+
+    def _on_ws_event(self, tx: dict):
+        """Handle a raw WebSocket transaction event."""
+        try:
+            # Try to parse as a swap using existing logic
+            # WS enhanced tx format has similar fields to Helius HTTP API
+            for addr, info in self.db.load_wallets().items():
+                if info.get("chain") != "solana":
+                    continue
+                signal = self._parse_helius_swap(tx, addr, info.get("label", addr[:10]))
+                if signal and signal["tx_sig"] not in self._seen_txs:
+                    self._seen_txs.add(signal["tx_sig"])
+                    enriched = self.enrich_signals([signal])
+                    if enriched and self._ws_callback:
+                        self._ws_callback(enriched[0])
+                    return
+        except Exception as e:
+            log.debug(f"[WS] Event parse error: {e}")
 
     def scan_all_wallets(self) -> list[dict]:
         """

@@ -5,7 +5,17 @@ Score of 0 = auto-reject. Minimum score of 7 to proceed.
 
 v2.0: DexScreener-first strategy to reduce GeckoTerminal load.
       GeckoTerminal reserved for trade distribution analysis only.
+v3.0: Parallel audit with ThreadPoolExecutor. Conditional trade analysis
+      (only for tokens passing basic checks). Callback for early alerting.
+v4.0: Audit blacklist — tokens rejected with score=0 are cached and
+      skipped for AUDIT_BLACKLIST_TTL seconds, saving API calls.
 """
+import json
+import os
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 import config
 from api_client import DexScreenerClient, GeckoTerminalClient
 from utils import get_logger, safe_float, safe_int, clamp
@@ -13,36 +23,146 @@ from utils import get_logger, safe_float, safe_int, clamp
 log = get_logger("forense")
 
 
+class AuditBlacklist:
+    """Persisted cache of tokens rejected with score=0.
+
+    Tokens on the blacklist are skipped during audit, saving API calls.
+    Entries expire after AUDIT_BLACKLIST_TTL seconds.
+    """
+
+    def __init__(self):
+        self._data = {}  # {address_lower: {"reason", "timestamp", "chain"}}
+        self._lock = threading.Lock()
+        self._file = config.AUDIT_BLACKLIST_FILE
+        self._ttl = config.AUDIT_BLACKLIST_TTL
+        self._load()
+
+    def _load(self):
+        try:
+            if os.path.exists(self._file):
+                with open(self._file, "r") as f:
+                    self._data = json.load(f)
+        except (json.JSONDecodeError, OSError) as e:
+            log.warning(f"Blacklist load error: {e}")
+            self._data = {}
+
+    def _save(self):
+        try:
+            os.makedirs(os.path.dirname(self._file), exist_ok=True)
+            with open(self._file, "w") as f:
+                json.dump(self._data, f, indent=2)
+        except OSError as e:
+            log.warning(f"Blacklist save error: {e}")
+
+    def is_blacklisted(self, address: str) -> tuple[bool, str | None]:
+        addr = address.lower()
+        with self._lock:
+            entry = self._data.get(addr)
+            if entry and time.time() - entry["timestamp"] < self._ttl:
+                return True, entry["reason"]
+        return False, None
+
+    def add(self, address: str, reason: str, chain: str = ""):
+        addr = address.lower()
+        with self._lock:
+            self._data[addr] = {
+                "reason": reason,
+                "timestamp": time.time(),
+                "chain": chain,
+            }
+            self._save()
+
+    def cleanup(self):
+        now = time.time()
+        with self._lock:
+            expired = [a for a, e in self._data.items() if now - e["timestamp"] >= self._ttl]
+            if expired:
+                for a in expired:
+                    del self._data[a]
+                self._save()
+                log.info(f"  [Blacklist] Cleaned up {len(expired)} expired entries")
+
+
 class Forense:
-    """Audits tokens for safety. This is the most critical component."""
+    """Audits tokens for safety. This is the most critical component.
+
+    v3.0: Parallel audit, conditional GeckoTerminal calls, early-alert callback.
+    """
 
     def __init__(self):
         self.gecko = GeckoTerminalClient()
         self.dex = DexScreenerClient()
+        self.blacklist = AuditBlacklist()
         self._dex_cache = {}  # address -> pair data
+        self._dex_cache_lock = threading.Lock()
+        self._gecko_trades_calls = 0
+        self._gecko_trades_lock = threading.Lock()
 
-    def audit(self, candidates: list[dict]) -> list[dict]:
-        """Audit all candidates. Returns only those with forense_score >= threshold."""
+    def audit(self, candidates: list[dict], on_pass_callback=None) -> list[dict]:
+        """Audit all candidates in parallel. Returns only those with forense_score >= threshold.
+
+        Args:
+            candidates: List of token dicts from Scout.
+            on_pass_callback: Optional callable(token) invoked immediately when a token
+                              passes the audit. Used for early alerting.
+        """
         log.info(f"=== THE FORENSE: Auditing {len(candidates)} candidates ===")
+        t_start = time.monotonic()
+
+        # Filter blacklisted tokens before any API calls
+        self.blacklist.cleanup()
+        filtered = []
+        blacklisted_count = 0
+        for c in candidates:
+            addr = c.get("address", "").lower()
+            is_bl, reason = self.blacklist.is_blacklisted(addr)
+            if is_bl:
+                log.info(f"  [Forense] Token {addr[:12]}... saltado por Blacklist (Ahorrada 1 llamada) - {reason}")
+                blacklisted_count += 1
+            else:
+                filtered.append(c)
+        if blacklisted_count:
+            log.info(f"  [Blacklist] Skipped {blacklisted_count} blacklisted tokens")
+        candidates = filtered
 
         # Pre-fetch DexScreener data in batches (up to 30 per call, 300 req/min)
         self._batch_enrich_dexscreener(candidates)
 
+        workers = getattr(config, 'AUDIT_PARALLEL_WORKERS', 8)
         audited = []
-        for token in candidates:
+        rejected = 0
+        low_score = 0
+
+        def _audit_one(token):
             result = self._audit_token(token)
             token.update(result)
+            return token
 
-            if token["forense_score"] == 0:
-                log.info(f"  REJECTED: {token['name']} - {token['forense_reject_reason']}")
-            elif token["forense_score"] < config.AUDIT_PASS_SCORE:
-                log.info(f"  LOW SCORE: {token['name']} = {token['forense_score']:.1f}/10")
-            else:
-                log.info(f"  PASSED: {token['name']} = {token['forense_score']:.1f}/10")
-                audited.append(token)
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(_audit_one, t): t for t in candidates}
+            for future in as_completed(futures):
+                token = future.result()
+                if token["forense_score"] == 0:
+                    log.info(f"  REJECTED: {token['name']} - {token['forense_reject_reason']}")
+                    rejected += 1
+                elif token["forense_score"] < config.AUDIT_PASS_SCORE:
+                    log.info(f"  LOW SCORE: {token['name']} = {token['forense_score']:.1f}/10")
+                    low_score += 1
+                else:
+                    log.info(f"  PASSED: {token['name']} = {token['forense_score']:.1f}/10")
+                    audited.append(token)
+                    # Early alert callback: notify immediately when token passes
+                    if on_pass_callback:
+                        try:
+                            on_pass_callback(token)
+                        except Exception as e:
+                            log.warning(f"  Early alert callback error: {e}")
 
-        log.info(f"=== THE FORENSE: {len(audited)}/{len(candidates)} passed audit ===")
-        log.info(f"  API calls saved: DexScreener batch enrichment used for {len(self._dex_cache)} tokens")
+        elapsed = time.monotonic() - t_start
+        log.info(f"=== THE FORENSE: {len(audited)}/{len(candidates)} passed audit "
+                 f"({rejected} rejected, {low_score} low-score) in {elapsed:.1f}s ===")
+        log.info(f"  DexScreener cache: {len(self._dex_cache)} tokens | "
+                 f"GeckoTerminal trade calls: {self._gecko_trades_calls}")
         return audited
 
     def _batch_enrich_dexscreener(self, candidates: list[dict]):
@@ -63,10 +183,16 @@ class Forense:
                 for pair in pairs:
                     base_addr = pair.get("baseToken", {}).get("address", "")
                     if base_addr:
-                        self._dex_cache[base_addr.lower()] = pair
+                        with self._dex_cache_lock:
+                            self._dex_cache[base_addr.lower()] = pair
 
     def _audit_token(self, token: dict) -> dict:
-        """Run all audit checks on a single token. Returns audit results."""
+        """Run all audit checks on a single token. Returns audit results.
+
+        v3.0: Two-phase audit. Phase 1 uses only DexScreener data (fast, no rate limit issues).
+        Phase 2 (GeckoTerminal trade analysis) only runs if Phase 1 score is promising.
+        This avoids burning GeckoTerminal quota on tokens that would be rejected anyway.
+        """
         checks = {
             "liquidity_check": 0,
             "honeypot_check": 0,
@@ -93,6 +219,7 @@ class Forense:
         if liquidity < config.AUDIT_MIN_LIQUIDITY:
             checks["forense_score"] = 0
             checks["forense_reject_reason"] = f"Liquidity too low: ${liquidity:,.0f}"
+            self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
             return checks
         checks["liquidity_check"] = self._score_liquidity(liquidity)
 
@@ -115,6 +242,7 @@ class Forense:
             if sell_buy_ratio < config.AUDIT_MIN_BUY_SELL_RATIO and total_txns > 20:
                 checks["forense_score"] = 0
                 checks["forense_reject_reason"] = f"Honeypot suspected: sell/buy ratio = {sell_buy_ratio:.2f}"
+                self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
                 return checks
 
             # Suspicious if almost no sells
@@ -126,19 +254,7 @@ class Forense:
             flags.append("no_transaction_data")
             checks["honeypot_check"] = 3.0
 
-        # ─── CHECK 3: Holder Concentration ───────────────────────────────
-        # Only call GeckoTerminal for trade analysis if basic checks passed
-        concentration_score, concentration_flags = self._estimate_holder_concentration(token, None)
-        checks["holder_concentration_check"] = concentration_score
-        flags.extend(concentration_flags)
-
-        # Auto-reject if extreme concentration detected
-        if concentration_score == 0:
-            checks["forense_score"] = 0
-            checks["forense_reject_reason"] = "Extreme holder concentration detected"
-            return checks
-
-        # ─── CHECK 4: Pool Age ───────────────────────────────────────────
+        # ─── CHECK 4: Pool Age (moved before holder check - cheap filter) ──
         age_hours = token.get("pool_age_days", 0) * 24
         if age_hours < config.AUDIT_MIN_POOL_AGE_HOURS and age_hours > 0:
             flags.append("very_new_pool")
@@ -182,6 +298,39 @@ class Forense:
         else:
             checks["volume_legitimacy_check"] = 3.0
 
+        # ─── PHASE 1 PRE-SCORE (DexScreener-only, no GeckoTerminal) ─────
+        # Compute preliminary score from checks 1,2,4,5,6.
+        # Only proceed to expensive GeckoTerminal trade analysis if promising.
+        phase1_scores = [
+            checks["liquidity_check"],
+            checks["honeypot_check"],
+            checks["age_check"],
+            checks["tx_activity_check"],
+            checks["volume_legitimacy_check"],
+        ]
+        phase1_weights = [0.25, 0.30, 0.15, 0.15, 0.15]
+        phase1_score = sum(s * w for s, w in zip(phase1_scores, phase1_weights))
+        phase1_score -= len(flags) * 0.5
+
+        trade_check_min = getattr(config, 'AUDIT_TRADE_CHECK_MIN_SCORE', 5.0)
+        if phase1_score < trade_check_min:
+            # Token is unlikely to pass even with perfect holder distribution.
+            # Skip the expensive GeckoTerminal call.
+            checks["holder_concentration_check"] = 5.0  # neutral default
+            flags.append("trade_analysis_skipped_low_phase1")
+        else:
+            # ─── CHECK 3: Holder Concentration (expensive - GeckoTerminal) ──
+            concentration_score, concentration_flags = self._estimate_holder_concentration(token, None)
+            checks["holder_concentration_check"] = concentration_score
+            flags.extend(concentration_flags)
+
+            # Auto-reject if extreme concentration detected
+            if concentration_score == 0:
+                checks["forense_score"] = 0
+                checks["forense_reject_reason"] = "Extreme holder concentration detected"
+                self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
+                return checks
+
         # ─── Compute Final Score ─────────────────────────────────────────
         component_scores = [
             checks["liquidity_check"],
@@ -206,16 +355,18 @@ class Forense:
         return checks
 
     def _get_dex_pair(self, token: dict) -> dict | None:
-        """Get DexScreener pair data from batch cache or direct lookup."""
+        """Get DexScreener pair data from batch cache or direct lookup. Thread-safe."""
         addr = token.get("address", "").lower()
-        if addr in self._dex_cache:
-            return self._dex_cache[addr]
+        with self._dex_cache_lock:
+            if addr in self._dex_cache:
+                return self._dex_cache[addr]
         # Fallback: direct DexScreener lookup (fast, 300 req/min)
         chain = token.get("chain", "")
         if chain and addr:
             pairs = self.dex.get_token_pairs(chain, addr)
             if pairs:
-                self._dex_cache[addr] = pairs[0]
+                with self._dex_cache_lock:
+                    self._dex_cache[addr] = pairs[0]
                 return pairs[0]
         return None
 
@@ -268,8 +419,10 @@ class Forense:
         if not network_id or not pool_address:
             return 5.0, ["no_holder_data"]
 
-        # Get recent trades to analyze distribution
-        trades = self.gecko.get_pool_trades(network_id, pool_address, 100)
+        # Get recent trades to analyze distribution (expensive GeckoTerminal call)
+        with self._gecko_trades_lock:
+            self._gecko_trades_calls += 1
+        trades = self.gecko.get_pool_trades(network_id, pool_address, 10)
 
         if not trades:
             return 5.0, ["no_trade_data"]

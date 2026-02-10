@@ -13,6 +13,15 @@ HELIUS_API_URL = "https://api.helius.xyz"
 HELIUS_RATE_LIMIT = 10  # req/sec on free tier
 HELIUS_DELAY = 1.0 / HELIUS_RATE_LIMIT
 
+# Helius Enhanced WebSocket
+HELIUS_WS_URL = f"wss://atlas-mainnet.helius-rpc.com?api-key={HELIUS_API_KEY}" if HELIUS_API_KEY else ""
+
+# WebSocket settings
+WS_RECONNECT_BASE_DELAY = 5     # seconds, initial reconnect delay
+WS_RECONNECT_MAX_DELAY = 300    # seconds, max reconnect delay (5 min)
+WS_PING_INTERVAL = 30           # seconds, keepalive ping
+WS_FALLBACK_POLL_INTERVAL = 600 # seconds, polling fallback when WS active (10 min)
+
 # ─── Birdeye API (Solana DEX Data + Token Security) ──────────────────────
 # Free tier available after registration
 # Sign up: https://birdeye.so/

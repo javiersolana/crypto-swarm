@@ -1,7 +1,12 @@
 """
 Crypto Swarm Intelligence System - API Clients with Rate Limiting & Caching
+
+v3.0: Exponential backoff with jitter, thread-safe rate limiting, adaptive delays.
 """
+import random
+import threading
 import time
+import urllib.parse
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -13,53 +18,120 @@ log = get_logger("api_client")
 
 
 class APIClient:
-    """Base API client with rate limiting, retry logic, and response caching."""
+    """Base API client with rate limiting, retry logic, and response caching.
+
+    v4.0: Per-host rate limiting via class-level registry. All APIClient instances
+    sharing the same host (e.g. two DexScreenerClient()) share ONE throttle state,
+    preventing collective rate limit violations.
+    """
+
+    # Class-level registry: host -> {"lock", "last_request", "delay", "base_delay", "consecutive_429s"}
+    _host_registry = {}
+    _registry_lock = threading.Lock()
+
+    @classmethod
+    def _get_host_throttle(cls, host: str) -> dict:
+        """Get or create the shared throttle state for a host."""
+        with cls._registry_lock:
+            if host not in cls._host_registry:
+                rate_limits = getattr(config, 'HOST_RATE_LIMITS', {})
+                rate = rate_limits.get(host, rate_limits.get("_default", 60))
+                base_delay = 60.0 / rate
+                cls._host_registry[host] = {
+                    "lock": threading.Lock(),
+                    "last_request": 0.0,
+                    "delay": base_delay,
+                    "base_delay": base_delay,
+                    "consecutive_429s": 0,
+                }
+            return cls._host_registry[host]
 
     def __init__(self, base_url: str, delay: float, name: str = "api"):
         self.base_url = base_url.rstrip("/")
-        self.delay = delay
         self.name = name
-        self._last_request = 0.0
         self._request_count = 0
-        self._cache = {}  # url -> (timestamp, data)
+        self._cache = {}  # url -> (timestamp, data)  — per-instance (correct)
         self._cache_ttl = config.GECKO_CACHE_TTL
+        self._cache_lock = threading.Lock()  # per-instance cache lock
+
+        # Register with shared host throttle
+        self._host = urllib.parse.urlparse(self.base_url).hostname or "unknown"
+        throttle = self._get_host_throttle(self._host)
+        # If caller-provided delay is more conservative than config, respect it
+        if delay > throttle["base_delay"]:
+            with throttle["lock"]:
+                throttle["delay"] = delay
+                throttle["base_delay"] = delay
+
         self.session = self._build_session()
 
     def _build_session(self) -> requests.Session:
         session = requests.Session()
+        # Don't let urllib3 retry 429s - we handle those ourselves with smarter backoff
         retry = Retry(
             total=config.MAX_RETRIES,
             backoff_factor=config.BACKOFF_BASE,
-            status_forcelist=[429, 500, 502, 503, 504],
+            status_forcelist=[500, 502, 503, 504],
             allowed_methods=["GET"],
         )
-        adapter = HTTPAdapter(max_retries=retry)
+        adapter = HTTPAdapter(max_retries=retry, pool_connections=10, pool_maxsize=10)
         session.mount("https://", adapter)
         session.mount("http://", adapter)
         session.headers.update({
             "Accept": "application/json",
-            "User-Agent": "CryptoSwarm/2.0",
+            "User-Agent": "CryptoSwarm/3.0",
         })
         return session
 
     def _rate_limit(self):
-        elapsed = time.time() - self._last_request
-        if elapsed < self.delay:
-            sleep_time = self.delay - elapsed
-            time.sleep(sleep_time)
-        self._last_request = time.time()
+        throttle = self._host_registry[self._host]
+        with throttle["lock"]:
+            elapsed = time.time() - throttle["last_request"]
+            if elapsed < throttle["delay"]:
+                sleep_time = throttle["delay"] - elapsed
+                time.sleep(sleep_time)
+            throttle["last_request"] = time.time()
+
+    def _backoff_429(self, attempt: int):
+        """Exponential backoff with jitter for 429 rate limit errors."""
+        throttle = self._host_registry[self._host]
+        base_wait = throttle["delay"] * (2 ** attempt)
+        jitter = random.uniform(0, base_wait * 0.3)
+        wait = min(base_wait + jitter, 60)  # cap at 60s
+        log.warning(f"[{self.name}] 429 rate limited (attempt {attempt+1}), "
+                    f"backing off {wait:.1f}s...")
+        time.sleep(wait)
+        # Adaptively increase base delay after repeated 429s — affects ALL clients for this host
+        with throttle["lock"]:
+            throttle["consecutive_429s"] += 1
+            if throttle["consecutive_429s"] >= 3:
+                throttle["delay"] = min(throttle["delay"] * 1.5, throttle["base_delay"] * 4)
+                log.warning(f"[{self.name}] Adaptive: {self._host} delay increased to {throttle['delay']:.1f}s")
+
+    def _reset_backoff(self):
+        """Reset adaptive delay after successful request."""
+        throttle = self._host_registry[self._host]
+        with throttle["lock"]:
+            if throttle["consecutive_429s"] > 0:
+                throttle["consecutive_429s"] = 0
+                throttle["delay"] = throttle["base_delay"]
 
     def _get_cache_key(self, url: str, params: dict = None) -> str:
         param_str = "&".join(f"{k}={v}" for k, v in sorted((params or {}).items()))
         return f"{url}?{param_str}"
 
     def _get_cached(self, cache_key: str):
-        if cache_key in self._cache:
-            ts, data = self._cache[cache_key]
-            if time.time() - ts < self._cache_ttl:
-                return data
-            del self._cache[cache_key]
+        with self._cache_lock:
+            if cache_key in self._cache:
+                ts, data = self._cache[cache_key]
+                if time.time() - ts < self._cache_ttl:
+                    return data
+                del self._cache[cache_key]
         return None
+
+    def _set_cached(self, cache_key: str, data):
+        with self._cache_lock:
+            self._cache[cache_key] = (time.time(), data)
 
     def get(self, endpoint: str, params: dict = None, use_cache: bool = True) -> dict | list | None:
         url = f"{self.base_url}/{endpoint.lstrip('/')}"
@@ -70,24 +142,30 @@ class APIClient:
             if cached is not None:
                 return cached
 
-        self._rate_limit()
-        self._request_count += 1
-        try:
-            resp = self.session.get(url, params=params, timeout=config.REQUEST_TIMEOUT)
-            if resp.status_code == 429:
-                # Adaptive: double delay on rate limit hit
-                wait = self.delay * 2
-                log.warning(f"[{self.name}] Rate limited, waiting {wait:.1f}s...")
-                time.sleep(wait)
+        max_429_retries = 3
+        for attempt in range(max_429_retries + 1):
+            self._rate_limit()
+            self._request_count += 1
+            try:
                 resp = self.session.get(url, params=params, timeout=config.REQUEST_TIMEOUT)
-            resp.raise_for_status()
-            data = resp.json()
-            if use_cache:
-                self._cache[cache_key] = (time.time(), data)
-            return data
-        except requests.exceptions.RequestException as e:
-            log.warning(f"[{self.name}] Request failed: {url} - {e}")
-            return None
+                if resp.status_code == 429:
+                    if attempt < max_429_retries:
+                        self._backoff_429(attempt)
+                        continue
+                    else:
+                        log.error(f"[{self.name}] 429 after {max_429_retries} retries: {url}")
+                        return None
+                resp.raise_for_status()
+                data = resp.json()
+                self._reset_backoff()
+                if use_cache:
+                    self._set_cached(cache_key, data)
+                return data
+            except requests.exceptions.RequestException as e:
+                log.warning(f"[{self.name}] Request failed: {url} - {e}")
+                return None
+
+        return None
 
     @property
     def request_count(self):
@@ -212,8 +290,8 @@ class GeckoTerminalClient(APIClient):
         return []
 
     def get_pool_trades(self, network: str, pool_address: str,
-                        trade_volume_in_usd_greater_than: float = 0) -> list:
-        """Get recent trades for a pool."""
+                        trade_volume_in_usd_greater_than: float = 10) -> list:
+        """Get recent trades for a pool. Default min volume $10 to reduce noise."""
         data = self.get(
             f"/networks/{network}/pools/{pool_address}/trades",
             params={"trade_volume_in_usd_greater_than": trade_volume_in_usd_greater_than},

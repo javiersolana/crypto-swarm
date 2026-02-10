@@ -1,7 +1,11 @@
 """
 THE SCOUT - Token Discovery Scanner
 Scans DEX APIs for new tokens matching opportunity criteria.
+
+v3.0: Priority-based network scanning, reduced pages, parallel DexScreener enrichment.
 """
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
 import config
@@ -20,8 +24,12 @@ class Scout:
         self.coingecko = CoinGeckoClient()
 
     def scan(self) -> list[dict]:
-        """Run full scan across all networks. Returns scored candidates."""
+        """Run full scan across all networks. Returns scored candidates.
+
+        v3.0: Priority networks get more pages. DexScreener + CoinGecko run in parallel.
+        """
         log.info("=== THE SCOUT: Starting token scan ===")
+        t_start = time.monotonic()
         candidates = []
         seen_addresses = set()
 
@@ -35,20 +43,29 @@ class Scout:
                 seen_addresses.add(addr)
             candidates.append(token)
 
-        # 1. GeckoTerminal new pools - paginated for broader coverage
-        pages_new = getattr(config, 'SCAN_NEW_POOLS_PAGES', 5)
+        priority_networks = getattr(config, 'PRIORITY_NETWORKS', ["solana", "base"])
+        pages_new = getattr(config, 'SCAN_NEW_POOLS_PAGES', 2)
+        pages_new_lp = getattr(config, 'SCAN_NEW_POOLS_PAGES_LOW_PRIO', 1)
+        pages_trend = getattr(config, 'SCAN_TRENDING_PAGES', 2)
+        pages_trend_lp = getattr(config, 'SCAN_TRENDING_PAGES_LOW_PRIO', 1)
+
+        # 1. GeckoTerminal new pools - priority networks get more pages
         for network_name, network_id in config.NETWORKS.items():
-            log.info(f"Scanning new pools on {network_name} ({pages_new} pages)...")
-            pools = self.gecko.get_new_pools_paginated(network_id, pages=pages_new)
+            is_priority = network_name in priority_networks
+            pages = pages_new if is_priority else pages_new_lp
+            log.info(f"Scanning new pools on {network_name} ({pages} pages, "
+                     f"{'priority' if is_priority else 'low-prio'})...")
+            pools = self.gecko.get_new_pools_paginated(network_id, pages=pages)
             log.info(f"  Found {len(pools)} new pools on {network_name}")
             for pool in pools:
                 _add_candidate(self._parse_gecko_pool(pool, network_name, network_id))
 
-        # 2. GeckoTerminal trending pools - paginated
-        pages_trend = getattr(config, 'SCAN_TRENDING_PAGES', 3)
+        # 2. GeckoTerminal trending pools - priority networks get more pages
         for network_name, network_id in config.NETWORKS.items():
-            log.info(f"Scanning trending pools on {network_name} ({pages_trend} pages)...")
-            pools = self.gecko.get_trending_pools_paginated(network_id, pages=pages_trend)
+            is_priority = network_name in priority_networks
+            pages = pages_trend if is_priority else pages_trend_lp
+            log.info(f"Scanning trending pools on {network_name} ({pages} pages)...")
+            pools = self.gecko.get_trending_pools_paginated(network_id, pages=pages)
             log.info(f"  Found {len(pools)} trending pools on {network_name}")
             for pool in pools:
                 token = self._parse_gecko_pool(pool, network_name, network_id)
@@ -56,22 +73,40 @@ class Scout:
                     token["source"] = "geckoterminal_trending"
                 _add_candidate(token)
 
-        # 3. DexScreener boosted tokens (high-signal, fast API)
-        log.info("Checking DexScreener boosted tokens...")
-        boosted = self.dex.get_boosted_tokens()
-        for item in boosted[:50]:  # increased from 20 to 50
-            _add_candidate(self._parse_dex_boosted(item))
+        # 3 + 4: DexScreener boosted + CoinGecko trending in parallel (both are fast APIs)
+        dex_candidates = []
+        cg_candidates = []
 
-        # 4. CoinGecko trending - search on DexScreener for DEX data
-        log.info("Checking CoinGecko trending...")
-        trending = self.coingecko.get_trending()
-        for item in trending[:10]:
-            token = self._enrich_coingecko_trending(item)
-            if token and not any(c.get("name", "").lower() == token.get("name", "").lower()
-                                 for c in candidates):
+        def _fetch_boosted():
+            log.info("Checking DexScreener boosted tokens...")
+            boosted = self.dex.get_boosted_tokens()
+            results = []
+            for item in boosted[:30]:  # reduced from 50 to 30 - diminishing returns
+                results.append(self._parse_dex_boosted(item))
+            return results
+
+        def _fetch_trending():
+            log.info("Checking CoinGecko trending...")
+            trending = self.coingecko.get_trending()
+            results = []
+            for item in trending[:5]:  # reduced from 10 to 5 - most are CEX tokens anyway
+                results.append(self._enrich_coingecko_trending(item))
+            return results
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            fut_boosted = pool.submit(_fetch_boosted)
+            fut_trending = pool.submit(_fetch_trending)
+
+            for token in fut_boosted.result():
                 _add_candidate(token)
 
-        log.info(f"Total raw candidates: {len(candidates)}")
+            for token in fut_trending.result():
+                if token and not any(c.get("name", "").lower() == token.get("name", "").lower()
+                                     for c in candidates):
+                    _add_candidate(token)
+
+        elapsed = time.monotonic() - t_start
+        log.info(f"Total raw candidates: {len(candidates)} (scan took {elapsed:.1f}s)")
 
         # Filter and score
         filtered = self._apply_filters(candidates)

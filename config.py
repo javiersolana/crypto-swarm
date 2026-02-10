@@ -26,13 +26,25 @@ BACKOFF_BASE = 2  # exponential backoff base
 GECKO_OHLCV_BUDGET = 30          # max OHLCV calls per scan cycle
 GECKO_CACHE_TTL = 300            # cache pool data for 5 minutes
 
+# Per-host rate limits (req/min) — shared across all APIClient instances
+HOST_RATE_LIMITS = {
+    "api.geckoterminal.com": 30,    # strict
+    "api.dexscreener.com": 300,     # aggressive
+    "api.coingecko.com": 30,
+    "_default": 60,
+}
+
 # ─── Networks to Scan ────────────────────────────────────────────────────────
+# Ordered by priority: Solana and Base have faster/cheaper txns = better for memecoins
 
 NETWORKS = {
     "solana": "solana",
     "base": "base",
     "ethereum": "eth",
 }
+
+# Priority networks get full scan; lower-priority ones get reduced pages
+PRIORITY_NETWORKS = ["solana", "base"]
 
 # DexScreener uses different chain IDs
 DEXSCREENER_CHAINS = {
@@ -49,9 +61,15 @@ SCAN_MAX_LIQUIDITY = 10_000_000  # $10M - include trending tokens
 SCAN_MAX_MCAP = 50_000_000       # $50M - include early growth tokens
 SCAN_VOL_LIQ_RATIO_MIN = 0.3
 SCAN_VOL_LIQ_RATIO_MAX = 50.0    # Trending DEX tokens often have very high vol/liq
-SCAN_MAX_CANDIDATES = 150        # 5x more coverage
-SCAN_NEW_POOLS_PAGES = 5         # pages to fetch per network (20 per page = 100 tokens)
-SCAN_TRENDING_PAGES = 3          # trending pages per network
+SCAN_MAX_CANDIDATES = 100        # reduced from 150 - fewer candidates = faster audit
+SCAN_NEW_POOLS_PAGES = 2         # reduced from 5 - pages 3-5 are too old for memecoin alpha
+SCAN_TRENDING_PAGES = 2          # reduced from 3 - top 2 pages have the most volume
+SCAN_NEW_POOLS_PAGES_LOW_PRIO = 1  # ethereum gets just 1 page (slower chain, fewer memecoins)
+SCAN_TRENDING_PAGES_LOW_PRIO = 1
+
+# ─── Parallelization ────────────────────────────────────────────────────────
+AUDIT_PARALLEL_WORKERS = 8       # parallel token audits
+AUDIT_TRADE_CHECK_MIN_SCORE = 5.0  # only fetch trades for tokens scoring above this
 
 # ─── Auditor (THE FORENSE) Thresholds ───────────────────────────────────────
 
@@ -118,3 +136,6 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 PORTFOLIO_FILE = os.path.join(DATA_DIR, "portfolio.json")
 SCAN_HISTORY_FILE = os.path.join(DATA_DIR, "scan_history.json")
 WEEKLY_REPORTS_DIR = os.path.join(DATA_DIR, "weekly_reports")
+AUDIT_BLACKLIST_FILE = os.path.join(DATA_DIR, "audit_blacklist.json")
+AUDIT_BLACKLIST_TTL = 3600  # 60 minutes — rejected tokens are skipped for this long
+WALLET_WS_FALLBACK_INTERVAL = 600  # 10 min polling when WebSocket is primary

@@ -22,3 +22,291 @@ nohup: ignoring input
 2026-02-10 22:41:48 [api_client] WARNING: [geckoterminal] Request failed: https://api.geckoterminal.com/api/v2/networks/base/new_pools - HTTPSConnectionPool(host='api.geckoterminal.com', port=443): Max retries exceeded with url: /api/v2/networks/base/new_pools?page=4 (Caused by ResponseError('too many 429 error responses'))
 2026-02-10 22:41:48 [scout] INFO:   Found 60 new pools on base
 2026-02-10 22:41:48 [scout] INFO: Scanning new pools on ethereum (5 pages)...
+2026-02-10 22:42:01 [api_client] INFO:   [gecko] eth new_pools page 1: 20 pools
+2026-02-10 22:42:13 [api_client] INFO:   [gecko] eth new_pools page 2: 20 pools
+2026-02-10 22:42:26 [api_client] INFO:   [gecko] eth new_pools page 3: 20 pools
+2026-02-10 22:42:39 [api_client] INFO:   [gecko] eth new_pools page 4: 20 pools
+2026-02-10 22:42:52 [api_client] INFO:   [gecko] eth new_pools page 5: 20 pools
+2026-02-10 22:42:52 [scout] INFO:   Found 100 new pools on ethereum
+2026-02-10 22:42:52 [scout] INFO: Scanning trending pools on solana (3 pages)...
+2026-02-10 22:43:31 [scout] INFO:   Found 60 trending pools on solana
+2026-02-10 22:43:31 [scout] INFO: Scanning trending pools on base (3 pages)...
+2026-02-10 22:44:02 [scout] INFO:   Found 60 trending pools on base
+2026-02-10 22:44:02 [scout] INFO: Scanning trending pools on ethereum (3 pages)...
+2026-02-10 22:44:40 [scout] INFO:   Found 60 trending pools on ethereum
+2026-02-10 22:44:40 [scout] INFO: Checking DexScreener boosted tokens...
+2026-02-10 22:44:45 [scout] INFO: Checking CoinGecko trending...
+2026-02-10 22:44:49 [scout] INFO: Total raw candidates: 409
+2026-02-10 22:44:49 [scout] INFO: After filters: 62 candidates
+2026-02-10 22:44:49 [scout] INFO: === THE SCOUT: Returning top 62 candidates ===
+2026-02-10 22:44:49 [alpha_monitor] INFO: Scout: 62 candidates
+2026-02-10 22:44:49 [forense] INFO: === THE FORENSE: Auditing 62 candidates ===
+2026-02-10 22:44:51 [forense] INFO:   REJECTED: CLAWBSTR / WETH 838.861% - Honeypot suspected: sell/buy ratio = 0.07
+2026-02-10 22:44:53 [forense] INFO:   PASSED: Pigeon / SOL = 7.7/10
+2026-02-10 22:44:58 [forense] INFO:   PASSED: LIQUID / SOL = 7.0/10
+2026-02-10 22:45:04 [forense] INFO:   PASSED: COS / WETH 838.861% = 8.8/10
+2026-02-10 22:45:10 [forense] INFO:   PASSED: BigTrout / SOL = 7.5/10
+2026-02-10 22:45:16 [forense] INFO:   PASSED: MLTL / flETH = 8.0/10
+2026-02-10 22:45:22 [forense] INFO:   PASSED: Official PP+  = 7.3/10
+2026-02-10 22:45:28 [forense] INFO:   PASSED: WAR / USD1 = 8.0/10
+2026-02-10 22:45:46 [api_client] WARNING: [geckoterminal] Request failed: https://api.geckoterminal.com/api/v2/networks/base/pools/0x42c715559959ebf17e732cd8b9f7ba0532db68a98ebb3823baaa239a56055638/trades - HTTPSConnectionPool(host='api.geckoterminal.com', port=443): Max retries exceeded with url: /api/v2/networks/base/pools/0x42c715559959ebf17e732cd8b9f7ba0532db68a98ebb3823baaa239a56055638/trades?trade_volume_in_usd_greater_than=100 (Caused by ResponseError('too many 429 error responses'))
+2026-02-10 22:45:46 [forense] INFO:   LOW SCORE: builderarena / WETH 838.861% = 5.2/10
+2026-02-10 22:45:59 [api_client] WARNING: [geckoterminal] Request failed: https://api.geckoterminal.com/api/v2/networks/solana/pools/GZoczREGnEXXzjmoMyjQxdryWCZ6LAwdYeYkX2ZErdie/trades - HTTPSConnectionPool(host='api.geckoterminal.com', port=443): Max retries exceeded with url: /api/v2/networks/solana/pools/GZoczREGnEXXzjmoMyjQxdryWCZ6LAwdYeYkX2ZErdie/trades?trade_volume_in_usd_greater_than=100 (Caused by ResponseError('too many 429 error responses'))
+2026-02-10 22:45:59 [forense] INFO:   LOW SCORE: Armpitcoin / SOL = 4.5/10
+2026-02-10 22:46:04 [forense] INFO:   PASSED: SELFCLAW / WETH 838.861% = 7.5/10
+2026-02-10 22:46:18 [forense] INFO:   PASSED: AntiHunter / WETH 838.861% = 7.1/10
+2026-02-10 22:46:33 [forense] INFO:   PASSED: OSO / flETH = 7.6/10
+2026-02-10 22:46:38 [forense] INFO:   LOW SCORE: PATRIOT / WETH 1% = 6.0/10
+2026-02-10 22:46:53 [forense] INFO:   PASSED: SNR / WETH 838.861% = 7.5/10
+2026-02-10 22:47:07 [forense] INFO:   LOW SCORE: StartClaw / WETH 838.861% = 6.4/10
+2026-02-10 22:47:20 [forense] INFO:   PASSED: DOG / SOL = 7.5/10
+2026-02-10 22:47:26 [forense] INFO:   LOW SCORE: ELSA / USDC 0.01% = 6.9/10
+2026-02-10 22:47:40 [forense] INFO:   PASSED: wojak / WETH = 8.0/10
+2026-02-10 22:47:54 [forense] INFO:   PASSED: MOLTH / WETH 838.861% = 8.3/10
+2026-02-10 22:48:08 [forense] INFO:   PASSED: RNBW / USDC 1% = 7.7/10
+2026-02-10 22:48:14 [forense] INFO:   PASSED: Clippy / SOL = 8.3/10
+2026-02-10 22:48:29 [forense] INFO:   LOW SCORE: UP / cbBTC 1% = 6.8/10
+2026-02-10 22:48:42 [forense] INFO:   PASSED: PENGUIN / SOL = 8.0/10
+2026-02-10 22:48:56 [forense] INFO:   LOW SCORE: BLOWFISH / SOL = 6.7/10
+2026-02-10 22:49:02 [forense] INFO:   PASSED: Doppel / WETH 838.861% = 7.5/10
+2026-02-10 22:49:16 [forense] INFO:   PASSED: 丙午 / SOL = 8.3/10
+2026-02-10 22:49:30 [forense] INFO:   PASSED: JUNO / WETH 838.861% = 7.1/10
+2026-02-10 22:49:44 [forense] INFO:   LOW SCORE: DEATHSTR / ETH = 6.9/10
+2026-02-10 22:49:50 [forense] INFO:   LOW SCORE: The Great Ark = 5.4/10
+2026-02-10 22:50:04 [forense] INFO:   PASSED: ADHD / WETH 1.2% = 7.4/10
+2026-02-10 22:50:18 [forense] INFO:   LOW SCORE: BNKRTRK / WETH 1.2% = 6.7/10
+2026-02-10 22:50:31 [forense] INFO:   PASSED: COPPERINU / SOL = 8.0/10
+2026-02-10 22:50:45 [forense] INFO:   LOW SCORE: MOLGE / WETH 838.861% = 5.8/10
+2026-02-10 22:50:50 [forense] INFO:   PASSED: GIRAFFES / SOL = 7.7/10
+2026-02-10 22:51:05 [forense] INFO:   LOW SCORE: Molten / WETH 838.861% = 5.8/10
+2026-02-10 22:51:18 [forense] INFO:   PASSED: BFS / USDC = 7.6/10
+2026-02-10 22:51:31 [forense] INFO:   PASSED: EMBER / WETH 838.861% = 7.1/10
+2026-02-10 22:51:37 [forense] INFO:   LOW SCORE: FELIX / WETH 838.861% = 6.7/10
+2026-02-10 22:51:51 [forense] INFO:   LOW SCORE: BCLAW / WETH 838.861% = 6.9/10
+2026-02-10 22:52:05 [forense] INFO:   LOW SCORE: OPENBOT / WETH 838.861% = 6.7/10
+2026-02-10 22:52:19 [forense] INFO:   PASSED: Goyim / SOL = 7.2/10
+2026-02-10 22:52:24 [forense] INFO:   LOW SCORE: CATCOIN / WETH = 6.0/10
+2026-02-10 22:52:39 [forense] INFO:   PASSED: FUN / USDC 1% = 7.5/10
+2026-02-10 22:52:39 [forense] INFO:   REJECTED: HAIR - Liquidity too low: $0
+2026-02-10 22:52:39 [forense] INFO:   REJECTED: feet coin - Liquidity too low: $0
+2026-02-10 22:52:53 [forense] INFO:   LOW SCORE: BNKRW / WETH 838.861% = 6.7/10
+2026-02-10 22:53:07 [forense] INFO:   LOW SCORE: QuickClaw / WETH 838.861% = 5.8/10
+2026-02-10 22:53:07 [forense] INFO:   REJECTED: VCMODEL / SOL - Liquidity too low: $6
+2026-02-10 22:53:07 [forense] INFO:   REJECTED: NFT / USDC 1% - Liquidity too low: $0
+2026-02-10 22:53:07 [forense] INFO:   REJECTED: BASE / USDC 1% - Liquidity too low: $0
+2026-02-10 22:53:20 [forense] INFO:   LOW SCORE: STARKBOT / WETH 838.861% = 6.7/10
+2026-02-10 22:53:25 [forense] INFO:   PASSED: KOLBO / SOL = 7.2/10
+2026-02-10 22:53:41 [forense] INFO:   LOW SCORE: CRAIG / WETH = 6.3/10
+2026-02-10 22:53:54 [forense] INFO:   PASSED: SAFEMOON / SOL = 7.0/10
+2026-02-10 22:54:08 [forense] INFO:   LOW SCORE: fomolt / WETH 838.861% = 6.7/10
+2026-02-10 22:54:14 [forense] INFO:   LOW SCORE: THEO / WETH 838.861% = 5.8/10
+2026-02-10 22:54:28 [forense] INFO:   PASSED: BUNKER / WETH 838.861% = 7.1/10
+2026-02-10 22:54:42 [forense] INFO:   LOW SCORE: MILLY / WETH 838.861% = 5.8/10
+2026-02-10 22:54:56 [forense] INFO:   LOW SCORE: CLAWNCH / WETH 838.861% = 6.7/10
+2026-02-10 22:55:02 [forense] INFO:   LOW SCORE: BUCKARU / SOL = 6.0/10
+2026-02-10 22:55:16 [forense] INFO:   PASSED: MOLT / WETH 838.861% = 8.0/10
+2026-02-10 22:55:16 [forense] INFO: === THE FORENSE: 31/62 passed audit ===
+2026-02-10 22:55:16 [forense] INFO:   API calls saved: DexScreener batch enrichment used for 62 tokens
+2026-02-10 22:55:16 [alpha_monitor] INFO: Forense: 31 passed
+2026-02-10 22:55:16 [narrator] INFO: === THE NARRATOR: Analyzing sentiment for 31 tokens ===
+2026-02-10 22:55:17 [narrator] INFO:   Pigeon / SOL: narrator_score=5.8/10
+2026-02-10 22:55:17 [narrator] INFO:   LIQUID / SOL: narrator_score=6.1/10
+2026-02-10 22:55:18 [narrator] INFO:   COS / WETH 838.861%: narrator_score=6.1/10
+2026-02-10 22:55:18 [narrator] INFO:   BigTrout / SOL: narrator_score=6.1/10
+2026-02-10 22:55:18 [narrator] INFO:   MLTL / flETH: narrator_score=6.1/10
+2026-02-10 22:55:18 [narrator] INFO:   Official PP+ : narrator_score=5.9/10
+2026-02-10 22:55:19 [narrator] INFO:   WAR / USD1: narrator_score=6.4/10
+2026-02-10 22:55:19 [narrator] INFO:   SELFCLAW / WETH 838.861%: narrator_score=6.1/10
+2026-02-10 22:55:20 [narrator] INFO:   AntiHunter / WETH 838.861%: narrator_score=5.8/10
+2026-02-10 22:55:20 [narrator] INFO:   OSO / flETH: narrator_score=5.8/10
+2026-02-10 22:55:20 [narrator] INFO:   SNR / WETH 838.861%: narrator_score=6.1/10
+2026-02-10 22:55:21 [narrator] INFO:   DOG / SOL: narrator_score=4.0/10
+2026-02-10 22:55:21 [narrator] INFO:   wojak / WETH: narrator_score=6.6/10
+2026-02-10 22:55:22 [narrator] INFO:   MOLTH / WETH 838.861%: narrator_score=6.4/10
+2026-02-10 22:55:22 [narrator] INFO:   RNBW / USDC 1%: narrator_score=6.1/10
+2026-02-10 22:55:23 [narrator] INFO:   Clippy / SOL: narrator_score=6.4/10
+2026-02-10 22:55:23 [narrator] INFO:   PENGUIN / SOL: narrator_score=6.1/10
+2026-02-10 22:55:24 [narrator] INFO:   Doppel / WETH 838.861%: narrator_score=6.4/10
+2026-02-10 22:55:24 [narrator] INFO:   丙午 / SOL: narrator_score=6.6/10
+2026-02-10 22:55:24 [narrator] INFO:   JUNO / WETH 838.861%: narrator_score=6.4/10
+2026-02-10 22:55:24 [narrator] INFO:   ADHD / WETH 1.2%: narrator_score=4.0/10
+2026-02-10 22:55:25 [narrator] INFO:   COPPERINU / SOL: narrator_score=6.6/10
+2026-02-10 22:55:25 [narrator] INFO:   GIRAFFES / SOL: narrator_score=4.0/10
+2026-02-10 22:55:25 [narrator] INFO:   BFS / USDC: narrator_score=4.0/10
+2026-02-10 22:55:26 [narrator] INFO:   EMBER / WETH 838.861%: narrator_score=6.1/10
+2026-02-10 22:55:26 [narrator] INFO:   Goyim / SOL: narrator_score=4.0/10
+2026-02-10 22:55:26 [narrator] INFO:   FUN / USDC 1%: narrator_score=6.5/10
+2026-02-10 22:55:27 [narrator] INFO:   KOLBO / SOL: narrator_score=6.1/10
+2026-02-10 22:55:27 [narrator] INFO:   SAFEMOON / SOL: narrator_score=4.0/10
+2026-02-10 22:55:27 [narrator] INFO:   BUNKER / WETH 838.861%: narrator_score=6.1/10
+2026-02-10 22:55:28 [narrator] INFO:   MOLT / WETH 838.861%: narrator_score=6.1/10
+2026-02-10 22:55:28 [narrator] INFO: === THE NARRATOR: Analysis complete ===
+2026-02-10 22:55:28 [social_intel] INFO: Analyzing social intelligence for 31 tokens...
+2026-02-10 22:55:45 [social_intel] INFO:   [9/31] JUNO / WETH 838.861%: score=5.4, signals=['github_active_3']
+2026-02-10 22:55:59 [social_intel] INFO:   [10/31] LIQUID / SOL: score=6.1, signals=['github_active_5']
+2026-02-10 22:56:50 [social_intel] INFO:   [21/31] MOLT / WETH 838.861%: score=6.1, signals=['github_active_5']
+2026-02-10 22:57:24 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-10 22:57:30 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/GbqbsRyBHVPHEv7xLEsikXmdpPPiApLTJesDBbL5pump/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-10 22:57:30 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/G9YU3K1MiPTv7Krui5omkPBPP21GChPPE3c9izRKbonk/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-10 22:57:32 [wallet_tracker] INFO: No new buys detected from tracked wallets.
+2026-02-10 22:57:32 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 8s (50 wallets, 0 cached, 0 errors)
+2026-02-10 22:57:32 [quant] INFO: === THE QUANT: Analyzing 31 tokens (budget: 30 OHLCV calls) ===
+2026-02-10 22:57:33 [quant] INFO:   wojak / WETH: quant_score=7.0/10, RSI=38.2, entry=$0.000000
+2026-02-10 22:57:39 [quant] INFO:   丙午 / SOL: quant_score=5.5/10, RSI=52.3, entry=$0.000781
+2026-02-10 22:57:45 [quant] INFO:   COPPERINU / SOL: quant_score=5.5/10, RSI=53.3, entry=$0.005426
+2026-02-10 22:57:51 [quant] INFO:   FUN / USDC 1%: quant_score=5.5/10, RSI=39.4, entry=$0.028068
+2026-02-10 22:57:57 [quant] INFO:   WAR / USD1: quant_score=6.5/10, RSI=61.4, entry=$0.014802
+2026-02-10 22:58:03 [quant] INFO:   MOLTH / WETH 838.861%: quant_score=4.5/10, RSI=64.1, entry=$0.000002
+2026-02-10 22:58:09 [quant] INFO:   Clippy / SOL: quant_score=5.8/10, RSI=63.7, entry=$0.000415
+2026-02-10 22:58:15 [quant] INFO:   Doppel / WETH 838.861%: quant_score=6.6/10, RSI=47.9, entry=$0.000000
+2026-02-10 22:58:34 [quant] INFO:   JUNO / WETH 838.861%: quant_score=7.7/10, RSI=37.9, entry=$0.000000
+2026-02-10 22:58:47 [quant] INFO:   LIQUID / SOL: quant_score=6.2/10, RSI=31.2, entry=$0.000025
+2026-02-10 22:59:00 [api_client] WARNING: [geckoterminal] Request failed: https://api.geckoterminal.com/api/v2/networks/base/pools/0xc83724138830b1c1a34a15c418f2358e126412183f2647281a8673d117e4df66/ohlcv/hour - HTTPSConnectionPool(host='api.geckoterminal.com', port=443): Max retries exceeded with url: /api/v2/networks/base/pools/0xc83724138830b1c1a34a15c418f2358e126412183f2647281a8673d117e4df66/ohlcv/hour?aggregate=1&limit=168&currency=usd (Caused by ResponseError('too many 429 error responses'))
+2026-02-10 22:59:01 [quant] INFO:   COS / WETH 838.861%: quant_score=6.2/10, RSI=39.0, entry=$0.000002
+2026-02-10 22:59:19 [quant] INFO:   BigTrout / SOL: quant_score=7.0/10, RSI=40.7, entry=$0.000007
+2026-02-10 22:59:25 [quant] INFO:   MLTL / flETH: quant_score=6.1/10, RSI=54.2, entry=$0.000007
+2026-02-10 22:59:38 [quant] INFO:   SELFCLAW / WETH 838.861%: quant_score=6.8/10, RSI=32.6, entry=$0.000000
+2026-02-10 22:59:51 [quant] INFO:   SNR / WETH 838.861%: quant_score=7.0/10, RSI=39.7, entry=$0.000000
+2026-02-10 23:00:04 [quant] INFO:   RNBW / USDC 1%: quant_score=5.8/10, RSI=83.4, entry=$0.030146
+2026-02-10 23:00:17 [quant] INFO:   PENGUIN / SOL: quant_score=2.0/10, RSI=68.2, entry=$0.023855
+2026-02-10 23:00:30 [quant] INFO:   EMBER / WETH 838.861%: quant_score=6.2/10, RSI=60.0, entry=$0.000003
+2026-02-10 23:00:44 [quant] INFO:   KOLBO / SOL: quant_score=5.2/10, RSI=68.8, entry=$0.000074
+2026-02-10 23:00:48 [quant] INFO:   BUNKER / WETH 838.861%: quant_score=4.9/10, RSI=80.3, entry=$0.000004
+2026-02-10 23:01:03 [quant] INFO:   MOLT / WETH 838.861%: quant_score=6.5/10, RSI=52.1, entry=$0.000180
+2026-02-10 23:01:16 [quant] INFO:   Official PP+ : quant_score=7.2/10, RSI=28.8, entry=$0.000034
+2026-02-10 23:01:29 [quant] INFO:   Pigeon / SOL: quant_score=7.0/10, RSI=40.7, entry=$0.000006
+2026-02-10 23:01:43 [quant] INFO:   AntiHunter / WETH 838.861%: quant_score=7.2/10, RSI=27.9, entry=$0.000004
+2026-02-10 23:01:56 [quant] INFO:   OSO / flETH: quant_score=6.5/10, RSI=42.6, entry=$0.000000
+2026-02-10 23:02:01 [quant] INFO:   DOG / SOL: quant_score=7.5/10, RSI=41.8, entry=$0.000028
+2026-02-10 23:02:15 [quant] INFO:   ADHD / WETH 1.2%: quant_score=7.2/10, RSI=None, entry=$0.000000
+2026-02-10 23:02:28 [quant] INFO:   GIRAFFES / SOL: quant_score=6.5/10, RSI=37.7, entry=$0.000036
+2026-02-10 23:02:41 [quant] INFO:   BFS / USDC: quant_score=5.6/10, RSI=42.8, entry=$0.038665
+2026-02-10 23:02:41 [quant] WARNING: OHLCV budget exhausted (30), skipping Goyim / SOL
+2026-02-10 23:02:41 [quant] INFO:   Goyim / SOL: quant_score=5.0/10, RSI=None, entry=$0.004927
+2026-02-10 23:02:41 [quant] WARNING: OHLCV budget exhausted (30), skipping SAFEMOON / SOL
+2026-02-10 23:02:41 [quant] INFO:   SAFEMOON / SOL: quant_score=5.0/10, RSI=None, entry=$0.000349
+2026-02-10 23:02:41 [quant] INFO: === THE QUANT: Analysis complete (30 OHLCV calls used) ===
+2026-02-10 23:02:41 [triple_confirm] INFO: Triple confirmation: evaluating 31 candidates against 0 wallet signals
+2026-02-10 23:02:41 [executor] INFO:   MOLT / WETH 838.861%: composite=7.02 (scout=4.0, forense=8.0, narrator=6.1, quant=6.5, executor=9.0)
+2026-02-10 23:02:41 [executor] INFO:   WAR / USD1: composite=7.74 (scout=7.2, forense=8.0, narrator=6.4, quant=6.5, executor=10.0)
+2026-02-10 23:02:41 [executor] INFO:   FUN / USDC 1%: composite=7.09 (scout=5.8, forense=7.5, narrator=6.5, quant=5.5, executor=9.5)
+2026-02-10 23:02:41 [executor] INFO:   JUNO / WETH 838.861%: composite=7.22 (scout=6.6, forense=7.1, narrator=6.4, quant=7.7, executor=8.0)
+2026-02-10 23:02:41 [executor] INFO:   Official PP+ : composite=7.10 (scout=7.3, forense=7.3, narrator=5.9, quant=7.2, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   AntiHunter / WETH 838.861%: composite=7.00 (scout=7.1, forense=7.1, narrator=5.8, quant=7.2, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   wojak / WETH: composite=7.53 (scout=6.9, forense=8.0, narrator=6.6, quant=7.0, executor=8.5)
+2026-02-10 23:02:41 [executor] INFO:   BigTrout / SOL: composite=7.21 (scout=7.6, forense=7.5, narrator=6.1, quant=7.0, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   Pigeon / SOL: composite=7.29 (scout=8.1, forense=7.7, narrator=5.8, quant=7.0, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   OSO / flETH: composite=7.00 (scout=7.0, forense=7.6, narrator=5.8, quant=6.5, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   RNBW / USDC 1%: composite=6.70 (scout=6.7, forense=7.7, narrator=6.1, quant=5.8, executor=6.5)
+2026-02-10 23:02:41 [executor] INFO:   SELFCLAW / WETH 838.861%: composite=7.09 (scout=7.1, forense=7.5, narrator=6.1, quant=6.8, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   EMBER / WETH 838.861%: composite=6.70 (scout=6.1, forense=7.1, narrator=6.1, quant=6.2, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   PENGUIN / SOL: composite=5.51 (scout=6.6, forense=8.0, narrator=6.1, quant=2.0, executor=4.0)
+2026-02-10 23:02:41 [executor] INFO:   LIQUID / SOL: composite=6.93 (scout=7.8, forense=7.0, narrator=6.1, quant=6.2, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   SNR / WETH 838.861%: composite=6.71 (scout=7.0, forense=7.5, narrator=6.1, quant=7.0, executor=5.5)
+2026-02-10 23:02:41 [executor] INFO:   DOG / SOL: composite=6.50 (scout=7.0, forense=7.5, narrator=4.0, quant=7.5, executor=5.5)
+2026-02-10 23:02:41 [executor] INFO:   MLTL / flETH: composite=7.23 (scout=7.3, forense=8.0, narrator=6.1, quant=6.1, executor=8.0)
+2026-02-10 23:02:41 [executor] INFO:   Clippy / SOL: composite=7.22 (scout=6.7, forense=8.3, narrator=6.4, quant=5.8, executor=8.0)
+2026-02-10 23:02:41 [executor] INFO:   BUNKER / WETH 838.861%: composite=6.30 (scout=5.2, forense=7.1, narrator=6.1, quant=4.9, executor=7.5)
+2026-02-10 23:02:41 [executor] INFO:   Doppel / WETH 838.861%: composite=6.72 (scout=6.6, forense=7.5, narrator=6.4, quant=6.6, executor=6.0)
+2026-02-10 23:02:41 [executor] INFO:   ADHD / WETH 1.2%: composite=5.91 (scout=6.3, forense=7.4, narrator=4.0, quant=7.2, executor=3.5)
+2026-02-10 23:02:41 [executor] INFO:   GIRAFFES / SOL: composite=5.34 (scout=6.2, forense=7.7, narrator=4.0, quant=6.5, executor=1.0)
+2026-02-10 23:02:41 [executor] INFO:   COS / WETH 838.861%: composite=7.16 (scout=7.8, forense=8.8, narrator=6.1, quant=6.2, executor=6.0)
+2026-02-10 23:02:41 [executor] INFO:   BFS / USDC: composite=5.42 (scout=6.1, forense=7.6, narrator=4.0, quant=5.6, executor=2.5)
+2026-02-10 23:02:41 [executor] INFO:   丙午 / SOL: composite=6.87 (scout=6.6, forense=8.3, narrator=6.6, quant=5.5, executor=6.5)
+2026-02-10 23:02:41 [executor] INFO:   COPPERINU / SOL: composite=6.72 (scout=6.2, forense=8.0, narrator=6.6, quant=5.5, executor=6.5)
+2026-02-10 23:02:41 [executor] INFO:   KOLBO / SOL: composite=6.02 (scout=5.4, forense=7.2, narrator=6.1, quant=5.2, executor=5.5)
+2026-02-10 23:02:41 [executor] INFO:   Goyim / SOL: composite=5.16 (scout=6.0, forense=7.2, narrator=4.0, quant=5.0, executor=2.5)
+2026-02-10 23:02:41 [executor] INFO:   SAFEMOON / SOL: composite=5.00 (scout=5.3, forense=7.0, narrator=4.0, quant=5.0, executor=2.5)
+2026-02-10 23:02:41 [executor] INFO:   MOLTH / WETH 838.861%: composite=6.27 (scout=6.8, forense=8.3, narrator=6.4, quant=4.5, executor=4.5)
+2026-02-10 23:02:41 [alpha_monitor] INFO: Scan cycle complete. 0 alerts sent.
+2026-02-10 23:02:41 [alpha_monitor] INFO: Cycle #1: 0 alerts
+2026-02-10 23:17:41 [alpha_monitor] INFO: 
+--- Alpha Cycle #2 at 22:17 UTC ---
+2026-02-10 23:17:41 [alpha_monitor] INFO: ==================================================
+2026-02-10 23:17:41 [alpha_monitor] INFO: ALPHA MONITOR: Starting scan cycle
+2026-02-10 23:17:41 [alpha_monitor] INFO: ==================================================
+2026-02-10 23:17:41 [scout] INFO: === THE SCOUT: Starting token scan ===
+2026-02-10 23:17:41 [scout] INFO: Scanning new pools on solana (5 pages)...
+2026-02-10 23:17:42 [api_client] INFO:   [gecko] solana new_pools page 1: 20 pools
+2026-02-10 23:17:47 [api_client] INFO:   [gecko] solana new_pools page 2: 20 pools
+2026-02-10 23:17:53 [api_client] INFO:   [gecko] solana new_pools page 3: 20 pools
+2026-02-10 23:17:59 [api_client] INFO:   [gecko] solana new_pools page 4: 20 pools
+2026-02-10 23:18:05 [api_client] INFO:   [gecko] solana new_pools page 5: 20 pools
+2026-02-10 23:18:05 [scout] INFO:   Found 100 new pools on solana
+2026-02-10 23:18:05 [scout] INFO: Scanning new pools on base (5 pages)...
+2026-02-10 23:18:11 [api_client] INFO:   [gecko] base new_pools page 1: 20 pools
+2026-02-10 23:18:17 [api_client] INFO:   [gecko] base new_pools page 2: 20 pools
+2026-02-10 23:18:23 [api_client] INFO:   [gecko] base new_pools page 3: 20 pools
+2026-02-10 23:18:42 [api_client] INFO:   [gecko] base new_pools page 4: 20 pools
+2026-02-10 23:18:55 [api_client] WARNING: [geckoterminal] Request failed: https://api.geckoterminal.com/api/v2/networks/base/new_pools - HTTPSConnectionPool(host='api.geckoterminal.com', port=443): Max retries exceeded with url: /api/v2/networks/base/new_pools?page=5 (Caused by ResponseError('too many 429 error responses'))
+2026-02-10 23:18:55 [scout] INFO:   Found 80 new pools on base
+2026-02-10 23:18:55 [scout] INFO: Scanning new pools on ethereum (5 pages)...
+2026-02-10 23:19:07 [api_client] INFO:   [gecko] eth new_pools page 1: 20 pools
+2026-02-10 23:19:12 [api_client] INFO:   [gecko] eth new_pools page 2: 20 pools
+2026-02-10 23:19:26 [api_client] INFO:   [gecko] eth new_pools page 3: 20 pools
+2026-02-10 23:19:39 [api_client] INFO:   [gecko] eth new_pools page 4: 20 pools
+2026-02-10 23:19:52 [api_client] INFO:   [gecko] eth new_pools page 5: 20 pools
+2026-02-10 23:19:52 [scout] INFO:   Found 100 new pools on ethereum
+2026-02-10 23:19:52 [scout] INFO: Scanning trending pools on solana (3 pages)...
+2026-02-10 23:20:31 [scout] INFO:   Found 60 trending pools on solana
+2026-02-10 23:20:31 [scout] INFO: Scanning trending pools on base (3 pages)...
+2026-02-10 23:21:00 [scout] INFO:   Found 60 trending pools on base
+2026-02-10 23:21:00 [scout] INFO: Scanning trending pools on ethereum (3 pages)...
+2026-02-10 23:21:39 [scout] INFO:   Found 60 trending pools on ethereum
+2026-02-10 23:21:39 [scout] INFO: Checking DexScreener boosted tokens...
+2026-02-10 23:21:45 [scout] INFO: Checking CoinGecko trending...
+2026-02-10 23:21:48 [scout] INFO: Total raw candidates: 430
+2026-02-10 23:21:48 [scout] INFO: After filters: 70 candidates
+2026-02-10 23:21:48 [scout] INFO: === THE SCOUT: Returning top 70 candidates ===
+2026-02-10 23:21:48 [alpha_monitor] INFO: Scout: 70 candidates
+2026-02-10 23:21:48 [forense] INFO: === THE FORENSE: Auditing 70 candidates ===
+2026-02-10 23:21:49 [forense] INFO:   REJECTED: CLAWBSTR / WETH 838.861% - Honeypot suspected: sell/buy ratio = 0.07
+2026-02-10 23:21:50 [forense] INFO:   PASSED: Pigeon / SOL = 7.7/10
+2026-02-10 23:21:56 [forense] INFO:   PASSED: LIQUID / SOL = 7.0/10
+2026-02-10 23:22:02 [forense] INFO:   PASSED: COS / WETH 838.861% = 8.8/10
+2026-02-10 23:22:08 [forense] INFO:   PASSED: BigTrout / SOL = 7.5/10
+2026-02-10 23:22:08 [forense] INFO:   REJECTED: BFC / SOL - Honeypot suspected: sell/buy ratio = 0.30
+2026-02-10 23:22:14 [forense] INFO:   PASSED: MLTL / flETH = 8.0/10
+2026-02-10 23:22:20 [forense] INFO:   PASSED: WAR / USD1 = 8.0/10
+2026-02-10 23:22:26 [forense] INFO:   LOW SCORE: builderarena / WETH 838.861% = 6.4/10
+2026-02-10 23:22:43 [api_client] WARNING: [geckoterminal] Request failed: https://api.geckoterminal.com/api/v2/networks/base/pools/0xac16d463fe6783fe82ec1b95db01d25daf7c2f9f523baa8d2c0ec7e707d4d568/trades - HTTPSConnectionPool(host='api.geckoterminal.com', port=443): Max retries exceeded with url: /api/v2/networks/base/pools/0xac16d463fe6783fe82ec1b95db01d25daf7c2f9f523baa8d2c0ec7e707d4d568/trades?trade_volume_in_usd_greater_than=100 (Caused by ResponseError('too many 429 error responses'))
+2026-02-10 23:22:43 [forense] INFO:   LOW SCORE: SELFCLAW / WETH 838.861% = 6.2/10
+2026-02-10 23:22:56 [api_client] WARNING: [geckoterminal] Request failed: https://api.geckoterminal.com/api/v2/networks/base/pools/0x1635213e2b19e459a4132df40011638b65ae7510a35d6a88c47ebf94912c7f2e/trades - HTTPSConnectionPool(host='api.geckoterminal.com', port=443): Max retries exceeded with url: /api/v2/networks/base/pools/0x1635213e2b19e459a4132df40011638b65ae7510a35d6a88c47ebf94912c7f2e/trades?trade_volume_in_usd_greater_than=100 (Caused by ResponseError('too many 429 error responses'))
+2026-02-10 23:22:56 [forense] INFO:   LOW SCORE: JUNO / WETH 838.861% = 5.9/10
+2026-02-10 23:23:02 [forense] INFO:   PASSED: Official PP+  = 7.3/10
+2026-02-10 23:23:16 [forense] INFO:   PASSED: AntiHunter / WETH 838.861% = 7.1/10
+2026-02-10 23:23:30 [forense] INFO:   PASSED: OSO / flETH = 7.6/10
+2026-02-10 23:23:44 [forense] INFO:   PASSED: SNR / WETH 838.861% = 7.5/10
+2026-02-10 23:23:49 [forense] INFO:   LOW SCORE: StartClaw / WETH 838.861% = 6.4/10
+2026-02-10 23:24:04 [forense] INFO:   LOW SCORE: ELSA / USDC 0.01% = 6.9/10
+2026-02-10 23:24:17 [forense] INFO:   PASSED: wojak / WETH = 8.0/10
+2026-02-10 23:24:30 [forense] INFO:   PASSED: DOG / SOL = 7.5/10
+2026-02-10 23:24:44 [forense] INFO:   LOW SCORE: PATRIOT / WETH 1% = 6.0/10
+2026-02-10 23:24:50 [forense] INFO:   PASSED: MOLTH / WETH 838.861% = 8.3/10
+2026-02-10 23:25:04 [forense] INFO:   PASSED: RNBW / USDC 1% = 8.2/10
+2026-02-10 23:25:18 [forense] INFO:   PASSED: Clippy / SOL = 8.3/10
+2026-02-10 23:25:32 [forense] INFO:   PASSED: Doppel / WETH 838.861% = 7.3/10
+2026-02-10 23:25:38 [forense] INFO:   LOW SCORE: Molten / WETH 838.861% = 5.8/10
+2026-02-10 23:25:51 [forense] INFO:   LOW SCORE: UP / cbBTC 1% = 6.8/10
+2026-02-10 23:26:05 [forense] INFO:   PASSED: PENGUIN / SOL = 8.0/10
+2026-02-10 23:26:18 [forense] INFO:   PASSED: 丙午 / SOL = 8.3/10
+2026-02-10 23:26:31 [forense] INFO:   PASSED: OPENBOT / WETH 838.861% = 7.5/10
+2026-02-10 23:26:44 [forense] INFO:   LOW SCORE: BLOWFISH / SOL = 6.7/10
+2026-02-10 23:26:44 [forense] INFO:   REJECTED: TARTIGRADO  - Liquidity too low: $0
+2026-02-10 23:26:49 [forense] INFO:   PASSED: ADHD / WETH 1.2% = 7.4/10
+2026-02-10 23:27:03 [forense] INFO:   PASSED: DEATHSTR / ETH = 7.7/10
+2026-02-10 23:27:16 [forense] INFO:   PASSED: COPPERINU / SOL = 8.0/10
+2026-02-10 23:27:31 [forense] INFO:   LOW SCORE: MOLGE / WETH 838.861% = 5.8/10
+2026-02-10 23:27:45 [forense] INFO:   PASSED: GIRAFFES / SOL = 7.7/10
+2026-02-10 23:27:50 [forense] INFO:   PASSED: BFS / USDC = 7.6/10
+2026-02-10 23:28:04 [forense] INFO:   PASSED: Goyim / SOL = 7.2/10
+2026-02-10 23:28:18 [forense] INFO:   PASSED: EMBER / WETH 838.861% = 7.1/10
+2026-02-10 23:28:32 [forense] INFO:   LOW SCORE: BCLAW / WETH 838.861% = 6.3/10
+2026-02-10 23:28:37 [forense] INFO:   LOW SCORE: CRAIG / WETH 838.861% = 5.3/10
+2026-02-10 23:28:37 [forense] INFO:   REJECTED: QuokAI - Liquidity too low: $0
+2026-02-10 23:28:51 [forense] INFO:   LOW SCORE: CATCOIN / WETH = 6.0/10
+2026-02-10 23:28:51 [forense] INFO:   REJECTED: Fork - Liquidity too low: $0
+2026-02-10 23:29:05 [forense] INFO:   PASSED: FUN / USDC 1% = 7.5/10
+2026-02-10 23:29:20 [forense] INFO:   LOW SCORE: QuickClaw / WETH 838.861% = 5.8/10
+2026-02-10 23:29:24 [forense] INFO:   LOW SCORE: BNKRW / WETH 838.861% = 6.7/10
+2026-02-10 23:29:40 [forense] INFO:   LOW SCORE: FELIX / WETH 838.861% = 6.7/10
