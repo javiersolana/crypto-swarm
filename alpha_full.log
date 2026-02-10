@@ -19,3 +19,6 @@ nohup: ignoring input
 2026-02-10 22:41:17 [api_client] INFO:   [gecko] base new_pools page 1: 20 pools
 2026-02-10 22:41:24 [api_client] INFO:   [gecko] base new_pools page 2: 20 pools
 2026-02-10 22:41:35 [api_client] INFO:   [gecko] base new_pools page 3: 20 pools
+2026-02-10 22:41:48 [api_client] WARNING: [geckoterminal] Request failed: https://api.geckoterminal.com/api/v2/networks/base/new_pools - HTTPSConnectionPool(host='api.geckoterminal.com', port=443): Max retries exceeded with url: /api/v2/networks/base/new_pools?page=4 (Caused by ResponseError('too many 429 error responses'))
+2026-02-10 22:41:48 [scout] INFO:   Found 60 new pools on base
+2026-02-10 22:41:48 [scout] INFO: Scanning new pools on ethereum (5 pages)...
