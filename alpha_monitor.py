@@ -28,7 +28,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import config
 import config_alpha
-from utils import setup_logging, get_logger, load_json, save_json, ensure_data_dirs, now_utc
+from utils import setup_logging, get_logger, load_json, save_json, ensure_data_dirs, now_utc, safe_float
+from paper_trader import PaperTrader
 from alert_monitor import (
     send_telegram, load_seen_tokens, save_seen_tokens, is_token_new,
     mark_token_seen, format_alert, save_alert, ALERT_MIN_SCORE, ALERT_MAX_PUMP_PCT
@@ -42,11 +43,13 @@ WALLET_CHECK_INTERVAL = 120  # seconds for wallet-only checks
 EARLY_ALERT_MIN_SCORE = 8.0  # score threshold for immediate early alerts during audit
 
 
-def run_alpha_scan_cycle(wallet_signals_holder: dict = None) -> int:
+def run_alpha_scan_cycle(wallet_signals_holder: dict = None,
+                         paper_trader: PaperTrader = None) -> int:
     """Run one alpha-enhanced scan cycle. Returns number of alerts sent.
 
     v3.0: Early alerting during audit phase. Wallet signals received from
     parallel background thread via wallet_signals_holder dict.
+    v6.0: Paper trader integration — auto-buys on PRIORITY alerts.
     """
     from scanner import Scout
     from auditor import Forense
@@ -122,10 +125,22 @@ def run_alpha_scan_cycle(wallet_signals_holder: dict = None) -> int:
             return alerts_sent
 
         # ── Phase 3: Sentiment (Narrator) ─────────────────────────────────
+        # v6.0: Priority graduated tokens skip Narrator (time-sensitive)
         t0 = time.monotonic()
-        narrator = Narrator()
-        with_sentiment = narrator.analyze(audited)
-        log.info(f"Narrator: done ({time.monotonic()-t0:.1f}s)")
+        priority_tokens = [t for t in audited if t.get("priority_graduated")]
+        normal_tokens = [t for t in audited if not t.get("priority_graduated")]
+
+        if normal_tokens:
+            narrator = Narrator()
+            normal_tokens = narrator.analyze(normal_tokens)
+
+        for t in priority_tokens:
+            t["narrator_score"] = 5.0
+            t["narrator_signals"] = ["skipped_priority_graduated"]
+
+        with_sentiment = priority_tokens + normal_tokens
+        log.info(f"Narrator: done ({time.monotonic()-t0:.1f}s) "
+                 f"({len(priority_tokens)} priority skipped)")
 
         # ── Phase 4: Social Intelligence ──────────────────────────────────
         t0 = time.monotonic()
@@ -181,6 +196,13 @@ def run_alpha_scan_cycle(wallet_signals_holder: dict = None) -> int:
                 alerts_sent += 1
             log.info(f"  ALPHA ALERT: {token.get('name')} "
                      f"(alpha={token.get('alpha_score', 0):.1f})")
+
+            # v6.0: Paper trade on PRIORITY alerts
+            if paper_trader:
+                trade = paper_trader.open_trade(token)
+                if trade:
+                    log.info(f"  PAPER BUY: {trade['token_name']} @ ${trade['entry_price']:.8f}")
+                    send_telegram(paper_trader.format_open_message(trade))
 
         # Priority 2: Standard high-score alerts (not already sent as alpha or early)
         alpha_addresses = set(t.get("address", "").lower() for t in alpha_alerts)
@@ -283,12 +305,76 @@ def _run_wallet_background(stop_event: threading.Event, result_holder: dict):
                 log.warning(f"Wallet background error: {e}")
 
             # Adjust interval based on WS state
-            interval = config_alpha.WS_FALLBACK_POLL_INTERVAL if tracker.ws_connected else WALLET_CHECK_INTERVAL
+            if tracker.ws_connected:
+                interval = config_alpha.WS_FALLBACK_POLL_INTERVAL  # 600s
+            elif tracker.ws_failed:
+                interval = config_alpha.POLLING_FAST_INTERVAL  # 90s
+            else:
+                interval = WALLET_CHECK_INTERVAL  # 120s
             stop_event.wait(timeout=interval)
 
         tracker.stop_websocket()
     except Exception as e:
         log.error(f"Wallet background thread fatal: {e}")
+
+
+def _fetch_batch_prices(dex, open_trades: list) -> dict:
+    """Batch fetch current prices for open trades via DexScreener.
+
+    Returns {address_lower: price_usd}.
+    """
+    price_map = {}
+    # Group by chain
+    by_chain = {}
+    for t in open_trades:
+        chain = t.get("chain", "")
+        addr = t.get("address", "")
+        if chain and addr:
+            by_chain.setdefault(chain, []).append(addr)
+
+    for chain, addresses in by_chain.items():
+        for i in range(0, len(addresses), 30):
+            batch = addresses[i:i + 30]
+            try:
+                pairs = dex.get_tokens_batch(chain, batch)
+                for pair in pairs:
+                    base_addr = pair.get("baseToken", {}).get("address", "")
+                    price = safe_float(pair.get("priceUsd"))
+                    if base_addr and price > 0:
+                        price_map[base_addr.lower()] = price
+            except Exception as e:
+                log.warning(f"Batch price fetch error ({chain}): {e}")
+
+    return price_map
+
+
+def _run_exit_manager(stop_event: threading.Event, paper_trader: PaperTrader):
+    """Background thread: check TP/SL/Trailing every 45s."""
+    from api_client import DexScreenerClient
+
+    dex = DexScreenerClient()
+    log.info("Exit manager thread started")
+
+    while not stop_event.is_set():
+        try:
+            open_trades = paper_trader.get_open_trades()
+            if open_trades:
+                price_map = _fetch_batch_prices(dex, open_trades)
+                if price_map:
+                    paper_trader.update_prices(price_map)
+                    closed = paper_trader.check_exits(price_map)
+                    for trade in closed:
+                        msg = paper_trader.format_exit_message(trade)
+                        send_telegram(msg)
+                        log.info(f"  EXIT: {trade['token_name']} "
+                                 f"reason={trade['exit_reason']} "
+                                 f"pnl={trade['pnl_pct']:+.1f}%")
+        except Exception as e:
+            log.warning(f"Exit manager error: {e}")
+
+        stop_event.wait(timeout=config.PAPER_EXIT_CHECK_INTERVAL)
+
+    log.info("Exit manager thread stopped")
 
 
 def run_wallet_monitor():
@@ -345,7 +431,7 @@ def daemon_loop(interval_min: int = 15, wallets_only: bool = False):
         run_wallet_monitor()
         return
 
-    log.info(f"Alpha Monitor v3.0 daemon starting (interval: {interval_min} min)")
+    log.info(f"Alpha Monitor v6.0 daemon starting (interval: {interval_min} min)")
 
     # Check what APIs are configured
     apis = []
@@ -361,12 +447,20 @@ def daemon_loop(interval_min: int = 15, wallets_only: bool = False):
     api_str = ", ".join(apis) if apis else "None (basic mode)"
     log.info(f"APIs configured: {api_str}")
 
+    # Initialize paper trader (v6.0)
+    paper_trader = PaperTrader()
+    pt_summary = paper_trader.get_session_summary()
+    pt_status = (f"Paper trading: {pt_summary['open_trades']} open, "
+                 f"{pt_summary['session_pnl_sol']:+.4f} SOL PnL")
+    log.info(pt_status)
+
     send_telegram(
-        "<b>Alpha Monitor v3.0 Started</b>\n\n"
+        "<b>Alpha Monitor v6.0 Started</b>\n\n"
         f"Scan interval: {interval_min} min\n"
         f"APIs: {api_str}\n"
         f"Min score: {ALERT_MIN_SCORE}/10\n"
-        f"Early alerts: forense >= {EARLY_ALERT_MIN_SCORE}"
+        f"Early alerts: forense >= {EARLY_ALERT_MIN_SCORE}\n"
+        f"{pt_status}"
     )
 
     # Start wallet tracker in background thread
@@ -380,6 +474,16 @@ def daemon_loop(interval_min: int = 15, wallets_only: bool = False):
     )
     wallet_thread.start()
     log.info("Wallet background thread launched")
+
+    # Start exit manager in background thread (v6.0)
+    exit_thread = threading.Thread(
+        target=_run_exit_manager,
+        args=(wallet_stop, paper_trader),
+        daemon=True,
+        name="exit-manager"
+    )
+    exit_thread.start()
+    log.info("Exit manager thread launched")
 
     running = True
     def _shutdown(sig, frame):
@@ -396,7 +500,8 @@ def daemon_loop(interval_min: int = 15, wallets_only: bool = False):
         log.info(f"\n--- Alpha Cycle #{cycle} at {now_utc().strftime('%H:%M UTC')} ---")
 
         try:
-            alerts = run_alpha_scan_cycle(wallet_signals_holder=wallet_signals)
+            alerts = run_alpha_scan_cycle(wallet_signals_holder=wallet_signals,
+                                           paper_trader=paper_trader)
             log.info(f"Cycle #{cycle}: {alerts} alerts")
         except Exception as e:
             log.error(f"Cycle #{cycle} failed: {e}", exc_info=True)
@@ -411,7 +516,15 @@ def daemon_loop(interval_min: int = 15, wallets_only: bool = False):
 
     wallet_stop.set()
     wallet_thread.join(timeout=5)
-    send_telegram("<b>Alpha Monitor v3.0 Stopped</b>")
+    exit_thread.join(timeout=5)
+    pt_final = paper_trader.get_session_summary()
+    send_telegram(
+        "<b>Alpha Monitor v6.0 Stopped</b>\n\n"
+        f"Session PnL: {pt_final['session_pnl_sol']:+.4f} SOL\n"
+        f"W/L: {pt_final['wins']}/{pt_final['losses']} "
+        f"({pt_final['win_rate']:.0f}% WR)\n"
+        f"Open trades: {pt_final['open_trades']}"
+    )
 
 
 def main():

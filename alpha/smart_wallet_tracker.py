@@ -128,6 +128,33 @@ class HeliusClient(APIClient):
             return data[:limit]
         return []
 
+    def get_signatures(self, address: str, limit: int = 10) -> list:
+        """Get recent transaction signatures (cheap RPC call, saves credits)."""
+        result = self._rpc_call("getSignaturesForAddress",
+                                [address, {"limit": limit}])
+        return result if isinstance(result, list) else []
+
+    def _rpc_call(self, method: str, params: list):
+        """JSON-RPC call via Helius RPC endpoint (cheaper than parsed API)."""
+        if not self.api_key:
+            return None
+        import urllib.request
+        rpc_url = config_alpha.HELIUS_RPC_URL
+        payload = json.dumps({
+            "jsonrpc": "2.0", "id": 1, "method": method, "params": params
+        }).encode()
+        req = urllib.request.Request(
+            rpc_url, data=payload,
+            headers={"Content-Type": "application/json"}
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                result = json.loads(resp.read())
+                return result.get("result")
+        except Exception as e:
+            log.debug(f"[helius] RPC {method} failed: {e}")
+            return None
+
     def get_token_metadata(self, mint_addresses: list[str]) -> list:
         """Get metadata for token mint addresses."""
         if not self.api_key:
@@ -181,6 +208,13 @@ class SolanaRPCClient:
         """Get recent transaction signatures for a wallet."""
         result = self._rpc_call("getSignaturesForAddress", [address, {"limit": limit}])
         return result if isinstance(result, list) else []
+
+    def get_token_largest_accounts(self, mint: str) -> list:
+        """Get top holders for a SPL token (free RPC call)."""
+        result = self._rpc_call("getTokenLargestAccounts", [mint])
+        if result and "value" in result:
+            return result["value"]
+        return []
 
     def get_token_accounts(self, address: str) -> list:
         """Get all SPL token accounts owned by a wallet."""
@@ -338,6 +372,7 @@ class HeliusWebSocket:
         self._stop = threading.Event()
         self._connected = False
         self._reconnect_delay = config_alpha.WS_RECONNECT_BASE_DELAY
+        self.ws_failed = False  # True if WS permanently failed (e.g. 403)
 
     def start(self):
         """Start WebSocket listener in daemon thread."""
@@ -362,8 +397,12 @@ class HeliusWebSocket:
             try:
                 self._connect_and_listen()
             except Exception as e:
+                if self.ws_failed:
+                    break
                 log.warning(f"[WS] Disconnected: {e}")
                 self._connected = False
+            if self.ws_failed:
+                break
             if not self._stop.is_set():
                 log.info(f"[WS] Reconnecting in {self._reconnect_delay}s...")
                 self._stop.wait(timeout=self._reconnect_delay)
@@ -379,7 +418,17 @@ class HeliusWebSocket:
             return
 
         ws = ws_lib.WebSocket()
-        ws.connect(ws_url, timeout=10)
+        try:
+            ws.connect(ws_url, timeout=10)
+        except Exception as e:
+            err_str = str(e)
+            if "403" in err_str or "Forbidden" in err_str:
+                log.warning("[WS] Helius WebSocket returned 403 (requires Business plan). "
+                            "Disabling WebSocket permanently for this session.")
+                self.ws_failed = True
+                self._stop.set()
+                return
+            raise
         self._ws = ws
         self._connected = True
         self._reconnect_delay = config_alpha.WS_RECONNECT_BASE_DELAY  # reset on success
@@ -446,6 +495,7 @@ class SmartWalletTracker:
         self.solana_rpc = SolanaRPCClient()
         self.dexscreener = DexScreenerClient()
         self._seen_txs = set()  # avoid duplicate alerts
+        self._known_signatures: dict[str, set] = {}  # {wallet_addr: set of sig hashes}
         self._ws = None  # HeliusWebSocket instance
         self._ws_callback = None  # external callback for WS events
 
@@ -474,6 +524,10 @@ class SmartWalletTracker:
     @property
     def ws_connected(self) -> bool:
         return self._ws is not None and self._ws.is_connected
+
+    @property
+    def ws_failed(self) -> bool:
+        return self._ws is not None and self._ws.ws_failed
 
     def _on_ws_event(self, tx: dict):
         """Handle a raw WebSocket transaction event."""
@@ -593,20 +647,40 @@ class SmartWalletTracker:
             return []
 
     def _scan_solana_wallet(self, address: str, wallet_info: dict) -> list[dict]:
-        """Scan a single Solana wallet for recent swaps. Helius → RPC fallback."""
+        """Scan a single Solana wallet for recent swaps. Helius → RPC fallback.
+
+        v5.0: Signatures-first strategy. Calls cheap getSignaturesForAddress RPC
+        first, and only fetches full parsed transactions if there are new signatures.
+        Saves Helius credits when wallets have no new activity.
+        """
         label = wallet_info.get("label", address[:10])
         signals = []
 
-        # Strategy 1: Helius API (best data, parsed swaps)
+        # Strategy 1: Signatures-first (cheap RPC) then parse only new ones
         if config_alpha.HELIUS_API_KEY:
             try:
-                txs = self.helius.get_transactions(address, limit=20, tx_type="SWAP")
+                # Step 1: Get recent signatures (cheap RPC call)
+                sigs = self.helius.get_signatures(address, limit=10)
+                known = self._known_signatures.get(address, set())
+                new_sigs = [s for s in sigs if s.get("signature") not in known
+                            and s.get("signature") not in self._seen_txs]
+
+                # Update known signatures for next cycle
+                if sigs:
+                    self._known_signatures[address] = {s.get("signature") for s in sigs}
+
+                if not new_sigs:
+                    return signals  # No new activity, saved credits!
+
+                # Step 2: Only fetch full parsed txs (expensive) for new signatures
+                log.debug(f"  {label}: {len(new_sigs)} new sigs, fetching parsed txs")
+                txs = self.helius.get_transactions(address, limit=len(new_sigs), tx_type="SWAP")
                 for tx in txs:
                     signal = self._parse_helius_swap(tx, address, label)
                     if signal and signal["tx_sig"] not in self._seen_txs:
                         self._seen_txs.add(signal["tx_sig"])
                         signals.append(signal)
-                if txs is not None:  # Helius responded (even if empty)
+                if txs is not None:
                     return signals
             except Exception as e:
                 log.debug(f"Helius failed for {label}, falling back to RPC: {e}")

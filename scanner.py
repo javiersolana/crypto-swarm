@@ -119,6 +119,22 @@ class Scout:
         log.info(f"=== THE SCOUT: Returning top {len(top)} candidates ===")
         return top
 
+    def _detect_pump_fun(self, token: dict) -> bool:
+        """Detect tokens that graduated from Pump.fun to Raydium."""
+        if token.get("chain") != "solana":
+            return False
+        addr = token.get("address", "")
+        # Pump.fun mints end with "pump"
+        if addr.lower().endswith("pump"):
+            return True
+        # Heuristic: Solana, very new, liquidity in pump.fun graduation range
+        liq = token.get("liquidity_usd", 0)
+        age = token.get("pool_age_days", 999)
+        if (age <= config.PUMP_FUN_MAX_AGE_DAYS
+            and config.PUMP_FUN_MIN_LIQUIDITY <= liq <= config.PUMP_FUN_MAX_LIQUIDITY):
+            return True
+        return False
+
     def _parse_gecko_pool(self, pool: dict, network_name: str, network_id: str) -> dict | None:
         """Parse a GeckoTerminal pool into a candidate dict."""
         try:
@@ -160,7 +176,7 @@ class Scout:
             buys_24h = safe_int(txns.get("h24", {}).get("buys"))
             sells_24h = safe_int(txns.get("h24", {}).get("sells"))
 
-            return {
+            token_dict = {
                 "name": name,
                 "address": token_address,
                 "pool_address": pool_address,
@@ -178,6 +194,8 @@ class Scout:
                 "sells_24h": sells_24h,
                 "created_at": created_at,
             }
+            token_dict["is_pump_fun"] = self._detect_pump_fun(token_dict)
+            return token_dict
         except Exception as e:
             log.debug(f"Error parsing gecko pool: {e}")
             return None
@@ -222,7 +240,7 @@ class Scout:
                     network = name
                     break
 
-            return {
+            token_dict = {
                 "name": pair.get("baseToken", {}).get("name", ""),
                 "address": token_address,
                 "pool_address": pair.get("pairAddress", ""),
@@ -240,6 +258,8 @@ class Scout:
                 "sells_24h": sells_24h,
                 "created_at": created_at,
             }
+            token_dict["is_pump_fun"] = self._detect_pump_fun(token_dict)
+            return token_dict
         except Exception as e:
             log.debug(f"Error parsing dex boosted: {e}")
             return None
@@ -327,9 +347,10 @@ class Scout:
             if c["pool_age_days"] > max_age and c["pool_age_days"] != 0:
                 continue
 
-            # Liquidity filter
+            # Liquidity filter (relaxed for pump.fun graduated tokens)
             liq = c["liquidity_usd"]
-            if liq > 0 and liq < config.SCAN_MIN_LIQUIDITY:
+            min_liq = config.PUMP_FUN_MIN_LIQUIDITY if c.get("is_pump_fun") else config.SCAN_MIN_LIQUIDITY
+            if liq > 0 and liq < min_liq:
                 continue
             if liq > config.SCAN_MAX_LIQUIDITY:
                 continue
@@ -433,6 +454,27 @@ class Scout:
             else:
                 scores.append(3.0)
 
+            # Pump.fun bonus: recently graduated tokens
+            pump_bonus = 0
+            if c.get("is_pump_fun"):
+                age_hours = c["pool_age_days"] * 24
+                age_minutes = age_hours * 60
+
+                # v6.0: Priority graduation — just graduated (<10 min) gets fast-tracked
+                if age_minutes < 10:
+                    c["priority_graduated"] = True
+                    pump_bonus = 3.5  # 2.0 extra on top of base 1.5
+                    c["early_entry_signals"].append("pump_fun_just_graduated")
+                elif age_hours < 6:
+                    pump_bonus = 1.5
+                    c["early_entry_signals"].append("pump_fun_graduated_fresh")
+                elif age_hours < 24:
+                    pump_bonus = 1.0
+                    c["early_entry_signals"].append("pump_fun_graduated")
+                else:
+                    pump_bonus = 0.5
+                    c["early_entry_signals"].append("pump_fun_token")
+
             # Source bonus
             source_bonus = {
                 "geckoterminal": 0,
@@ -441,6 +483,6 @@ class Scout:
             }
             bonus = source_bonus.get(c["source"], 0)
 
-            c["scout_score"] = clamp(sum(scores) / len(scores) + bonus, 1, 10)
+            c["scout_score"] = clamp(sum(scores) / len(scores) + bonus + pump_bonus, 1, 10)
 
         return candidates

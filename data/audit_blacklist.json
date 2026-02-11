@@ -1,1 +1,257 @@
-{}
+{
+  "2qxt9qpuksinm1m9qq1nk4vjk6g2ksnkvkdocqakpump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770792927.1869094,
+    "chain": "solana"
+  },
+  "0xdaa1bfed2582aaa3febb7ae6c781f75d88e55e25": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770792927.1875453,
+    "chain": "base"
+  },
+  "0xd58f0a664c321dcdca978358f8756eb20aa50e23": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770792927.189172,
+    "chain": "base"
+  },
+  "bebvtorgy352ncqynpd661inq4rom6nj6374fquyxznu": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.24",
+    "timestamp": 1770793072.41496,
+    "chain": "solana"
+  },
+  "uazybjfc7kht6h2neuunhfytgrjwrtqcazwtkgapump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770793072.4160495,
+    "chain": "solana"
+  },
+  "ea9ckqzdfzgzpxjkik13ha5f9wrhrif2wfrdqyesh4n6": {
+    "reason": "Liquidity too low: $18,817",
+    "timestamp": 1770793072.422037,
+    "chain": "solana"
+  },
+  "5o4mjkvndjbbnqiagzsyrn9dmrxwdn8yzchyxzpqpaeg": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.13",
+    "timestamp": 1770793072.4226415,
+    "chain": "solana"
+  },
+  "kvzr8khcqbj115ejeytibptpgpgq8bhyjh6wgy3pump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770793072.4231372,
+    "chain": "solana"
+  },
+  "9igkfbegz8ajk1nxqn4fxg5hafxhzhdhd77nwwgupump": {
+    "reason": "Liquidity too low: $15,545",
+    "timestamp": 1770793072.4237125,
+    "chain": "solana"
+  },
+  "7mmweybfgc5gqxsrx46kewivoewuxpyck65i3se4mqag": {
+    "reason": "Rugcheck rejected: rugcheck_score_11400",
+    "timestamp": 1770793122.416896,
+    "chain": "solana"
+  },
+  "3p2bjqy9nyshnvn2rmz1qgcsi6r3d2xztufiteua7v6y": {
+    "reason": "Rugcheck rejected: rugcheck_score_11400",
+    "timestamp": 1770793122.4186373,
+    "chain": "solana"
+  },
+  "cx63pbfd4wrmbckacdyang7xcravpdwgn8awukmkpump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770793130.7460754,
+    "chain": "solana"
+  },
+  "2cmrlab93k44jxwhtyvvsfggfei6qbbujeca5vkkpump": {
+    "reason": "Liquidity too low: $15,504",
+    "timestamp": 1770793293.951912,
+    "chain": "solana"
+  },
+  "ftzjokjzadbm54apu81jcxsnxnhfbbjgl8qjgh9ajkea": {
+    "reason": "Liquidity too low: $19,266",
+    "timestamp": 1770793310.4826941,
+    "chain": "solana"
+  },
+  "9nzvtdesgc2feta96tnxlwc28byr1xm9gpeag3kyacxd": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770793438.4216354,
+    "chain": "solana"
+  },
+  "0xfb18faf3f383d422764fa4fd312c6c9b09db9174": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770793438.8877053,
+    "chain": "base"
+  },
+  "0x318bb0c43182537afd4939f9562c0b3f7f89fc2f": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770793438.8882222,
+    "chain": "base"
+  },
+  "0x586292c6f32f95522cf45af3fb67f3c3ac086cbd": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770793438.8900273,
+    "chain": "base"
+  },
+  "0x3c0ad31d27d27601a5c7fd77a36b9f6f71e7ad1f": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.28",
+    "timestamp": 1770793492.4234731,
+    "chain": "base"
+  },
+  "64nbkeraiuithkaun6vchfr17brzwh8miycgkaqzhct2": {
+    "reason": "Liquidity too low: $20,683",
+    "timestamp": 1770794703.816914,
+    "chain": "solana"
+  },
+  "9p8jii8ka8b8taa7mbfxcqh9hwv84kjnyefqfydtwkxh": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.21",
+    "timestamp": 1770794703.8183596,
+    "chain": "solana"
+  },
+  "fa7ze9nceynrhsnoehuheexjpchtrbtkxnwe6cghpump": {
+    "reason": "Liquidity too low: $17,775",
+    "timestamp": 1770794745.82044,
+    "chain": "solana"
+  },
+  "ehnvp8bxykv7pfu2maugylopae139prlyyqdviujpump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770794745.823115,
+    "chain": "solana"
+  },
+  "u9ghpb9xcrmdoghwzsyjfveze4b3olkx4ucjqwjpump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770794761.528518,
+    "chain": "solana"
+  },
+  "hjgwhz7qrjdt7dckzl2sjvkz9ijm6k3oumhu3bfapump": {
+    "reason": "Liquidity too low: $26,509",
+    "timestamp": 1770794795.8753061,
+    "chain": "solana"
+  },
+  "a5bzrzhqxcuwxxu9pb6ssa8ws3urrti8xcywhduppump": {
+    "reason": "Liquidity too low: $16,317",
+    "timestamp": 1770794795.8759553,
+    "chain": "solana"
+  },
+  "dqlaudzmgc1ucwh9yzm4tq9owgdzyq5mymuljhdqpump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770794837.2444232,
+    "chain": "solana"
+  },
+  "0xaf4d0ca3ea255f782f2d34078521b8faceddb276": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.25",
+    "timestamp": 1770794979.8227813,
+    "chain": "ethereum"
+  },
+  "0xb09a2c99c2eddeff0fdb12a8aeb644bf4917dc6e": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770795050.8978024,
+    "chain": "base"
+  },
+  "0x8c5ca937d973148fd124427e92c755c2181987ca": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770795050.898659,
+    "chain": "base"
+  },
+  "0x2704c17307c44a1bd6eb5cce428b084cc575a99b": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770795050.904663,
+    "chain": "base"
+  },
+  "0x3f0d00a477c73bdb4b7040d94986540293ec2ef0": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770795050.9051685,
+    "chain": "base"
+  },
+  "0xc3399262db0517b9b555c841f3d4a27c46fb46eb": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770795050.9055653,
+    "chain": "base"
+  },
+  "0xc2f7cc95c62233b9fc6aa4c34f78da03563a2f8e": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770795050.9059174,
+    "chain": "base"
+  },
+  "bsqy8j3b4pccpifwpxjxywlvjywvjyzn9pdncxhqpump": {
+    "reason": "Liquidity too low: $21,725",
+    "timestamp": 1770796256.1667814,
+    "chain": "solana"
+  },
+  "cd9jy3ftckjfr37jj8zyozrskub2txpubq9zewlejda2": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.09",
+    "timestamp": 1770796256.1682606,
+    "chain": "solana"
+  },
+  "3nck1piiykobdkqblxvtahkf8ci8hmd9vzdqwgthpump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770796256.1734226,
+    "chain": "solana"
+  },
+  "9nzwvr3msmblhlytnrxbqs96rdzxyr7fc7vo6eszsphn": {
+    "reason": "Rugcheck rejected: rugcheck_score_36046",
+    "timestamp": 1770796294.167687,
+    "chain": "solana"
+  },
+  "huorckdolvybodcanlizbdpkfhaqub4cuzsbf23bpump": {
+    "reason": "Liquidity too low: $16,479",
+    "timestamp": 1770796334.168367,
+    "chain": "solana"
+  },
+  "hxvqaqwytolngkwqtge3ojnlhsalwtxpbx48dctlpump": {
+    "reason": "Liquidity too low: $18,355",
+    "timestamp": 1770796406.169407,
+    "chain": "solana"
+  },
+  "f7fjenqxecs8aexnp4mhbstzknwies6fhnwhyh2xpump": {
+    "reason": "Liquidity too low: $17,344",
+    "timestamp": 1770796406.170385,
+    "chain": "solana"
+  },
+  "3mhw8cjffdzpy8f6kmgvf3lwwejckmhg2o2pv5zvpump": {
+    "reason": "Liquidity too low: $17,745",
+    "timestamp": 1770796420.8221562,
+    "chain": "solana"
+  },
+  "a2ehht8qp5xjhdwcvbmkv9yegmzboxpfnd1zk8c5oucb": {
+    "reason": "Holder concentration: EXTREME_CONCENTRATION_RISK",
+    "timestamp": 1770796430.6540372,
+    "chain": "solana"
+  },
+  "hfhmybtpneaeemrgyuznlhrxtubv3myuqjbr8sc8pump": {
+    "reason": "Liquidity too low: $18,053",
+    "timestamp": 1770796430.6545904,
+    "chain": "solana"
+  },
+  "bafcyauqhseyuebed9kbdsixssobmny78m3kaeaf6rwj": {
+    "reason": "Liquidity too low: $17,382",
+    "timestamp": 1770796493.9354467,
+    "chain": "solana"
+  },
+  "hyhhvbt1rhqxkevzadf1ymykif17rm9cpxbmftjig68i": {
+    "reason": "Rugcheck rejected: rugcheck_score_11400",
+    "timestamp": 1770796530.1847982,
+    "chain": "solana"
+  },
+  "8kvobfxipivp9b9mxsfzhpjdx9nutbmnfhagggldpump": {
+    "reason": "Liquidity too low: $23,030",
+    "timestamp": 1770796544.0668747,
+    "chain": "solana"
+  },
+  "0x25a2b74a339dcc67790556eb2ec9eb92623ab8bf": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770796649.9898598,
+    "chain": "base"
+  },
+  "0xc0d2422f9025fb9a5d3b4f1f15c9942c0e64834f": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770796649.990415,
+    "chain": "base"
+  },
+  "0x5697c7a0f8a59628b6a57013fb82fe91a010c845": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770796649.9921205,
+    "chain": "base"
+  },
+  "8ckfbhnveda62udk4ygnbsycd5wvmqdjhy6kaysgpump": {
+    "reason": "Rugcheck rejected: rugcheck_danger_Creator history of rugged tokens",
+    "timestamp": 1770796697.528281,
+    "chain": "solana"
+  }
+}

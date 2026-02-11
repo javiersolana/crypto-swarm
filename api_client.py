@@ -301,6 +301,17 @@ class GeckoTerminalClient(APIClient):
         return []
 
 
+class RugcheckClient(APIClient):
+    """Rugcheck.xyz API - Free Solana token security reports."""
+
+    def __init__(self):
+        super().__init__(config.RUGCHECK_BASE, config.RUGCHECK_DELAY, "rugcheck")
+
+    def get_token_report(self, mint_address: str) -> dict | None:
+        """Get security report for a Solana token."""
+        return self.get(f"/v1/tokens/{mint_address}/report")
+
+
 class CoinGeckoClient(APIClient):
     """CoinGecko API - 30 req/min, 10k/month. Trending tokens."""
 

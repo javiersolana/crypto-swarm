@@ -110,3 +110,4 @@ def ensure_data_dirs():
     """Create data directories if they don't exist."""
     os.makedirs(config.DATA_DIR, exist_ok=True)
     os.makedirs(config.WEEKLY_REPORTS_DIR, exist_ok=True)
+    os.makedirs(os.path.join(config.DATA_DIR, "wallets"), exist_ok=True)

@@ -21,6 +21,7 @@ WS_RECONNECT_BASE_DELAY = 5     # seconds, initial reconnect delay
 WS_RECONNECT_MAX_DELAY = 300    # seconds, max reconnect delay (5 min)
 WS_PING_INTERVAL = 30           # seconds, keepalive ping
 WS_FALLBACK_POLL_INTERVAL = 600 # seconds, polling fallback when WS active (10 min)
+POLLING_FAST_INTERVAL = 90      # seconds, fast polling when WS permanently failed
 
 # ─── Birdeye API (Solana DEX Data + Token Security) ──────────────────────
 # Free tier available after registration

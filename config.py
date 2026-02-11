@@ -17,6 +17,12 @@ COINGECKO_BASE = "https://api.coingecko.com/api/v3"
 COINGECKO_RATE_LIMIT = 30  # req/min
 COINGECKO_DELAY = 60 / COINGECKO_RATE_LIMIT  # 2s
 
+# ─── Rugcheck.xyz (Solana token security - FREE, no API key) ──────────────
+RUGCHECK_BASE = "https://api.rugcheck.xyz"
+RUGCHECK_DELAY = 2.0
+RUGCHECK_MAX_SCORE = 5000       # reject tokens above this score
+RUGCHECK_REJECT_DANGER = True   # reject if any "danger" level risk
+
 REQUEST_TIMEOUT = 10  # seconds
 MAX_RETRIES = 3
 BACKOFF_BASE = 2  # exponential backoff base
@@ -31,6 +37,7 @@ HOST_RATE_LIMITS = {
     "api.geckoterminal.com": 30,    # strict
     "api.dexscreener.com": 300,     # aggressive
     "api.coingecko.com": 30,
+    "api.rugcheck.xyz": 30,         # free API, be polite
     "_default": 60,
 }
 
@@ -89,6 +96,11 @@ EARLY_ENTRY_VERY_NEW_HOURS = 1
 # Coordinated pump detection: 1h volume / liquidity ratio
 PUMP_DETECT_VOL_LIQ_1H_MAX = 3.0  # ratio >3 in 1h = likely coordinated
 
+# ─── Pump.fun Detection ──────────────────────────────────────────────────────
+PUMP_FUN_MIN_LIQUIDITY = 15_000   # $15k (graduated from bonding curve)
+PUMP_FUN_MAX_LIQUIDITY = 80_000   # $80k (recently graduated)
+PUMP_FUN_MAX_AGE_DAYS = 2         # recently migrated
+
 # ─── Sentiment (THE NARRATOR) Parameters ────────────────────────────────────
 
 SENTIMENT_MAX_PUMP_PRICE_CHANGE = 500  # % - if price already up 500% = too late
@@ -139,3 +151,12 @@ WEEKLY_REPORTS_DIR = os.path.join(DATA_DIR, "weekly_reports")
 AUDIT_BLACKLIST_FILE = os.path.join(DATA_DIR, "audit_blacklist.json")
 AUDIT_BLACKLIST_TTL = 3600  # 60 minutes — rejected tokens are skipped for this long
 WALLET_WS_FALLBACK_INTERVAL = 600  # 10 min polling when WebSocket is primary
+
+# ─── Paper Trading (v6.0) ──────────────────────────────────────────────
+PAPER_TRADE_AMOUNT_SOL = 1.0          # SOL per trade
+PAPER_TP_PCT = 50                      # Take Profit at +50%
+PAPER_SL_PCT = -25                     # Stop Loss at -25%
+PAPER_TRAILING_ACTIVATION_PCT = 100    # Activate trailing at +100%
+PAPER_EXIT_CHECK_INTERVAL = 45         # seconds between exit checks
+PAPER_TRADES_FILE = os.path.join(DATA_DIR, "paper_trades.json")
+PAPER_MAX_OPEN_TRADES = 20             # prevent unbounded open positions

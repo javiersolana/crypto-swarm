@@ -17,7 +17,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import config
-from api_client import DexScreenerClient, GeckoTerminalClient
+from api_client import DexScreenerClient, GeckoTerminalClient, RugcheckClient
+from alpha.smart_wallet_tracker import SolanaRPCClient
 from utils import get_logger, safe_float, safe_int, clamp
 
 log = get_logger("forense")
@@ -92,6 +93,8 @@ class Forense:
     def __init__(self):
         self.gecko = GeckoTerminalClient()
         self.dex = DexScreenerClient()
+        self.rugcheck = RugcheckClient()
+        self.solana_rpc = SolanaRPCClient()
         self.blacklist = AuditBlacklist()
         self._dex_cache = {}  # address -> pair data
         self._dex_cache_lock = threading.Lock()
@@ -331,18 +334,57 @@ class Forense:
                 self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
                 return checks
 
+        # ─── PHASE 3: Rugcheck Security (Solana only, FREE) ─────────────
+        rugcheck_score, rugcheck_flags = self._check_rugcheck(token)
+        checks["rugcheck_check"] = rugcheck_score
+        flags.extend(rugcheck_flags)
+
+        if rugcheck_score == 0:
+            checks["forense_score"] = 0
+            checks["forense_reject_reason"] = f"Rugcheck rejected: {', '.join(rugcheck_flags)}"
+            self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
+            return checks
+
+        # ─── PHASE 3b: Top Holders Analysis (Rugcheck data + RPC fallback) ──
+        holder_score, holder_flags = self._check_top_holders(token, token.get("_rugcheck_report"))
+        checks["top_holders_check"] = holder_score
+        flags.extend(holder_flags)
+
+        if holder_score == 0:
+            checks["forense_score"] = 0
+            checks["forense_reject_reason"] = f"Holder concentration: {', '.join(holder_flags)}"
+            self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
+            return checks
+
+        # ─── PHASE 4: Bundled Supply Detection (Solana, v6.0) ─────────
+        relevant_holders = []
+        if token.get("_rugcheck_report") and token["_rugcheck_report"].get("topHolders"):
+            relevant_holders = token["_rugcheck_report"]["topHolders"]
+        bundled_score, bundled_flags = self._check_bundled_wallets(token, relevant_holders)
+        checks["bundled_check"] = bundled_score
+        flags.extend(bundled_flags)
+
+        if bundled_score == 0:
+            checks["forense_score"] = 0
+            checks["forense_reject_reason"] = f"Bundled supply: {', '.join(bundled_flags)}"
+            self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
+            return checks
+
         # ─── Compute Final Score ─────────────────────────────────────────
         component_scores = [
-            checks["liquidity_check"],
-            checks["honeypot_check"],
-            checks["holder_concentration_check"],
-            checks["age_check"],
-            checks["tx_activity_check"],
-            checks["volume_legitimacy_check"],
+            checks["liquidity_check"],              # 0.11
+            checks["honeypot_check"],                # 0.16
+            checks["holder_concentration_check"],    # 0.09 (trade-based, Phase 2)
+            checks["age_check"],                     # 0.07
+            checks["tx_activity_check"],             # 0.06
+            checks["volume_legitimacy_check"],       # 0.09
+            checks["rugcheck_check"],                # 0.18 (Rugcheck score)
+            checks["top_holders_check"],             # 0.13 (on-chain holders)
+            checks["bundled_check"],                 # 0.11 (bundled supply, v6.0)
         ]
 
-        # Weighted average with emphasis on safety checks
-        weights = [0.20, 0.25, 0.25, 0.10, 0.10, 0.10]
+        # Weighted average with emphasis on safety checks (9 components, v6.0)
+        weights = [0.11, 0.16, 0.09, 0.07, 0.06, 0.09, 0.18, 0.13, 0.11]
         weighted = sum(s * w for s, w in zip(component_scores, weights))
 
         # Apply flag penalties
@@ -477,3 +519,175 @@ class Forense:
             base_score -= 1.0
 
         return clamp(base_score, 1, 10), flags
+
+    def _check_rugcheck(self, token: dict) -> tuple[float, list]:
+        """Phase 3: Rugcheck security audit (Solana only, free API).
+
+        Returns (score, flags). Score of 0 = auto-reject.
+        Rugcheck score: lower = safer. >5000 = high risk.
+        """
+        flags = []
+        chain = token.get("chain", "")
+        if chain != "solana":
+            return 7.0, []  # neutral for non-Solana chains
+
+        address = token.get("address", "")
+        if not address:
+            return 5.0, ["no_address"]
+
+        report = self.rugcheck.get_token_report(address)
+        if not report:
+            return 5.0, ["rugcheck_unavailable"]
+
+        # Store report for top holders analysis (Task 4)
+        token["_rugcheck_report"] = report
+
+        score = report.get("score", 0)
+        risks = report.get("risks", [])
+
+        # Auto-reject: score > 5000
+        if score > config.RUGCHECK_MAX_SCORE:
+            return 0, [f"rugcheck_score_{score}"]
+
+        # Check for Danger-level risks
+        danger_risks = [r for r in risks
+                       if str(r.get("level", "")).lower() == "danger"]
+        if danger_risks and config.RUGCHECK_REJECT_DANGER:
+            danger_names = [r.get("name", "unknown") for r in danger_risks]
+            return 0, [f"rugcheck_danger_{n}" for n in danger_names]
+
+        # Score mapping: lower rugcheck score = better
+        if score <= 100:
+            return 9.0, []
+        elif score <= 1000:
+            return 7.0, ["rugcheck_moderate_risk"]
+        elif score <= 3000:
+            return 5.0, ["rugcheck_elevated_risk"]
+        else:
+            return 3.0, ["rugcheck_high_risk"]
+
+    def _check_top_holders(self, token: dict, rugcheck_report: dict | None = None) -> tuple[float, list]:
+        """Analyze top holder concentration using Rugcheck data or Solana RPC fallback.
+
+        Returns (score, flags). Score of 0 = auto-reject (extreme concentration).
+        """
+        flags = []
+        chain = token.get("chain", "")
+        if chain != "solana":
+            return 6.0, []  # skip for non-Solana
+
+        holders = []
+
+        # Source 1: Rugcheck topHolders (already fetched in Phase 3)
+        if rugcheck_report and rugcheck_report.get("topHolders"):
+            holders = rugcheck_report["topHolders"]
+        else:
+            # Source 2: Solana RPC fallback (free)
+            mint = token.get("address", "")
+            if mint:
+                raw = self.solana_rpc.get_token_largest_accounts(mint)
+                if raw:
+                    # Convert RPC format {amount, decimals, uiAmount, uiAmountString}
+                    # to percentage-based (estimate from relative amounts)
+                    total = sum(safe_float(h.get("uiAmount")) for h in raw)
+                    if total > 0:
+                        holders = [
+                            {"address": h.get("address", ""), "pct": safe_float(h.get("uiAmount")) / total * 100}
+                            for h in raw
+                        ]
+
+        if not holders:
+            return 5.0, ["no_holder_data"]
+
+        # Known addresses to exclude (LP pools, bonding curves, program accounts)
+        EXCLUDE_OWNERS = {
+            "5Q544fKrFoe6tsEbD7S8EmxGTJYAKtTVhAW5Q5pge4j1",  # Raydium LP v4
+            "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8",  # Raydium AMM
+            "39azUYFWPz3VHgKCf3VChY6SkHCHvgmx4erxhBSGPTmp",  # Raydium CLMM
+            "TSLvdd1pWpHVjahSpsvCXUbgwsL3JAcvokwaKt1eokM",   # Raydium Launchpad
+            "FRhB8L7Y9Qq41qZXYLtC2nw8An1RJfLLxRF2x9RwLLMo",  # Pump.fun fee account
+        }
+
+        # Calculate top 10 concentration excluding known pools
+        relevant = [h for h in holders[:20]
+                   if h.get("owner", h.get("address", "")) not in EXCLUDE_OWNERS
+                   and not h.get("insider", False)]
+        top10_pct = sum(safe_float(h.get("pct", 0)) for h in relevant[:10])
+
+        if top10_pct > 50:
+            return 0, ["EXTREME_CONCENTRATION_RISK"]
+        elif top10_pct > 30:
+            return 2.0, ["HIGH_CONCENTRATION_RISK"]
+        elif top10_pct > 20:
+            return 5.0, ["moderate_concentration"]
+        elif top10_pct > 10:
+            return 7.0, []
+        else:
+            return 9.0, ["well_distributed"]
+
+    def _check_bundled_wallets(self, token: dict, holders: list) -> tuple[float, list]:
+        """Phase 4: Detect bundled wallet manipulation (Solana only, v6.0).
+
+        Checks if top holders were funded at the same time (within 5 minutes),
+        indicating coordinated wallet creation to disguise concentrated supply.
+
+        Uses free Solana RPC getSignaturesForAddress (limit=1) to get the
+        first transaction timestamp for each holder.
+        """
+        flags = []
+        chain = token.get("chain", "")
+        if chain != "solana":
+            return 7.0, []  # neutral for non-Solana
+
+        if not holders or len(holders) < 3:
+            return 7.0, ["insufficient_holder_data_for_bundle_check"]
+
+        # Get first tx timestamps for top 10 holder addresses
+        # Use the address field (token account) — for rugcheck data this is the holder address
+        holder_addrs = []
+        for h in holders[:10]:
+            addr = h.get("address", "")
+            if addr and len(addr) > 20:
+                holder_addrs.append(addr)
+
+        if len(holder_addrs) < 3:
+            return 7.0, []
+
+        first_tx_times = []
+        for addr in holder_addrs:
+            try:
+                sigs = self.solana_rpc.get_signatures(addr, limit=1)
+                if sigs and isinstance(sigs, list) and len(sigs) > 0:
+                    block_time = sigs[0].get("blockTime")
+                    if block_time and isinstance(block_time, (int, float)):
+                        first_tx_times.append((addr[:8], block_time))
+            except Exception:
+                continue
+
+        if len(first_tx_times) < 3:
+            return 6.0, ["bundled_check_incomplete"]
+
+        # Sort by timestamp and find clusters within 300 seconds (5 minutes)
+        first_tx_times.sort(key=lambda x: x[1])
+        max_cluster_size = 1
+        cluster_start = 0
+
+        for i in range(1, len(first_tx_times)):
+            if first_tx_times[i][1] - first_tx_times[cluster_start][1] <= 300:
+                cluster_size = i - cluster_start + 1
+                max_cluster_size = max(max_cluster_size, cluster_size)
+            else:
+                cluster_start = i
+
+        # 3+ holders with first tx within 5 minutes = HIGH manipulation risk
+        if max_cluster_size >= 3:
+            flags.append(f"BUNDLED_{max_cluster_size}_WALLETS")
+            if max_cluster_size >= 5:
+                return 0, flags  # auto-reject: 5+ bundled wallets
+            return 2.0, flags  # 3-4 bundled wallets: heavy penalty
+
+        # 2 holders close together: mild flag
+        if max_cluster_size == 2:
+            return 6.0, ["possible_bundled_pair"]
+
+        return 8.0, ["no_bundling_detected"]
