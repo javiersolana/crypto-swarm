@@ -20,14 +20,20 @@ log = get_logger("api_client")
 class APIClient:
     """Base API client with rate limiting, retry logic, and response caching.
 
-    v4.0: Per-host rate limiting via class-level registry. All APIClient instances
-    sharing the same host (e.g. two DexScreenerClient()) share ONE throttle state,
-    preventing collective rate limit violations.
+    v7.0: Cool-down mode on persistent 429s. After 3 consecutive 429s on a host,
+    enters a 30s pause and reduces max concurrency from 5 to 2. Recovers
+    automatically after successful requests.
     """
 
-    # Class-level registry: host -> {"lock", "last_request", "delay", "base_delay", "consecutive_429s"}
+    # Class-level registry: host -> throttle state
     _host_registry = {}
     _registry_lock = threading.Lock()
+
+    # Cool-down settings (v7.0)
+    COOLDOWN_TRIGGER_COUNT = 3     # consecutive 429s before cool-down
+    COOLDOWN_DURATION = 30         # seconds to pause on cool-down
+    COOLDOWN_MAX_WORKERS = 2       # reduced concurrency during cool-down
+    NORMAL_MAX_WORKERS = 5         # normal concurrency
 
     @classmethod
     def _get_host_throttle(cls, host: str) -> dict:
@@ -43,8 +49,33 @@ class APIClient:
                     "delay": base_delay,
                     "base_delay": base_delay,
                     "consecutive_429s": 0,
+                    "cooldown_until": 0.0,
+                    "in_cooldown": False,
+                    "total_429s": 0,
                 }
             return cls._host_registry[host]
+
+    @classmethod
+    def get_max_workers(cls, host: str) -> int:
+        """Return the current max workers for a host (reduced during cool-down)."""
+        with cls._registry_lock:
+            if host in cls._host_registry:
+                throttle = cls._host_registry[host]
+                if throttle.get("in_cooldown", False):
+                    return cls.COOLDOWN_MAX_WORKERS
+        return cls.NORMAL_MAX_WORKERS
+
+    @classmethod
+    def is_host_in_cooldown(cls, host: str) -> bool:
+        """Check if a host is in cool-down mode."""
+        with cls._registry_lock:
+            if host in cls._host_registry:
+                throttle = cls._host_registry[host]
+                if throttle.get("in_cooldown") and time.time() < throttle.get("cooldown_until", 0):
+                    return True
+                elif throttle.get("in_cooldown"):
+                    throttle["in_cooldown"] = False
+        return False
 
     def __init__(self, base_url: str, delay: float, name: str = "api"):
         self.base_url = base_url.rstrip("/")
@@ -85,6 +116,12 @@ class APIClient:
 
     def _rate_limit(self):
         throttle = self._host_registry[self._host]
+        # v7.0: block during cool-down
+        cooldown_remaining = throttle.get("cooldown_until", 0) - time.time()
+        if cooldown_remaining > 0 and throttle.get("in_cooldown"):
+            log.info(f"[{self.name}] Waiting for cool-down ({cooldown_remaining:.0f}s remaining)")
+            time.sleep(cooldown_remaining)
+
         with throttle["lock"]:
             elapsed = time.time() - throttle["last_request"]
             if elapsed < throttle["delay"]:
@@ -93,28 +130,54 @@ class APIClient:
             throttle["last_request"] = time.time()
 
     def _backoff_429(self, attempt: int):
-        """Exponential backoff with jitter for 429 rate limit errors."""
+        """Exponential backoff with jitter for 429 rate limit errors.
+
+        v7.0: After COOLDOWN_TRIGGER_COUNT consecutive 429s, enters cool-down
+        mode — 30s pause + reduced concurrency for the host.
+        """
         throttle = self._host_registry[self._host]
+
+        with throttle["lock"]:
+            throttle["consecutive_429s"] += 1
+            throttle["total_429s"] = throttle.get("total_429s", 0) + 1
+            consecutive = throttle["consecutive_429s"]
+
+        # Cool-down mode: triggered after persistent 429s
+        if consecutive >= self.COOLDOWN_TRIGGER_COUNT and not throttle.get("in_cooldown"):
+            with throttle["lock"]:
+                throttle["in_cooldown"] = True
+                throttle["cooldown_until"] = time.time() + self.COOLDOWN_DURATION
+                throttle["delay"] = min(throttle["delay"] * 2, throttle["base_delay"] * 6)
+            log.warning(f"[{self.name}] COOL-DOWN MODE: {self._host} — "
+                        f"pausing {self.COOLDOWN_DURATION}s, "
+                        f"workers reduced to {self.COOLDOWN_MAX_WORKERS} "
+                        f"(total 429s: {throttle.get('total_429s', 0)})")
+            time.sleep(self.COOLDOWN_DURATION)
+            return
+
         base_wait = throttle["delay"] * (2 ** attempt)
         jitter = random.uniform(0, base_wait * 0.3)
         wait = min(base_wait + jitter, 60)  # cap at 60s
         log.warning(f"[{self.name}] 429 rate limited (attempt {attempt+1}), "
                     f"backing off {wait:.1f}s...")
         time.sleep(wait)
-        # Adaptively increase base delay after repeated 429s — affects ALL clients for this host
+
+        # Adaptively increase base delay — affects ALL clients for this host
         with throttle["lock"]:
-            throttle["consecutive_429s"] += 1
-            if throttle["consecutive_429s"] >= 3:
+            if consecutive >= 3:
                 throttle["delay"] = min(throttle["delay"] * 1.5, throttle["base_delay"] * 4)
-                log.warning(f"[{self.name}] Adaptive: {self._host} delay increased to {throttle['delay']:.1f}s")
+                log.warning(f"[{self.name}] Adaptive: {self._host} delay -> {throttle['delay']:.1f}s")
 
     def _reset_backoff(self):
-        """Reset adaptive delay after successful request."""
+        """Reset adaptive delay after successful request. Exits cool-down."""
         throttle = self._host_registry[self._host]
         with throttle["lock"]:
             if throttle["consecutive_429s"] > 0:
                 throttle["consecutive_429s"] = 0
                 throttle["delay"] = throttle["base_delay"]
+            if throttle.get("in_cooldown"):
+                throttle["in_cooldown"] = False
+                throttle["cooldown_until"] = 0
 
     def _get_cache_key(self, url: str, params: dict = None) -> str:
         param_str = "&".join(f"{k}={v}" for k, v in sorted((params or {}).items()))

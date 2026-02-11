@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Triple Confirmation Strategy Engine
+Triple Confirmation Strategy Engine (v7.0)
 
 Only alerts when 3+ independent signals align:
   1. Smart wallet buying
@@ -9,11 +9,12 @@ Only alerts when 3+ independent signals align:
   4. GitHub/dev activity
   5. Volume building without pump
 
-Produces a unified "alpha score" that boosts or penalizes candidates
-from the main pipeline.
+v7.0 changes:
+  - Case-insensitive, whitespace-cleaned address matching
+  - Active DexScreener lookup for whale-bought tokens not in scanner candidates
+  - Signal accumulation awareness (30min window)
 
 Usage:
-  # Integrated into swarm_v2.py pipeline
   from alpha.triple_confirm import TripleConfirmation
   tc = TripleConfirmation()
   boosted = tc.evaluate(candidates, wallet_signals)
@@ -32,11 +33,20 @@ from utils import get_logger, now_utc, safe_float, clamp
 log = get_logger("triple_confirm")
 
 
+def _normalize_address(addr: str) -> str:
+    """Normalize token address: strip whitespace, lowercase."""
+    return addr.strip().lower() if addr else ""
+
+
 class TripleConfirmation:
     """
     Multi-signal confirmation engine.
     Evaluates tokens against multiple independent alpha signals
     and produces a boosted score only when signals converge.
+
+    v7.0: Active DexScreener lookup for whale-bought tokens missing from
+    scanner candidates. Ensures high-score whale buys generate alerts even
+    when the token wasn't on GeckoTerminal trending/new pools.
     """
 
     def __init__(self):
@@ -49,18 +59,23 @@ class TripleConfirmation:
         Evaluate candidates against multiple alpha signals.
         Adds alpha_score and alpha_signals to each candidate.
 
-        Args:
-            candidates: Token candidates from the main pipeline (post-audit)
-            wallet_signals: Recent smart wallet buy signals
-
-        Returns:
-            Candidates enriched with alpha_score and alpha_signals
+        v7.0: Also injects whale-bought tokens not present in candidates
+        by actively looking them up on DexScreener.
         """
         wallet_signals = wallet_signals or []
         wallet_token_map = self._build_wallet_map(wallet_signals)
 
         log.info(f"Triple confirmation: evaluating {len(candidates)} candidates "
                  f"against {len(wallet_signals)} wallet signals")
+
+        # v7.0: Find whale-bought tokens NOT in scanner candidates → active lookup
+        candidate_addresses = set(_normalize_address(c.get("address", "")) for c in candidates)
+        whale_only_tokens = self._inject_whale_tokens(
+            wallet_token_map, candidate_addresses, candidates
+        )
+        if whale_only_tokens:
+            log.info(f"  Injected {len(whale_only_tokens)} whale-only tokens via DexScreener")
+            candidates = candidates + whale_only_tokens
 
         evaluated = []
         for token in candidates:
@@ -86,11 +101,158 @@ class TripleConfirmation:
 
         return evaluated
 
+    # v8.0: Whale-bought tokens require $15k minimum liquidity.
+    # Below this threshold, even smart wallet buys are likely manipulation.
+    WHALE_MIN_LIQUIDITY = 15_000  # $15k (raised from $10k in v7.5)
+
+    def _inject_whale_tokens(self, wallet_token_map: dict,
+                             candidate_addresses: set,
+                             candidates: list[dict]) -> list[dict]:
+        """v7.1: Aggressively look up whale-bought tokens missing from scanner.
+
+        Changes from v7.0:
+          - Lowered liquidity threshold to $10k (was $30k)
+          - Rugcheck safety gate for Solana tokens (rejects danger-level)
+          - Higher default forense_score (8.0) for whale-bought tokens
+          - Detailed logging for every token examined
+        """
+        from api_client import DexScreenerClient
+
+        missing_addrs = []
+        for addr, signals in wallet_token_map.items():
+            if addr not in candidate_addresses and addr:
+                unique_wallets = set(s.get("wallet_address", "").lower() for s in signals)
+                chain = signals[0].get("chain", "solana")
+                missing_addrs.append((addr, chain, signals, len(unique_wallets)))
+
+        if not missing_addrs:
+            log.info("[WHALE INJECT] No whale-only tokens to inject (all already in candidates)")
+            return []
+
+        log.info(f"[WHALE INJECT] {len(missing_addrs)} whale-bought tokens NOT in scanner candidates:")
+        for addr, chain, sigs, n_wallets in missing_addrs:
+            labels = [s.get("wallet_label", "?") for s in sigs[:3]]
+            log.info(f"  {addr[:20]}... ({chain}) — {n_wallets} wallet(s): {', '.join(labels)}")
+
+        injected = []
+        dex = DexScreenerClient()
+
+        # Group by chain for batch lookup
+        by_chain = {}
+        for addr, chain, sigs, n_wallets in missing_addrs:
+            dex_chain = config.DEXSCREENER_CHAINS.get(chain, chain)
+            by_chain.setdefault(dex_chain, []).append((addr, sigs, n_wallets))
+
+        for chain, items in by_chain.items():
+            addrs = [item[0] for item in items]
+            sig_map = {item[0]: item[1] for item in items}
+            wallet_counts = {item[0]: item[2] for item in items}
+
+            # Batch lookup (up to 30 per call)
+            for i in range(0, len(addrs), 30):
+                batch = addrs[i:i + 30]
+                try:
+                    pairs = dex.get_tokens_batch(chain, batch)
+                    if not pairs:
+                        log.warning(f"[WHALE INJECT] DexScreener returned 0 pairs for {len(batch)} tokens on {chain}")
+                        continue
+
+                    for pair in pairs:
+                        base = pair.get("baseToken", {})
+                        token_addr = _normalize_address(base.get("address", ""))
+                        if not token_addr:
+                            continue
+
+                        liq = safe_float(pair.get("liquidity", {}).get("usd"))
+                        if liq < self.WHALE_MIN_LIQUIDITY:
+                            log.debug(f"[WHALE INJECT] SKIP {base.get('name','?')}: "
+                                      f"liq=${liq:,.0f} < ${self.WHALE_MIN_LIQUIDITY:,}")
+                            continue
+
+                        price = safe_float(pair.get("priceUsd"))
+                        volume = safe_float(pair.get("volume", {}).get("h24"))
+                        change = safe_float(pair.get("priceChange", {}).get("h24"))
+                        mcap = safe_float(pair.get("marketCap") or pair.get("fdv"))
+
+                        created = pair.get("pairCreatedAt")
+                        pool_age_days = 0
+                        if created:
+                            age_ms = time.time() * 1000 - created
+                            pool_age_days = age_ms / (86400 * 1000)
+
+                        n_wallets = wallet_counts.get(token_addr, 1)
+                        # Multi-wallet buy = stronger conviction = higher default scores
+                        base_forense = 8.5 if n_wallets >= 2 else 8.0
+
+                        token_dict = {
+                            "name": base.get("name", "?"),
+                            "symbol": base.get("symbol", "?"),
+                            "address": token_addr,
+                            "pool_address": pair.get("pairAddress", ""),
+                            "network": chain,
+                            "chain": chain,
+                            "liquidity_usd": liq,
+                            "volume_24h": volume,
+                            "price_usd": price,
+                            "price_change_24h": change,
+                            "mcap": mcap,
+                            "pool_age_days": pool_age_days,
+                            "dex_url": pair.get("url", ""),
+                            "source": "whale_inject",
+                            "whale_wallets": n_wallets,
+                            "forense_score": base_forense,
+                            "narrator_score": 5.0,
+                            "quant_score": 5.0,
+                            "scout_score": 7.0,  # boosted: whale buy is a strong scout signal
+                        }
+
+                        injected.append(token_dict)
+                        log.info(f"  WHALE INJECT: {base.get('name', '?')} "
+                                 f"({chain}) liq=${liq:,.0f} vol=${volume:,.0f} "
+                                 f"age={pool_age_days:.1f}d — "
+                                 f"bought by {n_wallets} wallet(s)")
+                except Exception as e:
+                    log.warning(f"[WHALE INJECT] DexScreener batch failed ({chain}): {e}")
+
+        # ── Rugcheck safety gate for Solana whale tokens ──
+        if injected:
+            try:
+                from api_client import RugcheckClient
+                rc = RugcheckClient()
+                safe_injected = []
+                for token in injected:
+                    if token.get("network") == "solana":
+                        try:
+                            report = rc.get_token_report(token["address"])
+                            if report:
+                                score = report.get("score", 0)
+                                has_danger = any(
+                                    r.get("level", "").lower() == "danger"
+                                    for r in report.get("risks", [])
+                                )
+                                if has_danger or score > config.RUGCHECK_MAX_SCORE:
+                                    log.info(f"  WHALE REJECT (Rugcheck): {token['name']} "
+                                             f"score={score}, danger={has_danger}")
+                                    continue
+                                token["rugcheck_score"] = score
+                                log.info(f"  WHALE PASS (Rugcheck): {token['name']} score={score}")
+                        except Exception as e:
+                            log.debug(f"  Rugcheck skip for {token['name']}: {e}")
+                    safe_injected.append(token)
+                injected = safe_injected
+            except ImportError:
+                log.debug("RugcheckClient not available, skipping safety check")
+
+        return injected
+
     def _build_wallet_map(self, wallet_signals: list[dict]) -> dict:
-        """Build a map of token_address -> [wallet_signals] for quick lookup."""
+        """Build a map of token_address -> [wallet_signals] for quick lookup.
+
+        v7.0: Case-insensitive, whitespace-cleaned addresses.
+        """
         token_map = {}
         for sig in wallet_signals:
-            addr = sig.get("token_address", "").lower()
+            addr = _normalize_address(sig.get("token_address", ""))
             if addr:
                 token_map.setdefault(addr, []).append(sig)
         return token_map
@@ -101,7 +263,7 @@ class TripleConfirmation:
         alpha_signals = []
         signal_count = 0
 
-        address = token.get("address", "").lower()
+        address = _normalize_address(token.get("address", ""))
 
         # ─── Signal 1: Smart Wallet Buying ────────────────────────────
         wallet_buys = wallet_map.get(address, [])

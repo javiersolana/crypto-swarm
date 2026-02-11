@@ -1,0 +1,16 @@
+{
+  "session_start": "2026-02-11T15:01:29.566740+00:00",
+  "config": {
+    "amount_sol": 1.0,
+    "tp1_pct": 80,
+    "tp1_sell_fraction": 0.5,
+    "moonbag_trailing_pct": 20,
+    "sl_pct": -25
+  },
+  "open_trades": [],
+  "closed_trades": [],
+  "session_pnl_sol": 0.0,
+  "total_trades": 0,
+  "wins": 0,
+  "losses": 0
+}

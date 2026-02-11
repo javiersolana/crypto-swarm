@@ -152,11 +152,29 @@ AUDIT_BLACKLIST_FILE = os.path.join(DATA_DIR, "audit_blacklist.json")
 AUDIT_BLACKLIST_TTL = 3600  # 60 minutes — rejected tokens are skipped for this long
 WALLET_WS_FALLBACK_INTERVAL = 600  # 10 min polling when WebSocket is primary
 
-# ─── Paper Trading (v6.0) ──────────────────────────────────────────────
-PAPER_TRADE_AMOUNT_SOL = 1.0          # SOL per trade
-PAPER_TP_PCT = 50                      # Take Profit at +50%
-PAPER_SL_PCT = -25                     # Stop Loss at -25%
-PAPER_TRAILING_ACTIVATION_PCT = 100    # Activate trailing at +100%
+# ─── Paper Trading (v7.0 Moonbag Strategy) ────────────────────────────
+PAPER_TRADE_AMOUNT_SOL = 1.0           # SOL per trade (v8.1: higher for visible PnL)
+PAPER_TP_PCT = 50                      # Legacy TP (used as fallback)
+PAPER_SL_PCT = -25                     # Initial Stop Loss at -25%
+PAPER_TRAILING_ACTIVATION_PCT = 100    # Legacy trailing activation (unused in v7.0)
 PAPER_EXIT_CHECK_INTERVAL = 45         # seconds between exit checks
 PAPER_TRADES_FILE = os.path.join(DATA_DIR, "paper_trades.json")
 PAPER_MAX_OPEN_TRADES = 20             # prevent unbounded open positions
+
+# v7.0 Moonbag settings
+PAPER_TP1_PCT = 80                     # TP1: take profit at +80%
+PAPER_TP1_SELL_FRACTION = 0.50         # Sell 50% of position at TP1
+PAPER_MOONBAG_TRAILING_PCT = 20        # 20% trailing stop on remaining position
+PAPER_EMERGENCY_RUGCHECK = True        # Close immediately on Rugcheck "Danger"
+
+# v8.0 Realistic simulation
+PAPER_FEE_SOL = 0.006                  # Simulated fees per trade (0.003 entry + 0.003 exit)
+PAPER_SLIPPAGE_PCT = 2.0               # Buy slippage percentage
+
+# v8.0 Anti-rug: minimum token age
+AUDIT_MIN_TOKEN_AGE_SECONDS = 180      # 3 minutes — reject instant rugs
+
+# v8.1 Anti-fragility: liquidity depth filters
+AUDIT_MIN_LIQ_MCAP_RATIO = 0.10       # Reject if liq < 10% of mcap (price gap risk)
+AUDIT_MAX_CREATOR_PCT = 15.0           # Reject if creator/insiders hold >15% supply
+WHALE_MIN_LIQUIDITY = 30_000           # Minimum liq for whale fast-track trades ($)

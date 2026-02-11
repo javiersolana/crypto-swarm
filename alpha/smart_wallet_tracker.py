@@ -5,8 +5,8 @@ Smart Wallet Tracker - Follow profitable wallets in real-time.
 Tracks wallets on Solana (via Helius) and EVM chains (via Etherscan/Basescan).
 Detects new token buys and generates alpha signals.
 
-v2.1: ThreadPoolExecutor for parallel scanning, per-wallet caching,
-      Helius→RPC fallback, timing metrics. 22 wallets in <3 minutes.
+v2.1: Per-wallet caching, Helius→RPC fallback, timing metrics.
+v7.5: Sequential scanning (no parallelism) to eliminate 429 RPC errors.
 
 Usage:
   python3 alpha/smart_wallet_tracker.py --monitor          # continuous monitoring
@@ -20,7 +20,7 @@ import os
 import sys
 import threading
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
+# v7.5: ThreadPoolExecutor removed — sequential scanning to eliminate 429s
 from datetime import datetime, timezone, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -51,6 +51,32 @@ def _get_cached_wallet(address: str) -> list | None:
 
 def _set_cached_wallet(address: str, signals: list):
     _wallet_cache[address] = (time.time(), signals)
+
+
+# ─── Creator/Dev Wallet Detection (v8.1) ─────────────────────────────────
+
+def check_creator_balance(rugcheck_report: dict, threshold_pct: float = 15.0) -> tuple[bool, float]:
+    """v8.1: Check if token creator/insider holds >threshold_pct of supply.
+
+    Uses Rugcheck topHolders 'insider' flag to identify dev wallets.
+    Returns (is_dangerous, total_insider_pct).
+
+    If insiders hold >15% of supply, the token is highly susceptible to
+    a dev dump that crashes the price.
+    """
+    if not rugcheck_report:
+        return False, 0.0
+
+    top_holders = rugcheck_report.get("topHolders", [])
+    if not top_holders:
+        return False, 0.0
+
+    insider_pct = 0.0
+    for holder in top_holders:
+        if holder.get("insider", False):
+            insider_pct += safe_float(holder.get("pct", 0))
+
+    return insider_pct > threshold_pct, round(insider_pct, 2)
 
 
 # ─── Helius Client (Solana Enhanced Transactions) ─────────────────────────
@@ -135,7 +161,10 @@ class HeliusClient(APIClient):
         return result if isinstance(result, list) else []
 
     def _rpc_call(self, method: str, params: list):
-        """JSON-RPC call via Helius RPC endpoint (cheaper than parsed API)."""
+        """JSON-RPC call via Helius RPC endpoint (cheaper than parsed API).
+
+        v7.1: Mandatory 0.5s post-call delay to prevent 429 avalanche.
+        """
         if not self.api_key:
             return None
         import urllib.request
@@ -154,6 +183,8 @@ class HeliusClient(APIClient):
         except Exception as e:
             log.debug(f"[helius] RPC {method} failed: {e}")
             return None
+        finally:
+            time.sleep(0.5)  # v7.1: anti-429 throttle
 
     def get_token_metadata(self, mint_addresses: list[str]) -> list:
         """Get metadata for token mint addresses."""
@@ -174,16 +205,23 @@ class HeliusClient(APIClient):
 # ─── Solana RPC Client (Free fallback) ────────────────────────────────────
 
 class SolanaRPCClient:
-    """Direct Solana RPC for basic wallet queries when Helius isn't available."""
+    """Direct Solana RPC for basic wallet queries when Helius isn't available.
+
+    v7.1: Mandatory 0.5s delay between calls to prevent 429 rate-limit blocks.
+    Better to scan 50 wallets in 25s than get blocked and lose all data.
+    """
+
+    MANDATORY_DELAY = 0.5  # seconds between RPC calls (anti-429)
 
     def __init__(self):
         self.rpc_url = config_alpha.SOLANA_RPC_URL
         self._last_request = 0.0
 
     def _rate_limit(self):
+        min_delay = max(self.MANDATORY_DELAY, config_alpha.SOLANA_RPC_DELAY)
         elapsed = time.time() - self._last_request
-        if elapsed < config_alpha.SOLANA_RPC_DELAY:
-            time.sleep(config_alpha.SOLANA_RPC_DELAY - elapsed)
+        if elapsed < min_delay:
+            time.sleep(min_delay - elapsed)
         self._last_request = time.time()
 
     def _rpc_call(self, method: str, params: list) -> dict | None:
@@ -477,8 +515,7 @@ class HeliusWebSocket:
 
 # ─── Smart Wallet Tracker Core ────────────────────────────────────────────
 
-# Max parallel wallet scans
-MAX_WORKERS = 5
+# v7.5: Parallel workers removed. Sequential scan with mandatory delays.
 
 
 class SmartWalletTracker:
@@ -486,7 +523,7 @@ class SmartWalletTracker:
     Monitors smart wallets for new token purchases.
     Generates alpha signals when tracked wallets buy new/small tokens.
 
-    v2.1: Parallel scanning with ThreadPoolExecutor + per-wallet caching.
+    v7.5: Sequential scanning with per-wallet caching (no parallelism).
     """
 
     def __init__(self):
@@ -550,8 +587,10 @@ class SmartWalletTracker:
     def scan_all_wallets(self) -> list[dict]:
         """
         Scan all tracked wallets for recent new token buys.
-        Uses ThreadPoolExecutor for parallel scanning.
-        Returns list of alpha signals.
+
+        v7.5: SEQUENTIAL scanning (no ThreadPoolExecutor) to eliminate 429 errors.
+        Each wallet is scanned one-by-one with a 1.0s sleep between scans.
+        Slower (~60s for 30 wallets) but 100% reliable data.
         """
         wallets = self.db.load_wallets()
         if not wallets:
@@ -559,60 +598,39 @@ class SmartWalletTracker:
             return []
 
         start_time = time.time()
-        log.info(f"Scanning {len(wallets)} tracked wallets (parallel, max {MAX_WORKERS} workers)...")
+        log.info(f"Scanning {len(wallets)} tracked wallets (sequential, 1.0s delay)...")
         all_signals = []
         errors = 0
         cached_hits = 0
+        scanned = 0
 
-        solana_wallets = {a: w for a, w in wallets.items() if w.get("chain") == "solana"}
-        evm_wallets = {a: w for a, w in wallets.items() if w.get("chain") in ("base", "ethereum")}
+        for addr, wallet_info in wallets.items():
+            chain = wallet_info.get("chain", "solana")
 
-        # ── Parallel scan: Solana wallets ──
-        if solana_wallets:
-            with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-                futures = {}
-                for addr, wallet_info in solana_wallets.items():
-                    # Check cache first
-                    cached = _get_cached_wallet(addr)
-                    if cached is not None:
-                        all_signals.extend(cached)
-                        cached_hits += 1
-                        continue
-                    future = executor.submit(self._scan_solana_wallet_safe, addr, wallet_info)
-                    futures[future] = addr
+            # Check cache first
+            cached = _get_cached_wallet(addr)
+            if cached is not None:
+                all_signals.extend(cached)
+                cached_hits += 1
+                continue
 
-                for future in as_completed(futures, timeout=120):
-                    addr = futures[future]
-                    try:
-                        signals = future.result(timeout=30)
-                        _set_cached_wallet(addr, signals)
-                        all_signals.extend(signals)
-                    except Exception as e:
-                        errors += 1
-                        log.warning(f"Wallet {addr[:10]}... scan failed: {e}")
+            try:
+                if chain == "solana":
+                    signals = self._scan_solana_wallet_safe(addr, wallet_info)
+                elif chain in ("base", "ethereum"):
+                    signals = self._scan_evm_wallet_safe(addr, wallet_info)
+                else:
+                    continue
 
-        # ── Parallel scan: EVM wallets ──
-        if evm_wallets:
-            with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-                futures = {}
-                for addr, wallet_info in evm_wallets.items():
-                    cached = _get_cached_wallet(addr)
-                    if cached is not None:
-                        all_signals.extend(cached)
-                        cached_hits += 1
-                        continue
-                    future = executor.submit(self._scan_evm_wallet_safe, addr, wallet_info)
-                    futures[future] = addr
+                _set_cached_wallet(addr, signals)
+                all_signals.extend(signals)
+                scanned += 1
+            except Exception as e:
+                errors += 1
+                log.warning(f"Wallet {addr[:10]}... scan failed: {e}")
 
-                for future in as_completed(futures, timeout=120):
-                    addr = futures[future]
-                    try:
-                        signals = future.result(timeout=30)
-                        _set_cached_wallet(addr, signals)
-                        all_signals.extend(signals)
-                    except Exception as e:
-                        errors += 1
-                        log.warning(f"EVM wallet {addr[:10]}... scan failed: {e}")
+            # v7.5: Mandatory 1.0s delay between wallets to prevent 429 avalanche
+            time.sleep(1.0)
 
         elapsed = time.time() - start_time
         minutes = int(elapsed // 60)
@@ -625,7 +643,7 @@ class SmartWalletTracker:
 
         log.info(
             f"[wallet_tracker] Scan completed in {minutes}m {seconds}s "
-            f"({len(wallets)} wallets, {cached_hits} cached, {errors} errors)"
+            f"({len(wallets)} wallets, {scanned} scanned, {cached_hits} cached, {errors} errors)"
         )
 
         return all_signals

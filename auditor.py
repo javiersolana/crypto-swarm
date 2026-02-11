@@ -18,7 +18,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import config
 from api_client import DexScreenerClient, GeckoTerminalClient, RugcheckClient
-from alpha.smart_wallet_tracker import SolanaRPCClient
+from alpha.smart_wallet_tracker import SolanaRPCClient, check_creator_balance
 from utils import get_logger, safe_float, safe_int, clamp
 
 log = get_logger("forense")
@@ -131,7 +131,14 @@ class Forense:
         # Pre-fetch DexScreener data in batches (up to 30 per call, 300 req/min)
         self._batch_enrich_dexscreener(candidates)
 
-        workers = getattr(config, 'AUDIT_PARALLEL_WORKERS', 8)
+        # v7.0: Respect cool-down mode — reduce workers if RPC is rate-limited
+        from api_client import APIClient
+        rpc_host = "api.mainnet-beta.solana.com"
+        gecko_host = "api.geckoterminal.com"
+        rpc_workers = APIClient.get_max_workers(rpc_host)
+        gecko_workers = APIClient.get_max_workers(gecko_host)
+        workers = min(getattr(config, 'AUDIT_PARALLEL_WORKERS', 8),
+                      rpc_workers, gecko_workers)
         audited = []
         rejected = 0
         low_score = 0
@@ -213,6 +220,25 @@ class Forense:
         # ─── Enrich with DexScreener data (fast, 300 req/min) ──────────
         dex_pair = self._get_dex_pair(token)
 
+        # ─── CHECK 0: Minimum Token Age (v8.0 anti-rug) ─────────────────
+        pool_age_seconds = token.get("pool_age_days", 0) * 86400
+        if dex_pair and dex_pair.get("pairCreatedAt"):
+            age_ms = time.time() * 1000 - dex_pair["pairCreatedAt"]
+            pool_age_seconds = max(pool_age_seconds, age_ms / 1000)
+
+        min_age = config.AUDIT_MIN_TOKEN_AGE_SECONDS
+        if 0 < pool_age_seconds < min_age:
+            checks["forense_score"] = 0
+            checks["forense_reject_reason"] = (
+                f"Token too young: {pool_age_seconds:.0f}s (min {min_age}s)"
+            )
+            self.blacklist.add(
+                token.get("address", ""),
+                checks["forense_reject_reason"],
+                token.get("chain", ""),
+            )
+            return checks
+
         # ─── CHECK 1: Liquidity ──────────────────────────────────────────
         liquidity = token.get("liquidity_usd", 0)
         if dex_pair:
@@ -224,6 +250,24 @@ class Forense:
             checks["forense_reject_reason"] = f"Liquidity too low: ${liquidity:,.0f}"
             self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
             return checks
+
+        # ─── CHECK 1b: Liquidity/Market Cap Ratio (v8.1 anti-fragility) ───
+        # Tokens where liquidity is <10% of mcap are "paper castles":
+        # a single seller can crash the price 90%. Plush Solana was this.
+        mcap = safe_float(token.get("market_cap", 0))
+        if dex_pair:
+            mcap = max(mcap, safe_float(dex_pair.get("marketCap", 0)))
+        if mcap > 0 and liquidity > 0:
+            liq_mcap_ratio = liquidity / mcap
+            if liq_mcap_ratio < config.AUDIT_MIN_LIQ_MCAP_RATIO:
+                checks["forense_score"] = 0
+                checks["forense_reject_reason"] = (
+                    f"Fragile liquidity: liq/mcap={liq_mcap_ratio:.1%} "
+                    f"(${liquidity:,.0f} / ${mcap:,.0f}, min {config.AUDIT_MIN_LIQ_MCAP_RATIO:.0%})"
+                )
+                self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
+                return checks
+
         checks["liquidity_check"] = self._score_liquidity(liquidity)
 
         # ─── CHECK 2: Honeypot Detection (buy/sell ratio) ────────────────
@@ -537,7 +581,10 @@ class Forense:
 
         report = self.rugcheck.get_token_report(address)
         if not report:
-            return 5.0, ["rugcheck_unavailable"]
+            # v7.5: If Rugcheck is null/timeout, REJECT the token.
+            # Better to miss a trade than buy an unverified potential rug.
+            log.warning(f"  Rugcheck REJECT (null/timeout): {address[:20]}...")
+            return 0, ["rugcheck_null_rejected"]
 
         # Store report for top holders analysis (Task 4)
         token["_rugcheck_report"] = report
@@ -570,11 +617,20 @@ class Forense:
         """Analyze top holder concentration using Rugcheck data or Solana RPC fallback.
 
         Returns (score, flags). Score of 0 = auto-reject (extreme concentration).
+        v8.1: Added creator/dev wallet check (>15% insider = reject).
         """
         flags = []
         chain = token.get("chain", "")
         if chain != "solana":
             return 6.0, []  # skip for non-Solana
+
+        # v8.1: Check if creator/dev holds >15% of supply (rug risk)
+        if rugcheck_report:
+            is_dev_heavy, insider_pct = check_creator_balance(
+                rugcheck_report, config.AUDIT_MAX_CREATOR_PCT
+            )
+            if is_dev_heavy:
+                return 0, [f"LARGE_DEV_WALLET_{insider_pct:.1f}pct"]
 
         holders = []
 

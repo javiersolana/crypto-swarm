@@ -5550,3 +5550,343 @@ nohup: ignoring input
 2026-02-11 09:01:45 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.4s...
 2026-02-11 09:02:05 [quant] INFO:   COS / WETH 838.861%: quant_score=7.5/10, RSI=37.0, entry=$0.000000
 2026-02-11 09:02:18 [quant] INFO:   SELFCLAW / WETH 838.861%: quant_score=6.8/10, RSI=32.6, entry=$0.000000
+2026-02-11 09:02:31 [quant] INFO:   BLOWFISH / SOL: quant_score=7.8/10, RSI=40.4, entry=$0.000019
+2026-02-11 09:02:43 [quant] INFO:   Goyim / SOL: quant_score=4.8/10, RSI=62.9, entry=$0.001774
+2026-02-11 09:02:48 [quant] INFO:   RNBW / USDC 1%: quant_score=5.8/10, RSI=83.4, entry=$0.030146
+2026-02-11 09:03:02 [quant] INFO:   GIRAFFES / SOL: quant_score=6.5/10, RSI=31.9, entry=$0.000036
+2026-02-11 09:03:09 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:03:09 [wallet_tracker] INFO: Found 14 new buy signals from smart wallets!
+2026-02-11 09:03:09 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-11 09:03:09 [alpha_monitor] INFO: Wallet background: 14 signals (0.0s)
+2026-02-11 09:03:16 [quant] INFO:   Doppel / WETH 838.861%: quant_score=6.6/10, RSI=47.9, entry=$0.000000
+2026-02-11 09:03:29 [quant] INFO:   AntiHunter: quant_score=7.2/10, RSI=27.9, entry=$0.000004
+2026-02-11 09:03:29 [quant] INFO:   AntiHunter / WETH 838.861%: quant_score=7.2/10, RSI=27.9, entry=$0.000004
+2026-02-11 09:03:42 [quant] INFO:   OSO / flETH: quant_score=7.0/10, RSI=37.4, entry=$0.000000
+2026-02-11 09:03:51 [wallet_tracker] WARNING: [WS] Disconnected: Handshake status 403 Forbidden -+-+- {'date': 'Wed, 11 Feb 2026 08:03:51 GMT', 'content-type': 'application/json', 'content-length': '162', 'connection': 'keep-alive', 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'GET, HEAD, POST, PUT, OPTIONS', 'set-cookie': '__cf_bm=X3_Qoqig16u4QP6mg4FW9Gvrv.f3qRKrnB_Mphb6k5Q-1770797031-1.0.1.1-GOEe_nqA0xszhD6lc.9V5Z_MT5N.8X_AZuE9zhuK9QocsDzodwVPBOLM1ZcledgJbcu8uOnOCmwO6LYfEYppQRoQ1YLNX8aD5uO1755KpXg; path=/; expires=Wed, 11-Feb-26 08:33:51 GMT; domain=.helius-rpc.com; HttpOnly; Secure', 'server': 'cloudflare', 'cf-ray': '9cc2550629be98af-MAD', 'alt-svc': 'h3=":443"; ma=86400'} -+-+- b'{"jsonrpc":"2.0","error":{"code":-32403,"message":"This feature is only available for business plans or above. Please upgrade if you would like to gain access."}}'
+2026-02-11 09:03:51 [wallet_tracker] INFO: [WS] Reconnecting in 300s...
+2026-02-11 09:03:56 [quant] INFO:   DEATHSTR / ETH: quant_score=6.8/10, RSI=46.1, entry=$0.000002
+2026-02-11 09:04:00 [quant] INFO:   UP / cbBTC 1%: quant_score=5.0/10, RSI=73.4, entry=$0.035877
+2026-02-11 09:04:15 [quant] INFO:   狗屎: quant_score=6.7/10, RSI=23.3, entry=$0.000158
+2026-02-11 09:04:27 [quant] INFO:   ADHD / WETH 1.2%: quant_score=7.2/10, RSI=40.9, entry=$0.000000
+2026-02-11 09:04:40 [quant] INFO:   PROXI / WETH 1.2%: quant_score=7.0/10, RSI=None, entry=$0.000000
+2026-02-11 09:04:53 [quant] INFO:   BFS / USDC: quant_score=6.1/10, RSI=46.8, entry=$0.038665
+2026-02-11 09:05:06 [quant] INFO:   BUCKARU / SOL: quant_score=6.3/10, RSI=58.5, entry=$0.000036
+2026-02-11 09:05:06 [quant] INFO: === THE QUANT: Analysis complete (25 OHLCV calls used) ===
+2026-02-11 09:05:06 [alpha_monitor] INFO: Quant: done (262.4s)
+2026-02-11 09:05:06 [triple_confirm] INFO: Triple confirmation: evaluating 25 candidates against 18 wallet signals
+2026-02-11 09:05:06 [executor] INFO:   JUNO / WETH 838.861%: composite=7.59 (scout=7.1, forense=7.1, narrator=6.4, quant=7.7, executor=9.5)
+2026-02-11 09:05:06 [executor] INFO:   BLOWFISH / SOL: composite=7.54 (scout=6.7, forense=7.2, narrator=6.1, quant=7.8, executor=9.5)
+2026-02-11 09:05:06 [executor] INFO:   AntiHunter: composite=7.15 (scout=8.1, forense=7.1, narrator=5.8, quant=7.2, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   AntiHunter / WETH 838.861%: composite=7.00 (scout=7.1, forense=7.1, narrator=5.8, quant=7.2, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   BigTrout / SOL: composite=7.24 (scout=7.5, forense=7.5, narrator=6.4, quant=7.0, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   Pigeon / SOL: composite=7.24 (scout=7.5, forense=7.5, narrator=6.4, quant=7.0, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   DEATHSTR / ETH: composite=6.95 (scout=6.6, forense=7.5, narrator=5.0, quant=6.8, executor=8.0)
+2026-02-11 09:05:06 [executor] INFO:   RNBW / USDC 1%: composite=6.68 (scout=6.6, forense=7.7, narrator=6.1, quant=5.8, executor=6.5)
+2026-02-11 09:05:06 [executor] INFO:   UP / cbBTC 1%: composite=6.67 (scout=7.5, forense=7.9, narrator=4.5, quant=5.0, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   COS / WETH 838.861%: composite=7.81 (scout=7.7, forense=8.8, narrator=6.1, quant=7.5, executor=8.0)
+2026-02-11 09:05:06 [executor] INFO:   SELFCLAW / WETH 838.861%: composite=7.09 (scout=7.1, forense=7.5, narrator=6.1, quant=6.8, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   Doppel / WETH 838.861%: composite=6.90 (scout=6.7, forense=7.3, narrator=5.9, quant=6.6, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   丙午 / SOL: composite=6.71 (scout=6.4, forense=7.6, narrator=6.4, quant=7.0, executor=5.5)
+2026-02-11 09:05:06 [executor] INFO:   OSO / flETH: composite=6.59 (scout=6.2, forense=7.6, narrator=5.8, quant=7.0, executor=5.5)
+2026-02-11 09:05:06 [executor] INFO:   狗屎: composite=6.03 (scout=6.9, forense=7.5, narrator=4.0, quant=6.7, executor=4.0)
+2026-02-11 09:05:06 [executor] INFO:   BFS / USDC: composite=5.95 (scout=6.3, forense=7.6, narrator=4.0, quant=6.1, executor=4.5)
+2026-02-11 09:05:06 [executor] INFO:   WAR / USD1: composite=7.35 (scout=7.2, forense=8.0, narrator=6.4, quant=6.5, executor=8.0)
+2026-02-11 09:05:06 [executor] INFO:   GIRAFFES / SOL: composite=7.15 (scout=7.7, forense=7.7, narrator=5.9, quant=6.5, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   CLAWNCH / WETH 838.861%: composite=6.57 (scout=4.7, forense=7.5, narrator=6.4, quant=5.8, executor=7.5)
+2026-02-11 09:05:06 [executor] INFO:   ADHD / WETH 1.2%: composite=6.14 (scout=7.3, forense=7.7, narrator=4.0, quant=7.2, executor=3.5)
+2026-02-11 09:05:06 [executor] INFO:   BUCKARU / SOL: composite=4.90 (scout=4.9, forense=7.0, narrator=4.0, quant=6.3, executor=1.0)
+2026-02-11 09:05:06 [executor] INFO:   PROXI / WETH 1.2%: composite=5.91 (scout=6.6, forense=7.4, narrator=4.0, quant=7.0, executor=3.5)
+2026-02-11 09:05:06 [executor] INFO:   COPPERINU / SOL: composite=6.45 (scout=6.4, forense=7.2, narrator=6.6, quant=5.7, executor=6.0)
+2026-02-11 09:05:06 [executor] INFO:   MLTL / flETH: composite=6.26 (scout=6.8, forense=8.0, narrator=6.4, quant=4.9, executor=4.5)
+2026-02-11 09:05:06 [executor] INFO:   Goyim / SOL: composite=6.15 (scout=6.8, forense=7.2, narrator=6.1, quant=4.8, executor=5.5)
+2026-02-11 09:05:07 [alert_monitor] INFO: Telegram alert sent successfully
+2026-02-11 09:05:07 [alpha_monitor] INFO: Scan cycle complete. 1 alerts sent in 936.9s.
+2026-02-11 09:05:07 [alpha_monitor] INFO: Cycle #19: 1 alerts
+2026-02-11 09:05:09 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:05:09 [wallet_tracker] INFO: Found 14 new buy signals from smart wallets!
+2026-02-11 09:05:09 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-11 09:05:09 [alpha_monitor] INFO: Wallet background: 14 signals (0.0s)
+2026-02-11 09:07:09 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:07:22 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/GbqbsRyBHVPHEv7xLEsikXmdpPPiApLTJesDBbL5pump/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-11 09:07:25 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/G9YU3K1MiPTv7Krui5omkPBPP21GChPPE3c9izRKbonk/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-11 09:07:59 [wallet_tracker] INFO: Found 12 new buy signals from smart wallets!
+2026-02-11 09:07:59 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 50s (50 wallets, 0 cached, 0 errors)
+2026-02-11 09:07:59 [alpha_monitor] INFO: Wallet background: 12 signals (50.9s)
+2026-02-11 09:08:51 [wallet_tracker] WARNING: [WS] Disconnected: Handshake status 403 Forbidden -+-+- {'date': 'Wed, 11 Feb 2026 08:08:51 GMT', 'content-type': 'application/json', 'content-length': '162', 'connection': 'keep-alive', 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'GET, HEAD, POST, PUT, OPTIONS', 'set-cookie': '__cf_bm=oHBHD3aS8B.lr4b.GfsAUKfkcmo4Ijf6xRMqQpPs3L4-1770797331-1.0.1.1-BlaWEdsS2SjcYaADxLHDIQBJXlPHpO9O0v5XAiRyLpo8MNqF40RJPd0OGp_YsM9_XEehPHZ11ih.r7YZ23v.RAfGN9iYOQyZRhsKCdfaz3c; path=/; expires=Wed, 11-Feb-26 08:38:51 GMT; domain=.helius-rpc.com; HttpOnly; Secure', 'server': 'cloudflare', 'cf-ray': '9cc25c5c4a4f104b-MAD', 'alt-svc': 'h3=":443"; ma=86400'} -+-+- b'{"jsonrpc":"2.0","error":{"code":-32403,"message":"This feature is only available for business plans or above. Please upgrade if you would like to gain access."}}'
+2026-02-11 09:08:51 [wallet_tracker] INFO: [WS] Reconnecting in 300s...
+2026-02-11 09:09:59 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:09:59 [wallet_tracker] INFO: Found 12 new buy signals from smart wallets!
+2026-02-11 09:09:59 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-11 09:09:59 [alpha_monitor] INFO: Wallet background: 12 signals (0.0s)
+2026-02-11 09:11:59 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:11:59 [wallet_tracker] INFO: Found 12 new buy signals from smart wallets!
+2026-02-11 09:11:59 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-11 09:11:59 [alpha_monitor] INFO: Wallet background: 12 signals (0.0s)
+2026-02-11 09:13:52 [wallet_tracker] WARNING: [WS] Disconnected: Handshake status 403 Forbidden -+-+- {'date': 'Wed, 11 Feb 2026 08:13:52 GMT', 'content-type': 'application/json', 'content-length': '162', 'connection': 'keep-alive', 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'GET, HEAD, POST, PUT, OPTIONS', 'set-cookie': '__cf_bm=OjqCo6i2zrFG0P0PPvXxiyGSNN.gHF3prcOXFNOHLJ8-1770797632-1.0.1.1-4GA4FD5HjQ8lWxE9DhpYWAXySpJKLP.gdFzzY7nu.QuoHDe_4K9axQKCpwWVbA7oEjANHdhGWrXxjPJh4EA2_52DCegODhYbwUpG39Uchx0; path=/; expires=Wed, 11-Feb-26 08:43:52 GMT; domain=.helius-rpc.com; HttpOnly; Secure', 'server': 'cloudflare', 'cf-ray': '9cc263b3bc000328-MAD', 'alt-svc': 'h3=":443"; ma=86400'} -+-+- b'{"jsonrpc":"2.0","error":{"code":-32403,"message":"This feature is only available for business plans or above. Please upgrade if you would like to gain access."}}'
+2026-02-11 09:13:52 [wallet_tracker] INFO: [WS] Reconnecting in 300s...
+2026-02-11 09:13:59 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:14:12 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/GbqbsRyBHVPHEv7xLEsikXmdpPPiApLTJesDBbL5pump/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-11 09:14:15 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/G9YU3K1MiPTv7Krui5omkPBPP21GChPPE3c9izRKbonk/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-11 09:14:49 [wallet_tracker] INFO: Found 15 new buy signals from smart wallets!
+2026-02-11 09:14:49 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 49s (50 wallets, 0 cached, 0 errors)
+2026-02-11 09:14:50 [alpha_monitor] INFO: Wallet background: 15 signals (50.7s)
+2026-02-11 09:16:50 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:16:50 [wallet_tracker] INFO: Found 15 new buy signals from smart wallets!
+2026-02-11 09:16:50 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-11 09:16:50 [alpha_monitor] INFO: Wallet background: 15 signals (0.0s)
+2026-02-11 09:18:50 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:18:50 [wallet_tracker] INFO: Found 15 new buy signals from smart wallets!
+2026-02-11 09:18:50 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-11 09:18:50 [alpha_monitor] INFO: Wallet background: 15 signals (0.0s)
+2026-02-11 09:18:53 [wallet_tracker] WARNING: [WS] Disconnected: Handshake status 403 Forbidden -+-+- {'date': 'Wed, 11 Feb 2026 08:18:53 GMT', 'content-type': 'application/json', 'content-length': '162', 'connection': 'keep-alive', 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'GET, HEAD, POST, PUT, OPTIONS', 'set-cookie': '__cf_bm=8nZysLdYbADpiiZERFiSUcuPMTfx9IjmmL_z56gZb8I-1770797933-1.0.1.1-5s.IrLx4.VL_Km7u2ESbXBc7kH1auyXwuMx8qgcCxEyZDWlA0Emvjay1Z5f0Aar_.ZBDxmXM3d.fIztxMF3ZiVYbH3CGwYXfJbT2xDkYWxU; path=/; expires=Wed, 11-Feb-26 08:48:53 GMT; domain=.helius-rpc.com; HttpOnly; Secure', 'server': 'cloudflare', 'cf-ray': '9cc26b0d1c110140-MAD', 'alt-svc': 'h3=":443"; ma=86400'} -+-+- b'{"jsonrpc":"2.0","error":{"code":-32403,"message":"This feature is only available for business plans or above. Please upgrade if you would like to gain access."}}'
+2026-02-11 09:18:53 [wallet_tracker] INFO: [WS] Reconnecting in 300s...
+2026-02-11 09:20:07 [alpha_monitor] INFO: 
+--- Alpha Cycle #20 at 08:20 UTC ---
+2026-02-11 09:20:07 [alpha_monitor] INFO: ==================================================
+2026-02-11 09:20:07 [alpha_monitor] INFO: ALPHA MONITOR v3.0: Starting scan cycle
+2026-02-11 09:20:07 [alpha_monitor] INFO: ==================================================
+2026-02-11 09:20:07 [scout] INFO: === THE SCOUT: Starting token scan ===
+2026-02-11 09:20:07 [scout] INFO: Scanning new pools on solana (2 pages, priority)...
+2026-02-11 09:20:09 [api_client] INFO:   [gecko] solana new_pools page 1: 20 pools
+2026-02-11 09:20:14 [api_client] INFO:   [gecko] solana new_pools page 2: 20 pools
+2026-02-11 09:20:14 [scout] INFO:   Found 40 new pools on solana
+2026-02-11 09:20:14 [scout] INFO: Scanning new pools on base (2 pages, priority)...
+2026-02-11 09:20:20 [api_client] INFO:   [gecko] base new_pools page 1: 20 pools
+2026-02-11 09:20:25 [api_client] INFO:   [gecko] base new_pools page 2: 20 pools
+2026-02-11 09:20:25 [scout] INFO:   Found 40 new pools on base
+2026-02-11 09:20:25 [scout] INFO: Scanning new pools on ethereum (1 pages, low-prio)...
+2026-02-11 09:20:31 [api_client] INFO:   [gecko] eth new_pools page 1: 20 pools
+2026-02-11 09:20:31 [scout] INFO:   Found 20 new pools on ethereum
+2026-02-11 09:20:31 [scout] INFO: Scanning trending pools on solana (2 pages)...
+2026-02-11 09:20:50 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:20:56 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.9s...
+2026-02-11 09:21:03 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/GbqbsRyBHVPHEv7xLEsikXmdpPPiApLTJesDBbL5pump/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-11 09:21:03 [scout] INFO:   Found 40 trending pools on solana
+2026-02-11 09:21:03 [scout] INFO: Scanning trending pools on base (2 pages)...
+2026-02-11 09:21:07 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/G9YU3K1MiPTv7Krui5omkPBPP21GChPPE3c9izRKbonk/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-11 09:21:27 [scout] INFO:   Found 40 trending pools on base
+2026-02-11 09:21:27 [scout] INFO: Scanning trending pools on ethereum (1 pages)...
+2026-02-11 09:21:40 [scout] INFO:   Found 20 trending pools on ethereum
+2026-02-11 09:21:40 [scout] INFO: Checking DexScreener boosted tokens...
+2026-02-11 09:21:40 [scout] INFO: Checking CoinGecko trending...
+2026-02-11 09:21:41 [wallet_tracker] INFO: Found 12 new buy signals from smart wallets!
+2026-02-11 09:21:41 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 50s (50 wallets, 0 cached, 0 errors)
+2026-02-11 09:21:41 [alpha_monitor] INFO: Wallet background: 12 signals (51.2s)
+2026-02-11 09:21:50 [scout] INFO: Total raw candidates: 218 (scan took 102.8s)
+2026-02-11 09:21:50 [scout] INFO: After filters: 66 candidates
+2026-02-11 09:21:50 [scout] INFO: === THE SCOUT: Returning top 66 candidates ===
+2026-02-11 09:21:50 [alpha_monitor] INFO: Scout: 66 candidates (102.8s)
+2026-02-11 09:21:50 [forense] INFO: === THE FORENSE: Auditing 66 candidates ===
+2026-02-11 09:21:50 [forense] INFO:   [Forense] Token uazybjfc7kht... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 09:21:50 [forense] INFO:   [Forense] Token 3nck1piiykob... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 09:21:50 [forense] INFO:   [Forense] Token kvzr8khcqbj1... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 09:21:50 [forense] INFO:   [Forense] Token ehnvp8bxykv7... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 09:21:50 [forense] INFO:   [Forense] Token u9ghpb9xcrmd... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 09:21:50 [forense] INFO:   [Forense] Token cx63pbfd4wrm... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 09:21:50 [forense] INFO:   [Forense] Token 2qxt9qpuksin... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 09:21:50 [forense] INFO:   [Forense] Token 8ckfbhnveda6... saltado por Blacklist (Ahorrada 1 llamada) - Rugcheck rejected: rugcheck_danger_Creator history of rugged tokens
+2026-02-11 09:21:50 [forense] INFO:   [Blacklist] Skipped 8 blacklisted tokens
+2026-02-11 09:22:34 [forense] INFO:   PASSED: GIRAFFES / SOL = 7.7/10
+2026-02-11 09:22:34 [forense] INFO:   PASSED: COS / WETH 838.861% = 8.8/10
+2026-02-11 09:22:34 [forense] INFO:   PASSED: PROXI / WETH 1.2% = 7.7/10
+2026-02-11 09:22:34 [forense] INFO:   PASSED: Pigeon / SOL = 7.5/10
+2026-02-11 09:22:34 [forense] INFO:   PASSED: BigTrout / SOL = 7.5/10
+2026-02-11 09:22:34 [forense] INFO:   PASSED: UP / cbBTC 1% = 7.9/10
+2026-02-11 09:22:34 [forense] INFO:   LOW SCORE: StartClaw / WETH 838.861% = 6.4/10
+2026-02-11 09:22:47 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 09:22:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.2s...
+2026-02-11 09:22:59 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.2s...
+2026-02-11 09:23:05 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.4s...
+2026-02-11 09:23:16 [forense] INFO:   PASSED: SELFCLAW / WETH 838.861% = 7.5/10
+2026-02-11 09:23:16 [forense] INFO:   PASSED: AntiHunter / WETH 838.861% = 7.1/10
+2026-02-11 09:23:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.4s...
+2026-02-11 09:23:29 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.2s...
+2026-02-11 09:23:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 14.2s...
+2026-02-11 09:23:41 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:23:41 [wallet_tracker] INFO: Found 12 new buy signals from smart wallets!
+2026-02-11 09:23:41 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-11 09:23:41 [alpha_monitor] INFO: Wallet background: 12 signals (0.0s)
+2026-02-11 09:23:52 [forense] INFO:   PASSED: DOG / SOL = 7.5/10
+2026-02-11 09:23:52 [forense] INFO:   PASSED: Goyim / SOL = 7.2/10
+2026-02-11 09:23:52 [forense] INFO:   LOW SCORE: builderarena / WETH 838.861% = 6.7/10
+2026-02-11 09:23:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 13.0s...
+2026-02-11 09:23:53 [wallet_tracker] WARNING: [WS] Disconnected: Handshake status 403 Forbidden -+-+- {'date': 'Wed, 11 Feb 2026 08:23:53 GMT', 'content-type': 'application/json', 'content-length': '162', 'connection': 'keep-alive', 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'GET, HEAD, POST, PUT, OPTIONS', 'set-cookie': '__cf_bm=cyKaC4we0lYPd22.eXmB..i3dnujVqrn461_WDIleHg-1770798233-1.0.1.1-rRzgTH1bvuBFKDHvfenspyjbcAPV.mQKK43Nla5eKnIHtUILEU6XZx7e9nSNH2C2XSZBRktonKjKbi8BooG.RROaLWiXipDBpFt1ex0o10w; path=/; expires=Wed, 11-Feb-26 08:53:53 GMT; domain=.helius-rpc.com; HttpOnly; Secure', 'server': 'cloudflare', 'cf-ray': '9cc272616d4a0391-MAD', 'alt-svc': 'h3=":443"; ma=86400'} -+-+- b'{"jsonrpc":"2.0","error":{"code":-32403,"message":"This feature is only available for business plans or above. Please upgrade if you would like to gain access."}}'
+2026-02-11 09:23:53 [wallet_tracker] INFO: [WS] Reconnecting in 300s...
+2026-02-11 09:24:05 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.2s...
+2026-02-11 09:24:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.4s...
+2026-02-11 09:24:22 [forense] INFO:   PASSED: JUNO / WETH 838.861% = 7.1/10
+2026-02-11 09:24:22 [forense] INFO:   PASSED: 狗屎 = 7.5/10
+2026-02-11 09:24:29 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.0s...
+2026-02-11 09:24:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 27.8s...
+2026-02-11 09:24:52 [forense] INFO:   PASSED: BLOWFISH / SOL = 7.2/10
+2026-02-11 09:24:52 [forense] INFO:   PASSED: RNBW / USDC 1% = 7.7/10
+2026-02-11 09:24:52 [forense] INFO:   PASSED: MLTL / flETH = 8.0/10
+2026-02-11 09:24:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 26.9s...
+2026-02-11 09:25:05 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.0s...
+2026-02-11 09:25:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.8s...
+2026-02-11 09:25:22 [forense] INFO:   PASSED: Doppel / WETH 838.861% = 7.3/10
+2026-02-11 09:25:22 [forense] INFO:   LOW SCORE: Molten / WETH 838.861% = 6.9/10
+2026-02-11 09:25:29 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.2s...
+2026-02-11 09:25:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 09:25:41 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:25:41 [wallet_tracker] INFO: Found 12 new buy signals from smart wallets!
+2026-02-11 09:25:41 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 50 cached, 0 errors)
+2026-02-11 09:25:41 [alpha_monitor] INFO: Wallet background: 12 signals (0.0s)
+2026-02-11 09:25:52 [forense] INFO:   LOW SCORE: SAFEMOON / SOL = 6.5/10
+2026-02-11 09:25:52 [forense] INFO:   PASSED: ADHD / WETH 1.2% = 7.7/10
+2026-02-11 09:25:52 [forense] INFO:   PASSED: COPPERINU / SOL = 7.2/10
+2026-02-11 09:25:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 14.0s...
+2026-02-11 09:26:05 [api_client] ERROR: [geckoterminal] 429 after 3 retries: https://api.geckoterminal.com/api/v2/networks/solana/pools/qNAGLPKnYzNtf5iJHdki9Prgodgra5BnadACgecdsjw/trades
+2026-02-11 09:26:05 [forense] INFO:   LOW SCORE: WAR / USD1 = 6.7/10
+2026-02-11 09:26:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.5s...
+2026-02-11 09:26:28 [forense] INFO:   LOW SCORE: PATRIOT / WETH 1% = 6.9/10
+2026-02-11 09:26:29 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.8s...
+2026-02-11 09:26:34 [forense] INFO:   PASSED: PENGUIN / SOL = 8.0/10
+2026-02-11 09:26:34 [forense] INFO:   LOW SCORE: Something Big Is Happening = 4.1/10
+2026-02-11 09:26:34 [forense] INFO:   PASSED: 丙午 / SOL = 7.6/10
+2026-02-11 09:26:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.4s...
+2026-02-11 09:26:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.3s...
+2026-02-11 09:27:04 [forense] INFO:   PASSED: OSO / flETH = 7.6/10
+2026-02-11 09:27:04 [forense] INFO:   LOW SCORE: SNR / WETH 838.861% = 6.9/10
+2026-02-11 09:27:04 [forense] INFO:   LOW SCORE: パンチ = 6.5/10
+2026-02-11 09:27:04 [forense] INFO:   REJECTED: TTM / USDC 1% - Liquidity too low: $0
+2026-02-11 09:27:04 [forense] INFO:   REJECTED: JAGUNG / USDC 1% - Liquidity too low: $0
+2026-02-11 09:27:04 [forense] INFO:   REJECTED: NFT #948 / USDC 1% - Liquidity too low: $0
+2026-02-11 09:27:04 [forense] INFO:   REJECTED: AAVEGOTCHI / USDC 1% - Liquidity too low: $0
+2026-02-11 09:27:04 [forense] INFO:   REJECTED: XUÂN ĐÃ ĐẾN RỒI 🌺 / USDC 1% - Liquidity too low: $0
+2026-02-11 09:27:04 [forense] INFO:   REJECTED: NFT #946 / USDC 1% - Liquidity too low: $0
+2026-02-11 09:27:04 [forense] INFO:   REJECTED: NFT #944 / USDC 1% - Liquidity too low: $0
+2026-02-11 09:27:05 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 09:27:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.0s...
+2026-02-11 09:27:29 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.6s...
+2026-02-11 09:27:40 [forense] INFO:   PASSED: BFS / USDC = 7.6/10
+2026-02-11 09:27:40 [forense] INFO:   LOW SCORE: QuickClaw / WETH 838.861% = 5.8/10
+2026-02-11 09:27:40 [forense] INFO:   LOW SCORE: FELIX / WETH 838.861% = 6.7/10
+2026-02-11 09:27:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 09:27:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.4s...
+2026-02-11 09:28:05 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.5s...
+2026-02-11 09:28:16 [forense] INFO:   LOW SCORE: DEATHSTR / ETH = 6.9/10
+2026-02-11 09:28:16 [forense] INFO:   LOW SCORE: UNSTABLECLAW / WETH = 3.5/10
+2026-02-11 09:28:16 [forense] INFO:   LOW SCORE: CRAIG / WETH 838.861% = 6.4/10
+2026-02-11 09:28:16 [forense] INFO:   LOW SCORE: BNKRW / WETH 838.861% = 6.7/10
+2026-02-11 09:28:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 09:28:29 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.3s...
+2026-02-11 09:28:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.0s...
+2026-02-11 09:28:52 [forense] INFO:   LOW SCORE: UDAU / WETH = 6.3/10
+2026-02-11 09:28:52 [forense] INFO:   LOW SCORE: GeeFi / WETH 0.3% = 6.1/10
+2026-02-11 09:28:52 [forense] INFO:   LOW SCORE: SOLVR / WETH 838.861% = 6.5/10
+2026-02-11 09:28:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.5s...
+2026-02-11 09:29:05 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.8s...
+2026-02-11 09:29:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.6s...
+2026-02-11 09:29:28 [forense] INFO:   LOW SCORE: INSTACLAW / WETH = 5.6/10
+2026-02-11 09:29:28 [forense] INFO:   LOW SCORE: STARKBOT / WETH 838.861% = 6.7/10
+2026-02-11 09:29:28 [forense] INFO:   LOW SCORE: soluna / SOL = 6.8/10
+2026-02-11 09:29:29 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.8s...
+2026-02-11 09:29:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.0s...
+2026-02-11 09:29:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.3s...
+2026-02-11 09:30:04 [forense] INFO:   LOW SCORE: VALENTINE / SOL = 6.8/10
+2026-02-11 09:30:04 [forense] INFO:   LOW SCORE: fomolt / WETH 838.861% = 6.7/10
+2026-02-11 09:30:04 [forense] INFO:   LOW SCORE: WORK / WETH = 6.2/10
+2026-02-11 09:30:05 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 09:30:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.8s...
+2026-02-11 09:30:22 [forense] INFO:   PASSED: BUCKARU / SOL = 7.0/10
+2026-02-11 09:30:28 [forense] INFO:   LOW SCORE: CLAWD / WETH 838.861% = 6.7/10
+2026-02-11 09:30:29 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 13.6s...
+2026-02-11 09:30:39 [forense] INFO:   LOW SCORE: MOLT / WETH 838.861% = 6.7/10
+2026-02-11 09:30:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 12.7s...
+2026-02-11 09:30:55 [forense] INFO:   PASSED: SHARK / SOL = 7.0/10
+2026-02-11 09:30:56 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 25.7s...
+2026-02-11 09:31:22 [forense] INFO:   PASSED: CLAWNCH / WETH 838.861% = 7.5/10
+2026-02-11 09:31:22 [forense] INFO: === THE FORENSE: 25/58 passed audit (7 rejected, 26 low-score) in 572.3s ===
+2026-02-11 09:31:22 [forense] INFO:   DexScreener cache: 58 tokens | GeckoTerminal trade calls: 49
+2026-02-11 09:31:22 [alpha_monitor] INFO: Forense: 25 passed (572.3s)
+2026-02-11 09:31:22 [narrator] INFO: === THE NARRATOR: Analyzing sentiment for 25 tokens ===
+2026-02-11 09:31:23 [narrator] INFO:   GIRAFFES / SOL: narrator_score=5.9/10
+2026-02-11 09:31:23 [narrator] INFO:   COS / WETH 838.861%: narrator_score=6.1/10
+2026-02-11 09:31:24 [narrator] INFO:   PROXI / WETH 1.2%: narrator_score=4.0/10
+2026-02-11 09:31:24 [narrator] INFO:   Pigeon / SOL: narrator_score=6.4/10
+2026-02-11 09:31:25 [narrator] INFO:   BigTrout / SOL: narrator_score=6.4/10
+2026-02-11 09:31:25 [narrator] INFO:   UP / cbBTC 1%: narrator_score=4.5/10
+2026-02-11 09:31:25 [narrator] INFO:   SELFCLAW / WETH 838.861%: narrator_score=6.1/10
+2026-02-11 09:31:25 [narrator] INFO:   AntiHunter / WETH 838.861%: narrator_score=6.0/10
+2026-02-11 09:31:26 [narrator] INFO:   DOG / SOL: narrator_score=6.1/10
+2026-02-11 09:31:26 [narrator] INFO:   Goyim / SOL: narrator_score=6.1/10
+2026-02-11 09:31:26 [narrator] INFO:   JUNO / WETH 838.861%: narrator_score=6.1/10
+2026-02-11 09:31:27 [narrator] INFO:   狗屎: narrator_score=4.0/10
+2026-02-11 09:31:27 [narrator] INFO:   BLOWFISH / SOL: narrator_score=6.1/10
+2026-02-11 09:31:28 [narrator] INFO:   RNBW / USDC 1%: narrator_score=6.1/10
+2026-02-11 09:31:28 [narrator] INFO:   MLTL / flETH: narrator_score=6.4/10
+2026-02-11 09:31:28 [narrator] INFO:   Doppel / WETH 838.861%: narrator_score=5.9/10
+2026-02-11 09:31:29 [narrator] INFO:   ADHD / WETH 1.2%: narrator_score=4.0/10
+2026-02-11 09:31:29 [narrator] INFO:   COPPERINU / SOL: narrator_score=6.6/10
+2026-02-11 09:31:29 [narrator] INFO:   PENGUIN / SOL: narrator_score=6.1/10
+2026-02-11 09:31:30 [narrator] INFO:   丙午 / SOL: narrator_score=6.4/10
+2026-02-11 09:31:30 [narrator] INFO:   OSO / flETH: narrator_score=5.8/10
+2026-02-11 09:31:31 [narrator] INFO:   BFS / USDC: narrator_score=4.0/10
+2026-02-11 09:31:31 [narrator] INFO:   BUCKARU / SOL: narrator_score=4.0/10
+2026-02-11 09:31:31 [narrator] INFO:   SHARK / SOL: narrator_score=4.0/10
+2026-02-11 09:31:32 [narrator] INFO:   CLAWNCH / WETH 838.861%: narrator_score=6.4/10
+2026-02-11 09:31:32 [narrator] INFO: === THE NARRATOR: Analysis complete ===
+2026-02-11 09:31:32 [alpha_monitor] INFO: Narrator: done (9.2s)
+2026-02-11 09:31:32 [social_intel] INFO: Analyzing social intelligence for 25 tokens...
+2026-02-11 09:32:09 [social_intel] INFO:   [11/25] JUNO / WETH 838.861%: score=5.4, signals=['github_active_3']
+2026-02-11 09:32:58 [alpha_monitor] INFO: Social Intel: done (86.3s)
+2026-02-11 09:32:58 [alpha_monitor] INFO: Wallet signals: 12 from background thread
+2026-02-11 09:32:58 [quant] INFO: === THE QUANT: Analyzing 25 tokens (budget: 30 OHLCV calls) ===
+2026-02-11 09:32:59 [quant] INFO:   COPPERINU / SOL: quant_score=5.7/10, RSI=59.2, entry=$0.004824
+2026-02-11 09:33:04 [quant] INFO:   Pigeon / SOL: quant_score=7.0/10, RSI=40.6, entry=$0.000006
+2026-02-11 09:33:11 [quant] INFO:   BigTrout / SOL: quant_score=7.0/10, RSI=40.7, entry=$0.000007
+2026-02-11 09:33:16 [quant] INFO:   MLTL / flETH: quant_score=4.9/10, RSI=62.0, entry=$0.000006
+2026-02-11 09:33:23 [quant] INFO:   丙午 / SOL: quant_score=7.0/10, RSI=37.3, entry=$0.000781
+2026-02-11 09:33:28 [quant] INFO:   CLAWNCH / WETH 838.861%: quant_score=5.8/10, RSI=63.0, entry=$0.000042
+2026-02-11 09:33:47 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.3s...
+2026-02-11 09:34:08 [quant] INFO:   COS / WETH 838.861%: quant_score=7.5/10, RSI=37.0, entry=$0.000000
+2026-02-11 09:34:12 [quant] INFO:   SELFCLAW / WETH 838.861%: quant_score=6.8/10, RSI=32.6, entry=$0.000000
+2026-02-11 09:34:27 [quant] INFO:   DOG / SOL: quant_score=7.5/10, RSI=41.8, entry=$0.000028
+2026-02-11 09:34:40 [quant] INFO:   Goyim / SOL: quant_score=4.8/10, RSI=62.9, entry=$0.001774
+2026-02-11 09:34:53 [quant] INFO:   JUNO / WETH 838.861%: quant_score=7.7/10, RSI=37.9, entry=$0.000000
+2026-02-11 09:35:07 [quant] INFO:   BLOWFISH / SOL: quant_score=7.8/10, RSI=40.4, entry=$0.000019
+2026-02-11 09:35:20 [quant] INFO:   RNBW / USDC 1%: quant_score=5.8/10, RSI=83.4, entry=$0.030146
+2026-02-11 09:35:25 [quant] INFO:   PENGUIN / SOL: quant_score=5.8/10, RSI=68.9, entry=$0.023057
+2026-02-11 09:35:39 [quant] INFO:   AntiHunter / WETH 838.861%: quant_score=7.2/10, RSI=27.9, entry=$0.000004
+2026-02-11 09:35:52 [quant] INFO:   GIRAFFES / SOL: quant_score=6.5/10, RSI=31.9, entry=$0.000036
+2026-02-11 09:36:06 [quant] INFO:   Doppel / WETH 838.861%: quant_score=6.6/10, RSI=47.9, entry=$0.000000
+2026-02-11 09:36:19 [quant] INFO:   OSO / flETH: quant_score=7.0/10, RSI=37.4, entry=$0.000000
+2026-02-11 09:36:32 [quant] INFO:   UP / cbBTC 1%: quant_score=5.0/10, RSI=70.8, entry=$0.035877
+2026-02-11 09:36:37 [quant] INFO:   PROXI / WETH 1.2%: quant_score=7.0/10, RSI=None, entry=$0.000000
+2026-02-11 09:36:51 [quant] INFO:   狗屎: quant_score=6.7/10, RSI=22.3, entry=$0.000158
+2026-02-11 09:37:05 [quant] INFO:   ADHD / WETH 1.2%: quant_score=7.2/10, RSI=41.0, entry=$0.000000
+2026-02-11 09:37:18 [quant] INFO:   BFS / USDC: quant_score=6.1/10, RSI=46.8, entry=$0.038665
+2026-02-11 09:37:31 [quant] INFO:   BUCKARU / SOL: quant_score=6.3/10, RSI=57.5, entry=$0.000036
+2026-02-11 09:37:44 [quant] INFO:   SHARK / SOL: quant_score=5.4/10, RSI=71.7, entry=$0.000336
+2026-02-11 09:37:44 [quant] INFO: === THE QUANT: Analysis complete (25 OHLCV calls used) ===
+2026-02-11 09:37:44 [alpha_monitor] INFO: Quant: done (286.0s)
+2026-02-11 09:37:44 [triple_confirm] INFO: Triple confirmation: evaluating 25 candidates against 12 wallet signals
+2026-02-11 09:37:44 [executor] INFO:   JUNO / WETH 838.861%: composite=7.55 (scout=7.1, forense=7.1, narrator=6.1, quant=7.7, executor=9.5)
+2026-02-11 09:37:44 [executor] INFO:   BLOWFISH / SOL: composite=7.53 (scout=6.7, forense=7.2, narrator=6.1, quant=7.8, executor=9.5)
+2026-02-11 09:37:44 [executor] INFO:   PENGUIN / SOL: composite=7.26 (scout=6.5, forense=8.0, narrator=6.1, quant=5.8, executor=9.0)
+2026-02-11 09:37:44 [executor] INFO:   AntiHunter / WETH 838.861%: composite=7.03 (scout=7.1, forense=7.1, narrator=6.0, quant=7.2, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   Pigeon / SOL: composite=7.25 (scout=7.6, forense=7.5, narrator=6.4, quant=7.0, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   BigTrout / SOL: composite=7.24 (scout=7.6, forense=7.5, narrator=6.4, quant=7.0, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   RNBW / USDC 1%: composite=6.68 (scout=6.7, forense=7.7, narrator=6.1, quant=5.8, executor=6.5)
+2026-02-11 09:37:44 [executor] INFO:   UP / cbBTC 1%: composite=6.67 (scout=7.5, forense=7.9, narrator=4.5, quant=5.0, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   COS / WETH 838.861%: composite=7.81 (scout=7.7, forense=8.8, narrator=6.1, quant=7.5, executor=8.0)
+2026-02-11 09:37:44 [executor] INFO:   DOG / SOL: composite=7.27 (scout=7.4, forense=7.5, narrator=6.1, quant=7.5, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   SELFCLAW / WETH 838.861%: composite=7.09 (scout=7.1, forense=7.5, narrator=6.1, quant=6.8, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   Doppel / WETH 838.861%: composite=6.90 (scout=6.7, forense=7.3, narrator=5.9, quant=6.6, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   丙午 / SOL: composite=6.70 (scout=6.4, forense=7.6, narrator=6.4, quant=7.0, executor=5.5)
+2026-02-11 09:37:44 [executor] INFO:   OSO / flETH: composite=6.58 (scout=6.2, forense=7.6, narrator=5.8, quant=7.0, executor=5.5)
+2026-02-11 09:37:44 [executor] INFO:   狗屎: composite=6.03 (scout=6.9, forense=7.5, narrator=4.0, quant=6.7, executor=4.0)
+2026-02-11 09:37:44 [executor] INFO:   BFS / USDC: composite=5.95 (scout=6.3, forense=7.6, narrator=4.0, quant=6.1, executor=4.5)
+2026-02-11 09:37:44 [executor] INFO:   GIRAFFES / SOL: composite=7.15 (scout=7.7, forense=7.7, narrator=5.9, quant=6.5, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   CLAWNCH / WETH 838.861%: composite=6.57 (scout=4.7, forense=7.5, narrator=6.4, quant=5.8, executor=7.5)
+2026-02-11 09:37:44 [executor] INFO:   ADHD / WETH 1.2%: composite=6.14 (scout=7.3, forense=7.7, narrator=4.0, quant=7.2, executor=3.5)
+2026-02-11 09:37:44 [executor] INFO:   BUCKARU / SOL: composite=4.89 (scout=4.8, forense=7.0, narrator=4.0, quant=6.3, executor=1.0)
+2026-02-11 09:37:44 [executor] INFO:   PROXI / WETH 1.2%: composite=6.15 (scout=7.6, forense=7.7, narrator=4.0, quant=7.0, executor=3.5)
+2026-02-11 09:37:44 [executor] INFO:   COPPERINU / SOL: composite=6.45 (scout=6.4, forense=7.2, narrator=6.6, quant=5.7, executor=6.0)
+2026-02-11 09:37:44 [executor] INFO:   SHARK / SOL: composite=4.93 (scout=4.3, forense=7.0, narrator=4.0, quant=5.4, executor=2.5)
+2026-02-11 09:37:44 [executor] INFO:   MLTL / flETH: composite=6.26 (scout=6.8, forense=8.0, narrator=6.4, quant=4.9, executor=4.5)
+2026-02-11 09:37:44 [executor] INFO:   Goyim / SOL: composite=6.15 (scout=6.8, forense=7.2, narrator=6.1, quant=4.8, executor=5.5)
+2026-02-11 09:37:44 [alpha_monitor] INFO: Scan cycle complete. 0 alerts sent in 1056.7s.
+2026-02-11 09:37:44 [alpha_monitor] INFO: Cycle #20: 0 alerts
+2026-02-11 09:37:45 [alert_monitor] INFO: Telegram alert sent successfully

@@ -10,12 +10,19 @@ import config
 
 
 def setup_logging(level=logging.INFO):
-    """Configure logging for the swarm system."""
+    """Configure logging for the swarm system.
+
+    v7.5: Suppresses noisy urllib3 retry/connection logs that flood output.
+    """
     logging.basicConfig(
         level=level,
         format="%(asctime)s [%(name)s] %(levelname)s: %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+    # v7.5: Silence urllib3 retry noise (429 retries, connection pool warnings)
+    logging.getLogger("urllib3.util.retry").setLevel(logging.ERROR)
+    logging.getLogger("urllib3.connectionpool").setLevel(logging.ERROR)
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 def get_logger(name: str) -> logging.Logger:

@@ -1,0 +1,14 @@
+[
+  {
+    "timestamp": "2026-02-11T09:16:31.370057+00:00",
+    "name": "SELFCLAW / WETH 838.861%",
+    "address": "0x9ae5f51d81ff510bf961218f833f79d57bfbab07",
+    "network": "base",
+    "composite_score": 6.97,
+    "price_usd": 2.65748731099507e-06,
+    "price_change_24h": -24.319,
+    "liquidity_usd": 157337.1694,
+    "forense_score": 7.1,
+    "rsi": 32.6
+  }
+]

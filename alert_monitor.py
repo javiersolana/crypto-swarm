@@ -42,7 +42,7 @@ log = get_logger("alert_monitor")
 
 # ─── Configuration ──────────────────────────────────────────────────────────
 
-ALERT_MIN_SCORE = 7.0              # minimum composite score to alert
+ALERT_MIN_SCORE = 6.8              # minimum composite score to alert (v7.5: set to 6.8 for backtesting)
 ALERT_MAX_PUMP_PCT = 50.0          # skip tokens already up >50%
 ALERT_COOLDOWN_HOURS = 24          # don't re-alert same token within 24h
 SCAN_INTERVAL_MIN = 30             # minutes between scans

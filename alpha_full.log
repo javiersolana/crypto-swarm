@@ -3953,3 +3953,196 @@ nohup: ignoring input
 2026-02-11 09:01:39 [forense] INFO:   PASSED: Zama = 7.2/10
 2026-02-11 09:01:53 [forense] INFO:   LOW SCORE: OPAL / SOL = 6.7/10
 2026-02-11 09:02:06 [forense] INFO:   PASSED: 狗屎 = 7.5/10
+2026-02-11 09:02:20 [forense] INFO:   LOW SCORE: ELSA / USDC 0.01% = 6.9/10
+2026-02-11 09:02:27 [forense] INFO:   PASSED: Goyim / SOL = 7.2/10
+2026-02-11 09:02:40 [forense] INFO:   PASSED: MLTL / flETH = 8.0/10
+2026-02-11 09:02:54 [forense] INFO:   PASSED: BLOWFISH / SOL = 7.2/10
+2026-02-11 09:03:08 [forense] INFO:   PASSED: Doppel / WETH 838.861% = 7.3/10
+2026-02-11 09:03:13 [forense] INFO:   LOW SCORE: SNR / WETH 838.861% = 6.9/10
+2026-02-11 09:03:28 [forense] INFO:   LOW SCORE: Molten / WETH 838.861% = 6.9/10
+2026-02-11 09:03:42 [forense] INFO:   PASSED: RNBW / USDC 1% = 7.7/10
+2026-02-11 09:03:56 [forense] INFO:   PASSED: DEATHSTR / ETH = 7.4/10
+2026-02-11 09:04:01 [forense] INFO:   LOW SCORE: PATRIOT / WETH 1% = 6.9/10
+2026-02-11 09:04:15 [forense] INFO:   PASSED: PROXI / WETH 1.2% = 7.4/10
+2026-02-11 09:04:28 [forense] INFO:   PASSED: PENGUIN / SOL = 8.0/10
+2026-02-11 09:04:42 [forense] INFO:   LOW SCORE: SAFEMOON / SOL = 6.5/10
+2026-02-11 09:04:56 [forense] INFO:   PASSED: ZAMA / USDT 0.05% = 7.2/10
+2026-02-11 09:05:03 [forense] INFO:   PASSED: 丙午 / SOL = 7.6/10
+2026-02-11 09:05:16 [forense] INFO:   LOW SCORE: Safe Barrel = 6.5/10
+2026-02-11 09:05:29 [forense] INFO:   PASSED: Preguntale / SOL = 7.0/10
+2026-02-11 09:05:42 [forense] INFO:   PASSED: COPPERINU / SOL = 7.2/10
+2026-02-11 09:05:56 [forense] INFO:   LOW SCORE: Something Big Is Happening = 5.4/10
+2026-02-11 09:06:01 [forense] INFO:   LOW SCORE: パンチ = 6.5/10
+2026-02-11 09:06:16 [forense] INFO:   LOW SCORE: MILLY / WETH 838.861% = 6.1/10
+2026-02-11 09:06:30 [forense] INFO:   PASSED: BFS / USDC = 7.6/10
+2026-02-11 09:06:30 [forense] INFO:   REJECTED: TAX - Liquidity too low: $0
+2026-02-11 09:06:43 [forense] INFO:   LOW SCORE: QuickClaw / WETH 838.861% = 5.8/10
+2026-02-11 09:06:56 [forense] INFO:   PASSED: LUNA / WETH 838.861% = 7.4/10
+2026-02-11 09:07:01 [forense] INFO:   PASSED: OSO / flETH = 7.6/10
+2026-02-11 09:07:01 [forense] INFO:   REJECTED: The Plush Giraffes - Liquidity too low: $0
+2026-02-11 09:07:01 [forense] INFO:   REJECTED: CUPID - Liquidity too low: $0
+2026-02-11 09:07:16 [forense] INFO:   LOW SCORE: FELIX / WETH 838.861% = 6.7/10
+2026-02-11 09:07:16 [forense] INFO:   REJECTED: SM / WETH - Honeypot suspected: sell/buy ratio = 0.25
+2026-02-11 09:07:30 [forense] INFO:   LOW SCORE: CRAIG / WETH 838.861% = 6.4/10
+2026-02-11 09:07:30 [forense] INFO:   REJECTED: SolTuna - Liquidity too low: $0
+2026-02-11 09:07:43 [forense] INFO:   PASSED: wojak / WETH = 8.0/10
+2026-02-11 09:07:43 [forense] INFO:   REJECTED: missed - Liquidity too low: $0
+2026-02-11 09:07:57 [forense] INFO:   LOW SCORE: SERIOUS / USD1 = 6.5/10
+2026-02-11 09:07:57 [forense] INFO:   REJECTED: Church Coin - Liquidity too low: $0
+2026-02-11 09:08:01 [forense] INFO:   LOW SCORE: CATCOIN / WETH = 6.3/10
+2026-02-11 09:08:17 [forense] INFO:   LOW SCORE: BNKRW / WETH 838.861% = 6.7/10
+2026-02-11 09:08:17 [forense] INFO:   REJECTED: THE SKI DOG  - Liquidity too low: $0
+2026-02-11 09:08:17 [forense] INFO:   REJECTED: Google AI / SOL - Liquidity too low: $0
+2026-02-11 09:08:17 [forense] INFO:   REJECTED: MORI / USDC 838.861% - Liquidity too low: $0
+2026-02-11 09:08:17 [forense] INFO:   REJECTED: ANALOS / USDC 1% - Liquidity too low: $0
+2026-02-11 09:08:17 [forense] INFO:   REJECTED: SUCH IS LIFE! / USDC 1% - Liquidity too low: $0
+2026-02-11 09:08:30 [forense] INFO:   LOW SCORE: SOLVR / WETH 838.861% = 6.5/10
+2026-02-11 09:08:44 [forense] INFO:   LOW SCORE: STARKBOT / WETH 838.861% = 6.7/10
+2026-02-11 09:08:44 [forense] INFO:   REJECTED: MIKO / WETH 838.861% - Liquidity too low: $19,380
+2026-02-11 09:08:50 [forense] INFO:   LOW SCORE: fomolt / WETH 838.861% = 6.7/10
+2026-02-11 09:09:04 [forense] INFO:   LOW SCORE: soluna / SOL = 6.8/10
+2026-02-11 09:09:17 [forense] INFO:   PASSED: BUCKARU / SOL = 7.0/10
+2026-02-11 09:09:31 [forense] INFO:   PASSED: EMBER / WETH 838.861% = 7.1/10
+2026-02-11 09:09:31 [forense] INFO:   REJECTED: 500X / SOL - Honeypot suspected: sell/buy ratio = 0.17
+2026-02-11 09:09:44 [forense] INFO:   PASSED: CLAWNCH / WETH 838.861% = 7.5/10
+2026-02-11 09:09:50 [forense] INFO:   LOW SCORE: SAIRI / WETH 838.861% = 6.0/10
+2026-02-11 09:10:04 [forense] INFO:   LOW SCORE: MOONTHAT / WETH = 6.2/10
+2026-02-11 09:10:17 [forense] INFO:   PASSED: SHARK / SOL = 7.0/10
+2026-02-11 09:10:30 [forense] INFO:   LOW SCORE: LOOPIT / WETH = 5.0/10
+2026-02-11 09:10:43 [forense] INFO:   LOW SCORE: CLAWD / WETH 838.861% = 6.7/10
+2026-02-11 09:10:57 [forense] INFO:   LOW SCORE: MOLT / WETH 838.861% = 6.7/10
+2026-02-11 09:11:03 [forense] INFO:   LOW SCORE: #MLM / SOL = 6.2/10
+2026-02-11 09:11:03 [forense] INFO:   REJECTED: PUMPLIFE / SOL - Liquidity too low: $1
+2026-02-11 09:11:03 [forense] INFO: === THE FORENSE: 36/81 passed audit ===
+2026-02-11 09:11:03 [forense] INFO:   API calls saved: DexScreener batch enrichment used for 79 tokens
+2026-02-11 09:11:03 [alpha_monitor] INFO: Forense: 36 passed
+2026-02-11 09:11:03 [narrator] INFO: === THE NARRATOR: Analyzing sentiment for 36 tokens ===
+2026-02-11 09:11:03 [narrator] INFO:   AntiHunter: narrator_score=5.8/10
+2026-02-11 09:11:03 [narrator] INFO:   GIRAFFES / SOL: narrator_score=5.9/10
+2026-02-11 09:11:04 [narrator] INFO:   COS / WETH 838.861%: narrator_score=6.1/10
+2026-02-11 09:11:04 [narrator] INFO:   LIQUID / SOL: narrator_score=5.9/10
+2026-02-11 09:11:04 [narrator] INFO:   Basir / WETH 1.2%: narrator_score=4.0/10
+2026-02-11 09:11:04 [narrator] INFO:   BigTrout / SOL: narrator_score=6.4/10
+2026-02-11 09:11:05 [narrator] INFO:   OPENBOT / WETH 838.861%: narrator_score=6.1/10
+2026-02-11 09:11:05 [narrator] INFO:   UP / cbBTC 1%: narrator_score=4.5/10
+2026-02-11 09:11:05 [narrator] INFO:   DOG / SOL: narrator_score=6.1/10
+2026-02-11 09:11:05 [narrator] INFO:   ADHD / WETH 1.2%: narrator_score=4.0/10
+2026-02-11 09:11:05 [narrator] INFO:   WAR / USD1: narrator_score=6.4/10
+2026-02-11 09:11:06 [narrator] INFO:   SELFCLAW / WETH 838.861%: narrator_score=6.1/10
+2026-02-11 09:11:06 [narrator] INFO:   JUNO / WETH 838.861%: narrator_score=6.1/10
+2026-02-11 09:11:06 [narrator] INFO:   AntiHunter / WETH 838.861%: narrator_score=6.0/10
+2026-02-11 09:11:07 [narrator] INFO:   Zama: narrator_score=7.1/10
+2026-02-11 09:11:08 [narrator] INFO:   狗屎: narrator_score=4.0/10
+2026-02-11 09:11:08 [narrator] INFO:   Goyim / SOL: narrator_score=6.1/10
+2026-02-11 09:11:08 [narrator] INFO:   MLTL / flETH: narrator_score=6.4/10
+2026-02-11 09:11:09 [narrator] INFO:   BLOWFISH / SOL: narrator_score=6.1/10
+2026-02-11 09:11:09 [narrator] INFO:   Doppel / WETH 838.861%: narrator_score=5.9/10
+2026-02-11 09:11:10 [narrator] INFO:   RNBW / USDC 1%: narrator_score=6.1/10
+2026-02-11 09:11:10 [narrator] INFO:   DEATHSTR / ETH: narrator_score=4.8/10
+2026-02-11 09:11:11 [narrator] INFO:   PROXI / WETH 1.2%: narrator_score=4.0/10
+2026-02-11 09:11:11 [narrator] INFO:   PENGUIN / SOL: narrator_score=6.4/10
+2026-02-11 09:11:11 [narrator] INFO:   ZAMA / USDT 0.05%: narrator_score=6.5/10
+2026-02-11 09:11:12 [narrator] INFO:   丙午 / SOL: narrator_score=6.4/10
+2026-02-11 09:11:12 [narrator] INFO:   Preguntale / SOL: narrator_score=4.0/10
+2026-02-11 09:11:12 [narrator] INFO:   COPPERINU / SOL: narrator_score=6.6/10
+2026-02-11 09:11:13 [narrator] INFO:   BFS / USDC: narrator_score=4.0/10
+2026-02-11 09:11:13 [narrator] INFO:   LUNA / WETH 838.861%: narrator_score=3.8/10
+2026-02-11 09:11:13 [narrator] INFO:   OSO / flETH: narrator_score=5.8/10
+2026-02-11 09:11:13 [narrator] INFO:   wojak / WETH: narrator_score=6.4/10
+2026-02-11 09:11:14 [narrator] INFO:   BUCKARU / SOL: narrator_score=4.0/10
+2026-02-11 09:11:14 [narrator] INFO:   EMBER / WETH 838.861%: narrator_score=6.1/10
+2026-02-11 09:11:14 [narrator] INFO:   CLAWNCH / WETH 838.861%: narrator_score=6.4/10
+2026-02-11 09:11:15 [narrator] INFO:   SHARK / SOL: narrator_score=4.0/10
+2026-02-11 09:11:15 [narrator] INFO: === THE NARRATOR: Analysis complete ===
+2026-02-11 09:11:15 [social_intel] INFO: Analyzing social intelligence for 36 tokens...
+2026-02-11 09:11:16 [social_intel] WARNING: CryptoPanic request failed: HTTP Error 403: Forbidden
+2026-02-11 09:11:56 [social_intel] INFO:   [15/36] JUNO / WETH 838.861%: score=5.4, signals=['github_active_3']
+2026-02-11 09:12:25 [social_intel] INFO:   [22/36] LIQUID / SOL: score=6.1, signals=['github_active_5']
+2026-02-11 09:13:13 [wallet_tracker] INFO: Scanning 50 tracked wallets (parallel, max 5 workers)...
+2026-02-11 09:13:19 [urllib3.connectionpool] WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='api.helius.xyz', port=443): Read timed out. (read timeout=5)")': /v0/addresses/GbqbsRyBHVPHEv7xLEsikXmdpPPiApLTJesDBbL5pump/transactions?api-key=6becf79c-b140-420c-ac80-8a2f53c38ecc&type=SWAP
+2026-02-11 09:13:24 [wallet_tracker] INFO: No new buys detected from tracked wallets.
+2026-02-11 09:13:24 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 10s (50 wallets, 0 cached, 0 errors)
+2026-02-11 09:13:24 [quant] INFO: === THE QUANT: Analyzing 36 tokens (budget: 30 OHLCV calls) ===
+2026-02-11 09:13:26 [quant] INFO:   Zama: quant_score=5.5/10, RSI=48.4, entry=$0.025927
+2026-02-11 09:13:31 [quant] INFO:   COPPERINU / SOL: quant_score=5.7/10, RSI=59.2, entry=$0.004824
+2026-02-11 09:13:37 [quant] INFO:   ZAMA / USDT 0.05%: quant_score=5.5/10, RSI=48.4, entry=$0.025927
+2026-02-11 09:13:43 [quant] INFO:   BigTrout / SOL: quant_score=7.0/10, RSI=40.7, entry=$0.000007
+2026-02-11 09:13:48 [quant] INFO:   WAR / USD1: quant_score=6.5/10, RSI=40.8, entry=$0.015308
+2026-02-11 09:13:55 [quant] INFO:   MLTL / flETH: quant_score=4.9/10, RSI=62.0, entry=$0.000006
+2026-02-11 09:14:00 [quant] INFO:   PENGUIN / SOL: quant_score=5.8/10, RSI=68.9, entry=$0.023057
+2026-02-11 09:14:19 [quant] INFO:   丙午 / SOL: quant_score=7.0/10, RSI=37.3, entry=$0.000781
+2026-02-11 09:14:25 [quant] INFO:   wojak / WETH: quant_score=6.2/10, RSI=64.5, entry=$0.000000
+2026-02-11 09:14:39 [quant] INFO:   CLAWNCH / WETH 838.861%: quant_score=5.8/10, RSI=63.0, entry=$0.000042
+2026-02-11 09:14:52 [quant] INFO:   COS / WETH 838.861%: quant_score=7.5/10, RSI=37.0, entry=$0.000000
+2026-02-11 09:15:05 [quant] INFO:   OPENBOT / WETH 838.861%: quant_score=7.0/10, RSI=32.0, entry=$0.000000
+2026-02-11 09:15:18 [quant] INFO:   DOG / SOL: quant_score=7.5/10, RSI=41.8, entry=$0.000028
+2026-02-11 09:15:31 [quant] INFO:   SELFCLAW / WETH 838.861%: quant_score=6.8/10, RSI=32.6, entry=$0.000000
+2026-02-11 09:15:44 [quant] INFO:   JUNO / WETH 838.861%: quant_score=7.7/10, RSI=37.9, entry=$0.000000
+2026-02-11 09:15:48 [quant] INFO:   Goyim / SOL: quant_score=4.8/10, RSI=62.9, entry=$0.001774
+2026-02-11 09:16:03 [quant] INFO:   BLOWFISH / SOL: quant_score=7.8/10, RSI=40.4, entry=$0.000019
+2026-02-11 09:16:16 [quant] INFO:   RNBW / USDC 1%: quant_score=5.8/10, RSI=83.4, entry=$0.030146
+2026-02-11 09:16:29 [quant] INFO:   EMBER / WETH 838.861%: quant_score=5.8/10, RSI=69.2, entry=$0.000003
+2026-02-11 09:16:42 [quant] INFO:   AntiHunter / WETH 838.861%: quant_score=7.2/10, RSI=27.9, entry=$0.000004
+2026-02-11 09:16:55 [quant] INFO:   GIRAFFES / SOL: quant_score=6.5/10, RSI=32.2, entry=$0.000036
+2026-02-11 09:17:07 [quant] INFO:   LIQUID / SOL: quant_score=6.2/10, RSI=31.2, entry=$0.000025
+2026-02-11 09:17:12 [quant] INFO:   Doppel / WETH 838.861%: quant_score=6.6/10, RSI=47.9, entry=$0.000000
+2026-02-11 09:17:12 [quant] INFO:   AntiHunter: quant_score=7.2/10, RSI=27.9, entry=$0.000004
+2026-02-11 09:17:26 [quant] INFO:   OSO / flETH: quant_score=7.0/10, RSI=37.4, entry=$0.000000
+2026-02-11 09:17:40 [quant] INFO:   DEATHSTR / ETH: quant_score=6.8/10, RSI=46.9, entry=$0.000002
+2026-02-11 09:17:53 [quant] INFO:   UP / cbBTC 1%: quant_score=5.0/10, RSI=72.6, entry=$0.035877
+2026-02-11 09:18:06 [quant] INFO:   Basir / WETH 1.2%: quant_score=7.2/10, RSI=41.4, entry=$0.000000
+2026-02-11 09:18:20 [quant] INFO:   ADHD / WETH 1.2%: quant_score=7.2/10, RSI=40.8, entry=$0.000000
+2026-02-11 09:18:25 [quant] INFO:   狗屎: quant_score=6.7/10, RSI=23.3, entry=$0.000158
+2026-02-11 09:18:25 [quant] WARNING: OHLCV budget exhausted (30), skipping PROXI / WETH 1.2%
+2026-02-11 09:18:25 [quant] INFO:   PROXI / WETH 1.2%: quant_score=5.0/10, RSI=None, entry=$0.000001
+2026-02-11 09:18:25 [quant] WARNING: OHLCV budget exhausted (30), skipping Preguntale / SOL
+2026-02-11 09:18:25 [quant] INFO:   Preguntale / SOL: quant_score=5.0/10, RSI=None, entry=$0.000740
+2026-02-11 09:18:25 [quant] WARNING: OHLCV budget exhausted (30), skipping BFS / USDC
+2026-02-11 09:18:25 [quant] INFO:   BFS / USDC: quant_score=5.0/10, RSI=None, entry=$0.003568
+2026-02-11 09:18:25 [quant] WARNING: OHLCV budget exhausted (30), skipping BUCKARU / SOL
+2026-02-11 09:18:25 [quant] INFO:   BUCKARU / SOL: quant_score=5.0/10, RSI=None, entry=$0.000331
+2026-02-11 09:18:25 [quant] WARNING: OHLCV budget exhausted (30), skipping SHARK / SOL
+2026-02-11 09:18:25 [quant] INFO:   SHARK / SOL: quant_score=5.0/10, RSI=None, entry=$0.000278
+2026-02-11 09:18:25 [quant] WARNING: OHLCV budget exhausted (30), skipping LUNA / WETH 838.861%
+2026-02-11 09:18:25 [quant] INFO:   LUNA / WETH 838.861%: quant_score=5.0/10, RSI=None, entry=$0.000002
+2026-02-11 09:18:25 [quant] INFO: === THE QUANT: Analysis complete (30 OHLCV calls used) ===
+2026-02-11 09:18:25 [triple_confirm] INFO: Triple confirmation: evaluating 36 candidates against 0 wallet signals
+2026-02-11 09:18:25 [executor] INFO:   JUNO / WETH 838.861%: composite=7.55 (scout=7.1, forense=7.1, narrator=6.1, quant=7.7, executor=9.5)
+2026-02-11 09:18:25 [executor] INFO:   BLOWFISH / SOL: composite=7.54 (scout=6.7, forense=7.2, narrator=6.1, quant=7.8, executor=9.5)
+2026-02-11 09:18:25 [executor] INFO:   PENGUIN / SOL: composite=7.31 (scout=6.6, forense=8.0, narrator=6.4, quant=5.8, executor=9.0)
+2026-02-11 09:18:25 [executor] INFO:   AntiHunter / WETH 838.861%: composite=7.03 (scout=7.1, forense=7.1, narrator=6.0, quant=7.2, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   AntiHunter: composite=7.15 (scout=8.1, forense=7.1, narrator=5.8, quant=7.2, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   BigTrout / SOL: composite=7.24 (scout=7.5, forense=7.5, narrator=6.4, quant=7.0, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   OPENBOT / WETH 838.861%: composite=7.19 (scout=7.5, forense=7.5, narrator=6.1, quant=7.0, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   DEATHSTR / ETH: composite=6.89 (scout=6.6, forense=7.4, narrator=4.8, quant=6.8, executor=8.0)
+2026-02-11 09:18:25 [executor] INFO:   RNBW / USDC 1%: composite=6.68 (scout=6.6, forense=7.7, narrator=6.1, quant=5.8, executor=6.5)
+2026-02-11 09:18:25 [executor] INFO:   UP / cbBTC 1%: composite=6.67 (scout=7.5, forense=7.9, narrator=4.5, quant=5.0, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   COS / WETH 838.861%: composite=7.81 (scout=7.7, forense=8.8, narrator=6.1, quant=7.5, executor=8.0)
+2026-02-11 09:18:25 [executor] INFO:   DOG / SOL: composite=7.27 (scout=7.3, forense=7.5, narrator=6.1, quant=7.5, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   SELFCLAW / WETH 838.861%: composite=7.09 (scout=7.1, forense=7.5, narrator=6.1, quant=6.8, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   Doppel / WETH 838.861%: composite=6.90 (scout=6.7, forense=7.3, narrator=5.9, quant=6.6, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   Zama: composite=6.78 (scout=7.0, forense=7.2, narrator=7.1, quant=5.5, executor=7.0)
+2026-02-11 09:18:25 [executor] INFO:   ZAMA / USDT 0.05%: composite=6.61 (scout=6.5, forense=7.2, narrator=6.5, quant=5.5, executor=7.0)
+2026-02-11 09:18:25 [executor] INFO:   LIQUID / SOL: composite=6.88 (scout=7.7, forense=7.0, narrator=5.9, quant=6.2, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   Basir / WETH 1.2%: composite=5.98 (scout=7.6, forense=7.0, narrator=4.0, quant=7.2, executor=3.5)
+2026-02-11 09:18:25 [executor] INFO:   丙午 / SOL: composite=6.71 (scout=6.4, forense=7.6, narrator=6.4, quant=7.0, executor=5.5)
+2026-02-11 09:18:25 [executor] INFO:   OSO / flETH: composite=6.58 (scout=6.2, forense=7.6, narrator=5.8, quant=7.0, executor=5.5)
+2026-02-11 09:18:25 [executor] INFO:   狗屎: composite=6.03 (scout=6.9, forense=7.5, narrator=4.0, quant=6.7, executor=4.0)
+2026-02-11 09:18:25 [executor] INFO:   WAR / USD1: composite=7.35 (scout=7.2, forense=8.0, narrator=6.4, quant=6.5, executor=8.0)
+2026-02-11 09:18:25 [executor] INFO:   GIRAFFES / SOL: composite=7.15 (scout=7.7, forense=7.7, narrator=5.9, quant=6.5, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   wojak / WETH: composite=6.96 (scout=5.7, forense=8.0, narrator=6.4, quant=6.2, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   CLAWNCH / WETH 838.861%: composite=6.57 (scout=4.7, forense=7.5, narrator=6.4, quant=5.8, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   EMBER / WETH 838.861%: composite=6.43 (scout=4.8, forense=7.1, narrator=6.1, quant=5.8, executor=7.5)
+2026-02-11 09:18:25 [executor] INFO:   ADHD / WETH 1.2%: composite=6.14 (scout=7.3, forense=7.7, narrator=4.0, quant=7.2, executor=3.5)
+2026-02-11 09:18:25 [executor] INFO:   COPPERINU / SOL: composite=6.45 (scout=6.4, forense=7.2, narrator=6.6, quant=5.7, executor=6.0)
+2026-02-11 09:18:25 [executor] INFO:   PROXI / WETH 1.2%: composite=5.31 (scout=6.6, forense=7.4, narrator=4.0, quant=5.0, executor=2.5)
+2026-02-11 09:18:25 [executor] INFO:   Preguntale / SOL: composite=5.16 (scout=6.4, forense=7.0, narrator=4.0, quant=5.0, executor=2.5)
+2026-02-11 09:18:25 [executor] INFO:   BFS / USDC: composite=5.33 (scout=6.3, forense=7.6, narrator=4.0, quant=5.0, executor=2.5)
+2026-02-11 09:18:25 [executor] INFO:   BUCKARU / SOL: composite=4.63 (scout=4.9, forense=7.0, narrator=4.0, quant=5.0, executor=1.0)
+2026-02-11 09:18:25 [executor] INFO:   SHARK / SOL: composite=4.85 (scout=4.4, forense=7.0, narrator=4.0, quant=5.0, executor=2.5)
+2026-02-11 09:18:25 [executor] INFO:   LUNA / WETH 838.861%: composite=5.23 (scout=6.2, forense=7.4, narrator=3.8, quant=5.0, executor=2.5)
+2026-02-11 09:18:25 [executor] INFO:   MLTL / flETH: composite=6.26 (scout=6.8, forense=8.0, narrator=6.4, quant=4.9, executor=4.5)
+2026-02-11 09:18:25 [executor] INFO:   Goyim / SOL: composite=6.15 (scout=6.8, forense=7.2, narrator=6.1, quant=4.8, executor=5.5)
+2026-02-11 09:18:25 [alpha_monitor] INFO: Scan cycle complete. 0 alerts sent.
+2026-02-11 09:18:26 [alpha_monitor] INFO: Cycle #17: 0 alerts
+2026-02-11 09:27:05 [alert_monitor] INFO: Telegram alert sent successfully

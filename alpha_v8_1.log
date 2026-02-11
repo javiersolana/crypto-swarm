@@ -1,0 +1,250 @@
+nohup: ignoring input
+2026-02-11 16:01:29 [alpha_monitor] INFO: Alpha Monitor v7.5 daemon starting (interval: 15 min)
+2026-02-11 16:01:29 [alpha_monitor] INFO: APIs configured: Helius (wallet tracking), CryptoPanic (news), GitHub (dev activity)
+2026-02-11 16:01:29 [paper_trader] INFO: Paper trader DATA_DIR verified: /home/solana/crypto-swarm/data
+2026-02-11 16:01:29 [paper_trader] INFO: Paper trades file created: /home/solana/crypto-swarm/data/paper_trades.json
+2026-02-11 16:01:29 [paper_trader] INFO: Paper trader ready: file=/home/solana/crypto-swarm/data/paper_trades.json, open=0, closed=0
+2026-02-11 16:01:29 [alpha_monitor] INFO: Paper trading: 0 open, +0.0000 SOL PnL
+2026-02-11 16:01:29 [alert_monitor] INFO: Telegram alert sent successfully
+2026-02-11 16:01:29 [alpha_monitor] INFO: Wallet background thread launched
+2026-02-11 16:01:29 [alpha_monitor] INFO: Exit manager thread launched
+2026-02-11 16:01:29 [alpha_monitor] INFO: 
+--- Alpha Cycle #1 at 15:01 UTC ---
+2026-02-11 16:01:29 [alpha_monitor] INFO: Exit manager thread started
+2026-02-11 16:01:29 [alpha_monitor] INFO: Wallet background thread started (50 wallets)
+2026-02-11 16:01:29 [wallet_tracker] INFO: [WS] Started monitoring 50 Solana wallets
+2026-02-11 16:01:29 [wallet_tracker] INFO: Scanning 50 tracked wallets (sequential, 1.0s delay)...
+2026-02-11 16:01:29 [alpha_monitor] INFO: ==================================================
+2026-02-11 16:01:29 [alpha_monitor] INFO: ALPHA MONITOR v7.5 - Live Testing: Starting scan cycle
+2026-02-11 16:01:29 [alpha_monitor] INFO: ==================================================
+2026-02-11 16:01:29 [scout] INFO: === THE SCOUT: Starting token scan ===
+2026-02-11 16:01:29 [scout] INFO: Scanning new pools on solana (2 pages, priority)...
+2026-02-11 16:01:30 [api_client] INFO:   [gecko] solana new_pools page 1: 20 pools
+2026-02-11 16:01:30 [wallet_tracker] WARNING: [WS] Helius WebSocket returned 403 (requires Business plan). Disabling WebSocket permanently for this session.
+2026-02-11 16:01:36 [api_client] INFO:   [gecko] solana new_pools page 2: 20 pools
+2026-02-11 16:01:36 [scout] INFO:   Found 40 new pools on solana
+2026-02-11 16:01:36 [scout] INFO: Scanning new pools on base (2 pages, priority)...
+2026-02-11 16:01:42 [api_client] INFO:   [gecko] base new_pools page 1: 20 pools
+2026-02-11 16:01:48 [api_client] INFO:   [gecko] base new_pools page 2: 20 pools
+2026-02-11 16:01:48 [scout] INFO:   Found 40 new pools on base
+2026-02-11 16:01:48 [scout] INFO: Scanning new pools on ethereum (1 pages, low-prio)...
+2026-02-11 16:01:54 [api_client] INFO:   [gecko] eth new_pools page 1: 20 pools
+2026-02-11 16:01:54 [scout] INFO:   Found 20 new pools on ethereum
+2026-02-11 16:01:54 [scout] INFO: Scanning trending pools on solana (2 pages)...
+2026-02-11 16:02:06 [scout] INFO:   Found 40 trending pools on solana
+2026-02-11 16:02:06 [scout] INFO: Scanning trending pools on base (2 pages)...
+2026-02-11 16:02:30 [scout] INFO:   Found 40 trending pools on base
+2026-02-11 16:02:30 [scout] INFO: Scanning trending pools on ethereum (1 pages)...
+2026-02-11 16:02:42 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.0s...
+2026-02-11 16:02:49 [scout] INFO:   Found 20 trending pools on ethereum
+2026-02-11 16:02:49 [scout] INFO: Checking DexScreener boosted tokens...
+2026-02-11 16:02:49 [scout] INFO: Checking CoinGecko trending...
+2026-02-11 16:02:55 [scout] INFO: Total raw candidates: 217 (scan took 85.6s)
+2026-02-11 16:02:55 [scout] INFO: After filters: 69 candidates
+2026-02-11 16:02:55 [scout] INFO: === THE SCOUT: Returning top 69 candidates ===
+2026-02-11 16:02:55 [alpha_monitor] INFO: Scout: 69 candidates (85.6s)
+2026-02-11 16:02:55 [forense] INFO: === THE FORENSE: Auditing 69 candidates ===
+2026-02-11 16:02:55 [forense] INFO:   [Blacklist] Cleaned up 29 expired entries
+2026-02-11 16:02:55 [forense] INFO:   [Forense] Token g8s88jzphikd... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 16:02:55 [forense] INFO:   [Forense] Token 25edyhrpkywy... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 16:02:55 [forense] INFO:   [Forense] Token ekguxsq2ucfy... saltado por Blacklist (Ahorrada 1 llamada) - Holder concentration: EXTREME_CONCENTRATION_RISK
+2026-02-11 16:02:55 [forense] INFO:   [Forense] Token hxvqaqwytoln... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $24,635
+2026-02-11 16:02:55 [forense] INFO:   [Forense] Token gmukhnymefaw... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-11 16:02:55 [forense] INFO:   [Forense] Token 3mhw8cjffdzp... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $27,545
+2026-02-11 16:02:55 [forense] INFO:   [Forense] Token gl8pt5bvafy5... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $24,100
+2026-02-11 16:02:55 [forense] INFO:   [Blacklist] Skipped 7 blacklisted tokens
+2026-02-11 16:02:56 [forense] INFO:   REJECTED: CLAWBSTER - Honeypot suspected: sell/buy ratio = 0.10
+2026-02-11 16:02:56 [forense] INFO:   REJECTED: CLAWBSTR / WETH - Honeypot suspected: sell/buy ratio = 0.10
+2026-02-11 16:02:56 [forense] INFO:   REJECTED: GIRAFFES / SOL - Fragile liquidity: liq/mcap=8.5% ($106,875 / $1,254,023, min 10%)
+2026-02-11 16:02:56 [forense] INFO:   REJECTED: DOG / SOL - Fragile liquidity: liq/mcap=9.1% ($125,607 / $1,386,574, min 10%)
+2026-02-11 16:02:56 [forense] INFO:   REJECTED: Sharingan - Liquidity too low: $29,234
+2026-02-11 16:02:56 [forense] INFO:   REJECTED: Pokémon: Since 1996 - Liquidity too low: $21,254
+2026-02-11 16:02:56 [forense] INFO:   REJECTED: Pigeon / SOL - Fragile liquidity: liq/mcap=8.1% ($146,638 / $1,804,683, min 10%)
+2026-02-11 16:02:57 [forense] INFO:   REJECTED: MOON / SOL - Rugcheck rejected: rugcheck_score_11400
+2026-02-11 16:02:57 [forense] INFO:   REJECTED: PENGUIN / SOL - Fragile liquidity: liq/mcap=4.0% ($742,398 / $18,668,640, min 10%)
+2026-02-11 16:02:57 [forense] INFO:   REJECTED: BigTrout / SOL - Fragile liquidity: liq/mcap=9.9% ($161,428 / $1,631,577, min 10%)
+2026-02-11 16:02:57 [forense] INFO:   REJECTED: UP / cbBTC 1% - Fragile liquidity: liq/mcap=8.4% ($557,131 / $6,669,820, min 10%)
+2026-02-11 16:02:57 [forense] INFO:   REJECTED: soluna / SOL - Fragile liquidity: liq/mcap=6.5% ($144,573 / $2,215,070, min 10%)
+2026-02-11 16:03:20 [forense] INFO:   LOW SCORE: ADHD / WETH 1.2% = 6.9/10
+2026-02-11 16:03:20 [forense] INFO:   LOW SCORE: PROXI / WETH 1.2% = 6.9/10
+2026-02-11 16:03:20 [forense] INFO:   LOW SCORE: StartClaw / WETH = 6.1/10
+2026-02-11 16:03:20 [forense] INFO:   REJECTED: Goyim / SOL - Fragile liquidity: liq/mcap=8.3% ($202,799 / $2,443,755, min 10%)
+2026-02-11 16:03:20 [forense] INFO:   REJECTED: WAR / USD1 - Fragile liquidity: liq/mcap=1.9% ($756,654 / $39,313,964, min 10%)
+2026-02-11 16:03:22 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:03:22 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:03:23 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:03:23 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:03:24 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:03:24 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:03:25 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:03:25 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:03:25 [forense] INFO:   LOW SCORE: Baby Sinclair = 5.7/10
+2026-02-11 16:03:25 [forense] INFO:   REJECTED: woo / SOL - Liquidity too low: $20,455
+2026-02-11 16:03:38 [forense] INFO:   LOW SCORE: SNR / WETH = 6.8/10
+2026-02-11 16:03:38 [forense] INFO:   REJECTED: When You Wish Upon a Star - Liquidity too low: $0
+2026-02-11 16:03:38 [forense] INFO:   REJECTED: 丙午 / SOL - Fragile liquidity: liq/mcap=7.3% ($144,084 / $1,974,542, min 10%)
+2026-02-11 16:03:38 [forense] INFO:   REJECTED: BLOWFISH / SOL - Fragile liquidity: liq/mcap=8.0% ($88,921 / $1,111,735, min 10%)
+2026-02-11 16:03:44 [forense] INFO:   PASSED: AntiHunter / WETH = 7.4/10
+2026-02-11 16:03:44 [forense] INFO:   REJECTED: REDU - Liquidity too low: $0
+2026-02-11 16:03:56 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.1s...
+2026-02-11 16:03:56 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.2s...
+2026-02-11 16:03:56 [api_client] WARNING: [geckoterminal] COOL-DOWN MODE: api.geckoterminal.com — pausing 30s, workers reduced to 2 (total 429s: 4)
+2026-02-11 16:04:01 [forense] INFO:   PASSED: MLTL / flETH = 7.4/10
+2026-02-11 16:04:01 [forense] INFO:   REJECTED: Fusion - Liquidity too low: $0
+2026-02-11 16:04:08 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.7s...
+2026-02-11 16:04:08 [wallet_tracker] INFO: Found 23 new buy signals from smart wallets!
+2026-02-11 16:04:08 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 2m 38s (50 wallets, 50 scanned, 0 cached, 0 errors)
+2026-02-11 16:04:09 [alpha_monitor] INFO: Signal accumulator: +18 new, 18 total (TTL=1800s)
+2026-02-11 16:04:09 [alpha_monitor] INFO: Wallet background: 23 signals (159.2s)
+2026-02-11 16:04:14 [forense] INFO:   PASSED: builderarena / WETH = 7.1/10
+2026-02-11 16:04:20 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.7s...
+2026-02-11 16:04:26 [forense] INFO:   LOW SCORE: Molten / WETH = 6.8/10
+2026-02-11 16:04:38 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 12.3s...
+2026-02-11 16:04:40 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:04:40 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:04:41 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:04:41 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:04:42 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:04:42 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:04:43 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:04:43 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:04:43 [forense] INFO:   LOW SCORE: SAFEMOON / SOL = 4.9/10
+2026-02-11 16:04:43 [forense] INFO:   REJECTED: COPPERINU / SOL - Fragile liquidity: liq/mcap=4.1% ($449,826 / $11,023,572, min 10%)
+2026-02-11 16:04:43 [forense] INFO:   REJECTED: PATRIOT / WETH 1% - Fragile liquidity: liq/mcap=9.2% ($36,231 / $395,231, min 10%)
+2026-02-11 16:04:43 [forense] INFO:   REJECTED: Elephant / SOL - Liquidity too low: $19,315
+2026-02-11 16:04:44 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 14.7s...
+2026-02-11 16:04:50 [forense] INFO:   PASSED: Doppel / WETH = 7.0/10
+2026-02-11 16:04:56 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 13.8s...
+2026-02-11 16:05:02 [forense] INFO:   LOW SCORE: FELIX / WETH = 6.6/10
+2026-02-11 16:05:14 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.7s...
+2026-02-11 16:05:16 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:16 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:17 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:17 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:18 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:18 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:19 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:19 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:19 [forense] INFO:   LOW SCORE: BUCKARU / SOL = 5.7/10
+2026-02-11 16:05:20 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 26.4s...
+2026-02-11 16:05:27 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:27 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:28 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:28 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:29 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:29 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:30 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:30 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:31 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:31 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:31 [forense] INFO:   LOW SCORE: Preguntale / SOL = 5.6/10
+2026-02-11 16:05:31 [forense] INFO:   REJECTED: BFS / USDC - Fragile liquidity: liq/mcap=5.1% ($270,600 / $5,330,181, min 10%)
+2026-02-11 16:05:32 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 29.6s...
+2026-02-11 16:05:38 [forense] INFO:   PASSED: DEATHSTR / ETH = 7.1/10
+2026-02-11 16:05:38 [forense] INFO:   REJECTED: #MLM / SOL - Liquidity too low: $23,188
+2026-02-11 16:05:39 [wallet_tracker] INFO: Scanning 50 tracked wallets (sequential, 1.0s delay)...
+2026-02-11 16:05:39 [wallet_tracker] INFO: Found 23 new buy signals from smart wallets!
+2026-02-11 16:05:39 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 0 scanned, 50 cached, 0 errors)
+2026-02-11 16:05:39 [alpha_monitor] INFO: Wallet background: 23 signals (0.0s)
+2026-02-11 16:05:44 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.1s...
+2026-02-11 16:05:51 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 16:05:52 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:52 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:53 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:53 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:54 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:54 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:55 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:55 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:05:55 [forense] INFO:   LOW SCORE: BIG / SOL = 5.5/10
+2026-02-11 16:06:02 [forense] INFO:   LOW SCORE: OSO / flETH = 6.9/10
+2026-02-11 16:06:02 [api_client] ERROR: [geckoterminal] 429 after 3 retries: https://api.geckoterminal.com/api/v2/networks/base/pools/0xc83724138830b1c1a34a15c418f2358e126412183f2647281a8673d117e4df66/trades
+2026-02-11 16:06:02 [forense] INFO:   PASSED: COS / WETH = 7.0/10
+2026-02-11 16:06:26 [forense] INFO:   LOW SCORE: CRAIG / WETH = 6.1/10
+2026-02-11 16:06:26 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 16:06:26 [forense] INFO:   REJECTED: LooX - Liquidity too low: $0
+2026-02-11 16:06:26 [forense] INFO:   REJECTED: ARKHAM / USDC 1% - Liquidity too low: $0
+2026-02-11 16:06:26 [forense] INFO:   REJECTED: FOCUS / WETH - Liquidity too low: $0
+2026-02-11 16:06:26 [forense] INFO:   REJECTED: THEY CONTROL US 🐳 / USDC 1% - Liquidity too low: $0
+2026-02-11 16:06:26 [forense] INFO:   REJECTED: [invalid] / ETH 1% - Liquidity too low: $0
+2026-02-11 16:06:26 [forense] INFO:   REJECTED: HUTRS / WETH - Liquidity too low: $0
+2026-02-11 16:06:26 [forense] INFO:   REJECTED: ⊥ / USDC 1% - Liquidity too low: $0
+2026-02-11 16:06:26 [forense] INFO:   REJECTED: RNBW / USDC 1% - Fragile liquidity: liq/mcap=6.1% ($333,344 / $5,480,863, min 10%)
+2026-02-11 16:06:29 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:06:29 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:06:30 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:06:31 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:06:31 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:06:32 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:06:32 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:06:32 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.8s...
+2026-02-11 16:06:33 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:06:33 [forense] INFO:   LOW SCORE: HAL / SOL = 5.6/10
+2026-02-11 16:06:38 [forense] INFO:   LOW SCORE: STARKBOT / WETH = 6.6/10
+2026-02-11 16:06:50 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.1s...
+2026-02-11 16:06:50 [forense] INFO:   LOW SCORE: fomolt / WETH = 6.6/10
+2026-02-11 16:07:02 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.6s...
+2026-02-11 16:07:02 [forense] INFO:   LOW SCORE: CLAWD / WETH = 6.6/10
+2026-02-11 16:07:09 [wallet_tracker] INFO: Scanning 50 tracked wallets (sequential, 1.0s delay)...
+2026-02-11 16:07:14 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 14.0s...
+2026-02-11 16:07:14 [forense] INFO:   LOW SCORE: MOLT / WETH = 6.6/10
+2026-02-11 16:07:26 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 13.7s...
+2026-02-11 16:07:26 [forense] INFO:   LOW SCORE: CLAWNCH / WETH = 6.6/10
+2026-02-11 16:07:27 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 14.7s...
+2026-02-11 16:07:38 [forense] INFO:   PASSED: FUN / USDC 1% = 7.1/10
+2026-02-11 16:07:39 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 13.6s...
+2026-02-11 16:07:51 [forense] INFO:   LOW SCORE: BNKRW / WETH = 6.6/10
+2026-02-11 16:07:54 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 28.7s...
+2026-02-11 16:08:08 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:08 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:09 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:10 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:10 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:10 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:11 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:12 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:12 [forense] INFO:   LOW SCORE: SHARK / SOL = 5.4/10
+2026-02-11 16:08:27 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:27 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:27 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:28 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:28 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:29 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:30 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:30 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-11 16:08:30 [forense] INFO:   LOW SCORE: GIGACHAD / SOL = 4.3/10
+2026-02-11 16:08:30 [forense] INFO: === THE FORENSE: 7/62 passed audit (33 rejected, 22 low-score) in 334.8s ===
+2026-02-11 16:08:30 [forense] INFO:   DexScreener cache: 61 tokens | GeckoTerminal trade calls: 29
+2026-02-11 16:08:30 [alpha_monitor] INFO: Forense: 7 passed (334.8s)
+2026-02-11 16:08:30 [narrator] INFO: === THE NARRATOR: Analyzing sentiment for 7 tokens ===
+2026-02-11 16:08:30 [narrator] INFO:   AntiHunter / WETH: narrator_score=5.8/10
+2026-02-11 16:08:31 [narrator] INFO:   MLTL / flETH: narrator_score=6.4/10
+2026-02-11 16:08:31 [narrator] INFO:   builderarena / WETH: narrator_score=6.1/10
+2026-02-11 16:08:31 [narrator] INFO:   Doppel / WETH: narrator_score=6.1/10
+2026-02-11 16:08:31 [narrator] INFO:   DEATHSTR / ETH: narrator_score=4.5/10
+2026-02-11 16:08:31 [narrator] INFO:   COS / WETH: narrator_score=6.1/10
+2026-02-11 16:08:32 [narrator] INFO:   FUN / USDC 1%: narrator_score=6.2/10
+2026-02-11 16:08:32 [narrator] INFO: === THE NARRATOR: Analysis complete ===
+2026-02-11 16:08:32 [alpha_monitor] INFO: Narrator: done (1.8s) (0 priority skipped)
+2026-02-11 16:08:32 [social_intel] INFO: Analyzing social intelligence for 7 tokens...
+2026-02-11 16:08:37 [alpha_monitor] INFO: Social Intel: done (5.4s)
+2026-02-11 16:08:37 [alpha_monitor] INFO: Wallet signals: 18 from accumulator (30min window)
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG] Whale signals active: 18 signals, 18 unique tokens
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_6 Token=This Could 100x (CdtGp8aBZ9PpBkY14poc...) chain=solana liq=$0
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_6 Token=Cocaine Hippos (8J6TePHEzqLW8qQD6c4v...) chain=solana liq=$0
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_6 Token=Serial train masturbator  (2jDBt8ZfauKYxxjDGjYt...) chain=solana liq=$0
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_6 Token=The Addiction (74e1PYiSSY1MiaNdN6Gb...) chain=solana liq=$0
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_21 Token=100M MCAP BEFORE VALENTINES (F7FjenqxEcs8aEXnP4MH...) chain=solana liq=$11,649
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_25 Token=House Goat (vigFK9hY3ppTfnt5jSAu...) chain=solana liq=$0
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_25 Token=blackrock (Bm1MRHZRtd1vsvcR83qZ...) chain=solana liq=$10,197
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_25 Token=The Office Giraffes (BAVajM2gpitDCj7Uyaoa...) chain=solana liq=$0
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_25 Token=blackrock (79LshWyiDpR3MSHRwDee...) chain=solana liq=$0
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   Wallet=rpc_1tok_25 Token=NGMI (8CxYXrqjWNZY5UHcszsf...) chain=solana liq=$0
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG]   ... and 8 more signals
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG] Scanner candidates: 7, Whale tokens: 18, MATCHES: 0, WHALE-ONLY: 18
+2026-02-11 16:08:37 [alpha_monitor] INFO: [DEBUG] Whale-only tokens (will be injected): ['vigfk9hy3pptfnt5jsaucc6pe59equt3x5m2b2qpump', '74e1pyissy1miandn6gbvz9mz9pjkwtc8x7umanhpump', '7cprtbtf3ryed8inp9ugnsys4t4qled1c1h58imdpump', '8cxyxrqjwnzy5uhcszsf8hzhj3tygnbhvkzproyipump', 'f7fjenqxecs8aexnp4mhbstzknwies6fhnwhyh2xpump']
+2026-02-11 16:08:37 [quant] INFO: === THE QUANT: Analyzing 7 tokens (budget: 30 OHLCV calls) ===
+2026-02-11 16:08:38 [quant] INFO:   MLTL / flETH: quant_score=6.2/10, RSI=61.0, entry=$0.000005
+2026-02-11 16:08:43 [quant] INFO:   FUN / USDC 1%: quant_score=2.0/10, RSI=52.7, entry=$0.031890
+2026-02-11 16:08:50 [quant] INFO:   builderarena / WETH: quant_score=6.5/10, RSI=80.4, entry=$0.000000
+2026-02-11 16:08:55 [quant] INFO:   Doppel / WETH: quant_score=6.6/10, RSI=47.9, entry=$0.000000
