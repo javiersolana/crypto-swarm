@@ -101,6 +101,156 @@ class SignalAccumulator:
             return len(self._signals)
 
 
+# v8.6: Missed Opportunities Tracker
+_missed_opp_lock = threading.Lock()
+
+
+def _track_missed_opportunity(token: dict, reason: str):
+    """Record a rejected token for missed opportunity analysis."""
+    try:
+        entry = {
+            "address": token.get("address", ""),
+            "chain": token.get("chain", ""),
+            "name": token.get("name") or token.get("address", "?")[:12],
+            "price_at_rejection": safe_float(token.get("price_usd", 0)),
+            "liquidity_usd": safe_float(token.get("liquidity_usd", 0)),
+            "forense_score": safe_float(token.get("forense_score", 0)),
+            "rejection_reason": reason,
+            "rejected_at": datetime.now(timezone.utc).isoformat(),
+            "rejected_ts": time.time(),
+            "checked": False,
+            "final_pump_pct": None,
+        }
+        with _missed_opp_lock:
+            data = load_json(config.MISSED_OPPORTUNITIES_FILE) or {"rejected": [], "missed": []}
+            # Deduplicate by address
+            existing = set(r.get("address", "").lower() for r in data["rejected"])
+            if entry["address"].lower() not in existing:
+                data["rejected"].append(entry)
+                save_json(config.MISSED_OPPORTUNITIES_FILE, data)
+    except Exception as e:
+        log.debug(f"Missed opp tracking error: {e}")
+
+
+def _check_missed_opportunities():
+    """Check if any rejected tokens pumped >50%. Runs periodically from exit manager."""
+    from api_client import DexScreenerClient
+    dex = DexScreenerClient()
+    threshold = getattr(config, 'MISSED_OPP_PUMP_THRESHOLD', 50)
+    ttl = getattr(config, 'MISSED_OPP_TTL', 86400)
+
+    try:
+        with _missed_opp_lock:
+            data = load_json(config.MISSED_OPPORTUNITIES_FILE) or {"rejected": [], "missed": []}
+
+        now = time.time()
+        unchecked = [r for r in data["rejected"]
+                     if not r.get("checked") and now - r.get("rejected_ts", 0) < ttl]
+
+        if not unchecked:
+            return
+
+        # Batch by chain
+        by_chain = {}
+        for r in unchecked:
+            chain = r.get("chain", "solana")
+            by_chain.setdefault(chain, []).append(r)
+
+        newly_missed = []
+        for chain, rejects in by_chain.items():
+            addrs = [r["address"] for r in rejects if r.get("address")]
+            for i in range(0, len(addrs), 30):
+                batch = addrs[i:i + 30]
+                try:
+                    pairs = dex.get_tokens_batch(chain, batch)
+                    price_map = {}
+                    for p in pairs:
+                        addr = p.get("baseToken", {}).get("address", "").lower()
+                        price = safe_float(p.get("priceUsd", 0))
+                        if addr and price > 0:
+                            price_map[addr] = price
+                except Exception:
+                    continue
+
+                for r in rejects:
+                    if r["address"].lower() in price_map:
+                        current = price_map[r["address"].lower()]
+                        rejection_price = r.get("price_at_rejection", 0)
+                        if rejection_price > 0:
+                            pump_pct = ((current - rejection_price) / rejection_price) * 100
+                            r["checked"] = True
+                            r["final_pump_pct"] = round(pump_pct, 2)
+                            r["checked_at"] = datetime.now(timezone.utc).isoformat()
+                            if pump_pct >= threshold:
+                                newly_missed.append(r)
+                                log.warning(f"  [MISSED OPP] {r['name']} pumped {pump_pct:+.1f}% "
+                                           f"after rejection ({r['rejection_reason']})")
+
+        # Prune expired entries
+        data["rejected"] = [r for r in data["rejected"]
+                           if now - r.get("rejected_ts", 0) < ttl]
+        data["missed"].extend(newly_missed)
+
+        with _missed_opp_lock:
+            save_json(config.MISSED_OPPORTUNITIES_FILE, data)
+
+    except Exception as e:
+        log.debug(f"Missed opp check error: {e}")
+
+
+def _compute_tier_amount(token: dict, wallet_signals: list = None) -> float:
+    """v8.8: Compute position size based on confidence tier.
+
+    Tier A (0.05 SOL): Whale signal + forense>=8 + RSI<60 → highest confidence
+    Tier B (0.025 SOL): forense>=8 + RSI<70 + h1_vol>$15k
+    Tier C (0.015 SOL): forense>=7.5 + h1_vol>$10k + chain=base → lowest confidence
+
+    Falls back to Tier C if no tier matches.
+    """
+    forense = safe_float(token.get("forense_score", 0))
+    chain = token.get("chain", "")
+    source = token.get("source", "")
+
+    # Extract RSI from forense_flags if available
+    rsi_val = None
+    for flag in token.get("forense_flags", []):
+        if isinstance(flag, str) and flag.startswith("rsi_"):
+            try:
+                rsi_val = float(flag.split("_")[-1])
+            except (ValueError, IndexError):
+                pass
+
+    # Check if this token has whale signals
+    has_whale = source == "whale_inject"
+    if not has_whale and wallet_signals:
+        addr = token.get("address", "").lower()
+        has_whale = any(
+            s.get("token_address", "").lower() == addr
+            for s in wallet_signals
+        )
+
+    tier_a = getattr(config, 'PAPER_TIER_A_SOL', 0.05)
+    tier_b = getattr(config, 'PAPER_TIER_B_SOL', 0.025)
+    tier_c = getattr(config, 'PAPER_TIER_C_SOL', 0.015)
+
+    # Tier A: whale + forense>=8 + RSI<60
+    if has_whale and forense >= 8.0 and (rsi_val is None or rsi_val < 60):
+        log.info(f"  [TIER A] {token.get('name','?')} — whale={has_whale}, "
+                 f"forense={forense:.1f}, rsi={rsi_val} → {tier_a} SOL")
+        return tier_a
+
+    # Tier B: forense>=8 + RSI<70
+    if forense >= 8.0 and (rsi_val is None or rsi_val < 70):
+        log.info(f"  [TIER B] {token.get('name','?')} — forense={forense:.1f}, "
+                 f"rsi={rsi_val} → {tier_b} SOL")
+        return tier_b
+
+    # Tier C: forense>=7.5 (default for anything that passes audit)
+    log.info(f"  [TIER C] {token.get('name','?')} — forense={forense:.1f}, "
+             f"chain={chain}, rsi={rsi_val} → {tier_c} SOL")
+    return tier_c
+
+
 def run_alpha_scan_cycle(wallet_signals_holder=None,
                          paper_trader: PaperTrader = None) -> int:
     """Run one alpha-enhanced scan cycle. Returns number of alerts sent.
@@ -117,7 +267,7 @@ def run_alpha_scan_cycle(wallet_signals_holder=None,
     from alpha.triple_confirm import TripleConfirmation
 
     log.info("=" * 50)
-    log.info("ALPHA MONITOR v7.5 - Live Testing: Starting scan cycle")
+    log.info("ALPHA MONITOR v8.8 - Starting scan cycle")
     log.info("=" * 50)
     cycle_start = time.monotonic()
 
@@ -176,6 +326,16 @@ def run_alpha_scan_cycle(wallet_signals_holder=None,
         forense = Forense()
         audited = forense.audit(candidates, on_pass_callback=_on_audit_pass)
         log.info(f"Forense: {len(audited)} passed ({time.monotonic()-t0:.1f}s)")
+
+        # v8.6: Track Anti-Fomo rejected tokens for missed opportunity analysis
+        audited_addrs = set(t.get("address", "").lower() for t in audited)
+        for c in candidates:
+            if c.get("address", "").lower() not in audited_addrs:
+                reason = c.get("forense_reject_reason", "")
+                if reason and ("Anti-Fomo" in reason or "RSI" in reason.upper()
+                               or "overbought" in reason.lower()):
+                    _track_missed_opportunity(c, reason)
+
         if not audited:
             log.info(f"Scan cycle complete. {alerts_sent} early alerts sent.")
             with seen_lock:
@@ -311,16 +471,27 @@ def run_alpha_scan_cycle(wallet_signals_holder=None,
             log.info(f"  ALPHA ALERT: {token.get('name') or token.get('address', '?')[:8]} "
                      f"(alpha={token.get('alpha_score', 0):.1f})")
 
-            # v6.0: Paper trade on PRIORITY alerts
+            # v8.8: Paper trade on PRIORITY alerts with tiered sizing
             if paper_trader:
-                trade = paper_trader.open_trade(token)
+                tier_amount = _compute_tier_amount(token, wallet_signals)
+                trade = paper_trader.open_trade(token, amount_sol=tier_amount)
                 if trade:
-                    log.info(f"  PAPER BUY: {trade['token_name']} @ ${trade['entry_price']:.8f}")
+                    log.info(f"  PAPER BUY: {trade['token_name']} @ ${trade['entry_price']:.8f} "
+                             f"(tier={tier_amount} SOL)")
                     send_telegram(paper_trader.format_open_message(trade))
 
+        # v8.6: Build whale wallet count per token for Double Whale Confirmation
+        _whale_wallet_counts = {}  # {token_address_lower: set(wallet_addresses)}
+        for ws in wallet_signals:
+            tok = ws.get("token_address", "").lower()
+            wal = ws.get("wallet_address", "").lower()
+            if tok and wal:
+                _whale_wallet_counts.setdefault(tok, set()).add(wal)
+
+        min_whales = getattr(config, 'DOUBLE_WHALE_MIN_WALLETS', 2)
+
         # v7.5: Whale fast-track paper trading (FORCED ACTIVATION)
-        # Whale-injected tokens with forense_score > 7.5 bypass triple confirmation.
-        # If a smart wallet bought it AND it passed Rugcheck, that's enough conviction.
+        # v8.6: Requires 2+ unique wallets (Double Whale Confirmation)
         alpha_addresses = set(t.get("address", "").lower() for t in alpha_alerts)
         if paper_trader:
             whale_traded = 0
@@ -335,6 +506,18 @@ def run_alpha_scan_cycle(wallet_signals_holder=None,
                 if forense < 7.0:
                     log.info(f"  WHALE SKIP (low forense): {token.get('name') or token.get('address','?')[:8]} "
                              f"forense={forense:.1f} < 7.0")
+                    continue
+
+                # v8.6: Double Whale Confirmation — require 2+ unique wallets
+                whale_count = len(_whale_wallet_counts.get(address.lower(), set()))
+                if whale_count < min_whales:
+                    token_name_display = token.get('name') or token.get('address', '?')[:8]
+                    log.info(f"  [ALERTA DE SEGUIMIENTO] {token_name_display} — "
+                             f"Solo {whale_count} ballena(s) (min={min_whales}). "
+                             f"NO se abre trade. Forense={forense:.1f}, "
+                             f"Liq=${safe_float(token.get('liquidity_usd',0)):,.0f}")
+                    # v8.6: Track as potential missed opportunity
+                    _track_missed_opportunity(token, f"single_whale_{whale_count}")
                     continue
 
                 with seen_lock:
@@ -364,7 +547,9 @@ def run_alpha_scan_cycle(wallet_signals_holder=None,
                                  f"liq/mcap={liq_mcap:.1%}")
                         continue
 
-                trade = paper_trader.open_trade(token)
+                # v8.8: Tiered position sizing
+                tier_amount = _compute_tier_amount(token, wallet_signals)
+                trade = paper_trader.open_trade(token, amount_sol=tier_amount)
                 if trade:
                     with seen_lock:
                         mark_token_seen(address, seen)
@@ -373,11 +558,12 @@ def run_alpha_scan_cycle(wallet_signals_holder=None,
                              f"@ ${trade['entry_price']:.8f} "
                              f"(forense={forense:.1f}, "
                              f"liq=${token.get('liquidity_usd',0):,.0f}, "
-                             f"wallets={token.get('whale_wallets',1)})")
+                             f"wallets={whale_count}/{min_whales}, "
+                             f"amount={tier_amount} SOL)")
                     whale_msg = (
                         f"<b>WHALE FAST-TRACK</b>\n\n"
                         f"{paper_trader.format_open_message(trade)}\n"
-                        f"Whale wallets: {token.get('whale_wallets', 1)}\n"
+                        f"Whale wallets: {whale_count}\n"
                         f"Forense: {forense:.1f}/10"
                     )
                     send_telegram(whale_msg)
@@ -429,18 +615,28 @@ def run_alpha_scan_cycle(wallet_signals_holder=None,
                 alerts_sent += 1
             log.info(f"  ALERT: {token.get('name') or token.get('address', '?')[:8]} (score={composite:.2f})")
 
-            # v7.5: Paper trade on high-score standard alerts
+            # v8.8: Paper trade on high-score standard alerts WITH alpha guard
+            # Day 1 showed that forense=8.0 + alpha=0.83 + signal_count=0 = guaranteed loss
+            min_alpha = getattr(config, 'MIN_ALPHA_SCORE_FOR_TRADE', 1.0)
+            token_alpha = safe_float(token.get("alpha_score", 0))
             if paper_trader and composite >= 7.5:
-                trade = paper_trader.open_trade(token)
-                if trade:
-                    standard_traded += 1
-                    log.info(f"  PAPER BUY (standard): {trade['token_name']} "
-                             f"@ ${trade['entry_price']:.8f} "
-                             f"(composite={composite:.2f})")
-                    send_telegram(
-                        f"<b>PAPER BUY (Score {composite:.1f})</b>\n\n"
-                        f"{paper_trader.format_open_message(trade)}"
-                    )
+                if token_alpha < min_alpha and token.get("signal_count", 0) < 1:
+                    log.info(f"  ALPHA GUARD: {token.get('name','?')} BLOCKED — "
+                             f"alpha={token_alpha:.2f} < {min_alpha}, signals={token.get('signal_count',0)}. "
+                             f"No blind entries.")
+                else:
+                    tier_amount = _compute_tier_amount(token, wallet_signals)
+                    trade = paper_trader.open_trade(token, amount_sol=tier_amount)
+                    if trade:
+                        standard_traded += 1
+                        log.info(f"  PAPER BUY (standard): {trade['token_name']} "
+                                 f"@ ${trade['entry_price']:.8f} "
+                                 f"(composite={composite:.2f}, alpha={token_alpha:.2f}, "
+                                 f"tier={tier_amount} SOL)")
+                        send_telegram(
+                            f"<b>PAPER BUY (Score {composite:.1f})</b>\n\n"
+                            f"{paper_trader.format_open_message(trade)}"
+                        )
 
         if standard_traded:
             log.info(f"  Standard paper trades: {standard_traded} opened")
@@ -462,7 +658,14 @@ def run_alpha_scan_cycle(wallet_signals_holder=None,
                             alerts_sent += 1
 
         elapsed = time.monotonic() - cycle_start
-        log.info(f"Scan cycle complete. {alerts_sent} alerts sent in {elapsed:.1f}s.")
+        # v8.2: Detailed cycle heartbeat
+        open_trades = paper_trader.get_open_trades() if paper_trader else []
+        pt_summary = paper_trader.get_session_summary() if paper_trader else {}
+        log.info(f"[HEARTBEAT] Cycle complete in {elapsed:.1f}s | "
+                 f"Scanned: {len(candidates)} | Passed audit: {len(audited)} | "
+                 f"Alerts sent: {alerts_sent} | "
+                 f"Open trades: {len(open_trades)} | "
+                 f"Session PnL: {pt_summary.get('session_pnl_sol', 0):+.4f} SOL")
         return alerts_sent
 
     except Exception as e:
@@ -512,7 +715,16 @@ def _run_wallet_background(stop_event: threading.Event,
                 signals = tracker.enrich_signals(signals)
                 signal_accumulator.update(signals)
                 elapsed = time.monotonic() - t0
-                log.info(f"Wallet background: {len(signals)} signals ({elapsed:.1f}s)")
+
+                # v8.2: Heartbeat — count how many passed minimum liquidity
+                passed_safety = sum(
+                    1 for s in signals
+                    if safe_float(s.get("liquidity_usd", 0)) >= config.SCAN_MIN_LIQUIDITY
+                )
+                total_acc = signal_accumulator.count()
+                log.info(f"[HEARTBEAT] Wallet scan: {len(signals)} whale signals found | "
+                         f"{passed_safety} passed initial safety (liq>=${config.SCAN_MIN_LIQUIDITY:,.0f}) | "
+                         f"{total_acc} total in accumulator | {elapsed:.1f}s")
             except Exception as e:
                 log.warning(f"Wallet background error: {e}")
 
@@ -573,6 +785,7 @@ def _run_exit_manager(stop_event: threading.Event, paper_trader: PaperTrader):
     log.info("Exit manager thread started")
 
     rugcheck_cycle = 0  # Only check Rugcheck every 4th cycle (~3min)
+    missed_opp_cycle = 0  # v8.6: Check missed opportunities every ~5min
 
     while not stop_event.is_set():
         try:
@@ -628,6 +841,16 @@ def _run_exit_manager(stop_event: threading.Event, paper_trader: PaperTrader):
                                                     f"— Rugcheck Danger!")
                         except Exception as e:
                             log.debug(f"Rugcheck check failed for {trade.get('token_name', '?')}: {e}")
+            # v8.6: Check missed opportunities periodically (~5min)
+            missed_opp_cycle += 1
+            missed_interval = getattr(config, 'MISSED_OPP_CHECK_INTERVAL', 300)
+            cycles_per_check = max(1, missed_interval // config.PAPER_EXIT_CHECK_INTERVAL)
+            if missed_opp_cycle % cycles_per_check == 0:
+                try:
+                    _check_missed_opportunities()
+                except Exception as e:
+                    log.debug(f"Missed opp check error: {e}")
+
         except Exception as e:
             log.warning(f"Exit manager error: {e}")
 
@@ -690,7 +913,7 @@ def daemon_loop(interval_min: int = 15, wallets_only: bool = False):
         run_wallet_monitor()
         return
 
-    log.info(f"Alpha Monitor v7.5 daemon starting (interval: {interval_min} min)")
+    log.info(f"Alpha Monitor v8.8 daemon starting (interval: {interval_min} min)")
 
     # Check what APIs are configured
     apis = []
@@ -714,7 +937,7 @@ def daemon_loop(interval_min: int = 15, wallets_only: bool = False):
     log.info(pt_status)
 
     send_telegram(
-        "<b>Alpha Monitor v7.5 Started</b>\n\n"
+        "<b>Alpha Monitor v8.8 Started</b>\n\n"
         f"Scan interval: {interval_min} min\n"
         f"Signal accumulation: {SIGNAL_ACCUMULATION_TTL//60} min window\n"
         f"APIs: {api_str}\n"
@@ -779,7 +1002,7 @@ def daemon_loop(interval_min: int = 15, wallets_only: bool = False):
     exit_thread.join(timeout=5)
     pt_final = paper_trader.get_session_summary()
     send_telegram(
-        "<b>Alpha Monitor v7.5 Stopped</b>\n\n"
+        "<b>Alpha Monitor v8.8 Stopped</b>\n\n"
         f"Session PnL: {pt_final['session_pnl_sol']:+.4f} SOL\n"
         f"W/L: {pt_final['wins']}/{pt_final['losses']} "
         f"({pt_final['win_rate']:.0f}% WR)\n"

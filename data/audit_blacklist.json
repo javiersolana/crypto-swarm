@@ -1,237 +1,472 @@
 {
-  "838tfuoys5xdpa874csgsasvfq8ablp442cf2hboxm9v": {
-    "reason": "Liquidity too low: $25,764",
-    "timestamp": 1770819832.1220818,
+  "g4zxc77npzqdufxwcsxn4ztp3qa2ybqjdqt1hcw1off": {
+    "reason": "Token too young: 157s (min 180s)",
+    "timestamp": 1770890388.3001826,
     "chain": "solana"
   },
-  "ekguxsq2ucfywaogfwz3supqdepky2vsfpr7jcegpump": {
-    "reason": "Holder concentration: EXTREME_CONCENTRATION_RISK",
-    "timestamp": 1770819862.1941917,
-    "chain": "solana"
-  },
-  "gmukhnymefawq3qecm91bdnckrhuej7ksxzqjcfapump": {
+  "0x21859ae6f04d334156d55bf80aaa5b7f98e8ea48": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770819874.123657,
-    "chain": "solana"
-  },
-  "3mhw8cjffdzpy8f6kmgvf3lwwejckmhg2o2pv5zvpump": {
-    "reason": "Liquidity too low: $27,545",
-    "timestamp": 1770820064.8956273,
-    "chain": "solana"
-  },
-  "hxvqaqwytolngkwqtge3ojnlhsalwtxpbx48dctlpump": {
-    "reason": "Liquidity too low: $24,635",
-    "timestamp": 1770820064.896721,
-    "chain": "solana"
-  },
-  "0x828837a35d998d4fcdf5b02e6769d756cc1e54e7": {
-    "reason": "Liquidity too low: $0",
-    "timestamp": 1770820178.901638,
+    "timestamp": 1770890388.302307,
     "chain": "base"
   },
-  "0xb0f1c824917582d81508bffd4b65bd40092c5b07": {
+  "0x5047e7a0a30bb919f09d6aba7337ed1d76bd97c9": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770820178.9022057,
+    "timestamp": 1770890388.3044276,
     "chain": "base"
   },
-  "0x3875fa7b698d0936872791a64e9e6395882a7b07": {
+  "0x86bc6c09d3ce2aed976f3859da8c9021af87a571": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770820178.90379,
+    "timestamp": 1770890388.3059726,
     "chain": "base"
   },
-  "0xc8b0962496042eb5cd6b06243a462370434f0abe": {
+  "0x2dbc40cd2425051fd55ab5826bfc308e62c6b228": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770820178.9040852,
+    "timestamp": 1770890388.3072793,
     "chain": "base"
   },
-  "0x02c21f24e34c70399683cbc3ca3e3eb35f4c2b07": {
+  "0x5528548be7ffc52e1dad0396062ab6b50cfac662": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770820178.9043276,
+    "timestamp": 1770890388.3083775,
     "chain": "base"
   },
-  "g8s88jzphikdfcmwtkasherb2vrbrsvdsdbzsxqjpump": {
+  "0x086380b1b994276c1c46d19244c963223abbef49": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770821444.4049652,
-    "chain": "solana"
+    "timestamp": 1770890388.3096573,
+    "chain": "base"
   },
-  "25edyhrpkywy4x8ae1s6intztgrbsarmmwbeerompump": {
+  "0xb241ef750a632c61151e7f5b11b6c51c9c66bd74": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770821444.4063568,
-    "chain": "solana"
+    "timestamp": 1770890388.3107936,
+    "chain": "base"
   },
-  "dphmtpdqvd5kcsdydzxbrhfd1qmv2siaxnkftx2tjlch": {
-    "reason": "Liquidity too low: $15,433",
-    "timestamp": 1770821444.408095,
-    "chain": "solana"
-  },
-  "bev9knlx5mkfv176dyey4zxpst5mpmya4btplxvapump": {
+  "0x748df60f2ebe6f55ce60b33daf9a2881bed765f2": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770821600.0134487,
+    "timestamp": 1770890388.3116925,
+    "chain": "base"
+  },
+  "0x3ab4a8cd71ab48fa14e5cf936651bcba05920892": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770890388.3131692,
+    "chain": "base"
+  },
+  "gpomhtb98ucid2attlfgipanbgmnzgtjf7g9qfphmjhg": {
+    "reason": "Rugcheck rejected: rugcheck_score_14198",
+    "timestamp": 1770890389.3643703,
     "chain": "solana"
   },
-  "gl8pt5bvafy598jw14q9pxgfrhyt2hawagmqzjmxpump": {
-    "reason": "Liquidity too low: $24,100",
-    "timestamp": 1770821650.23421,
+  "acglta3jczn1qhpuyzxddyqqfptqfwm5piuslqjsf7ok": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.06",
+    "timestamp": 1770891396.5243092,
     "chain": "solana"
   },
   "0x7ba6b156c182bdedf3bf2ff645e04a68fb57fb07": {
     "reason": "Honeypot suspected: sell/buy ratio = 0.10",
-    "timestamp": 1770822176.7854543,
+    "timestamp": 1770891396.527284,
     "chain": "base"
   },
-  "gbqbsrybhvphev7xlesikxmdpppiapltjesdbbl5pump": {
-    "reason": "Fragile liquidity: liq/mcap=8.5% ($106,875 / $1,254,023, min 10%)",
-    "timestamp": 1770822176.786614,
-    "chain": "solana"
+  "0xcd39e8b0d18bae190ca9f04dc7264be0d2221a3a": {
+    "reason": "Fragile liquidity: liq/mcap=7.4% ($107,377 / $1,446,278, min 10%)",
+    "timestamp": 1770891396.5293682,
+    "chain": "base"
   },
-  "21cnrfrqvevkqzutfmtxjcsjtlzhry51ohoacpwrpump": {
-    "reason": "Fragile liquidity: liq/mcap=9.1% ($125,607 / $1,386,574, min 10%)",
-    "timestamp": 1770822176.786968,
-    "chain": "solana"
+  "0xbb4cc5c4e18b8159da3d953407e131eb10578b07": {
+    "reason": "Token too young: 166s (min 180s)",
+    "timestamp": 1770891396.530504,
+    "chain": "base"
   },
-  "b25gjqzim3mtkf4wlcbfqqjjn4z6chah9n26zcokpump": {
-    "reason": "Liquidity too low: $29,234",
-    "timestamp": 1770822176.7872791,
-    "chain": "solana"
+  "0xef032b29fc639921b44a0d7d905389aee909ab25": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770891396.531795,
+    "chain": "base"
   },
-  "b1rb6i7gvxyoyx8us1efrjxr7dzv3rzlmbhdfpwdpump": {
-    "reason": "Liquidity too low: $21,254",
-    "timestamp": 1770822176.7876916,
+  "0xb0b927bdb169b0c7daa6f6e112ad6252e32bb9ec": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770891396.5331712,
+    "chain": "base"
+  },
+  "0x5dbe62d53c47eb215ff6758ba125dedc4ab5df53": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770891396.5344532,
+    "chain": "base"
+  },
+  "0xd580319a95d932ed59ed9136232ca4c6b655b6c6": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770891396.5359266,
+    "chain": "base"
+  },
+  "0x9f71008edad6d76dc318f3bced7bc8965b2ef958": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770891396.5371377,
+    "chain": "base"
+  },
+  "0x3db9db5bcc5f8b0a21e0c4925054199996e0fb07": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770891396.5384448,
+    "chain": "base"
+  },
+  "0x4c4537dd3194562a4520a1da80d3e4e4c912c39f": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770891396.53961,
+    "chain": "base"
+  },
+  "0x5f74ade430873ccb837b220159b5904c70fc6712": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770891396.5406756,
+    "chain": "base"
+  },
+  "0x71b73e5de850e8d4dc3d0604c641d23d94f79b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_9859",
+    "timestamp": 1770891402.5292916,
+    "chain": "base"
+  },
+  "0xdd117b7bdf3b2e4eb09f8abebe0c0c5b22a1cba3": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_38783",
+    "timestamp": 1770891403.541593,
+    "chain": "base"
+  },
+  "47apfivgrdsm7b6bgckxfxazyzqkxutufkfdsbabpump": {
+    "reason": "Token too young: 155s (min 180s)",
+    "timestamp": 1770892396.8719156,
     "chain": "solana"
   },
   "4fswew2wbyeuccmtitzmegufqinoafxxkhqzra9gpump": {
-    "reason": "Fragile liquidity: liq/mcap=8.1% ($146,638 / $1,804,683, min 10%)",
-    "timestamp": 1770822176.7880604,
+    "reason": "Fragile liquidity: liq/mcap=9.0% ($136,583 / $1,510,561, min 10%)",
+    "timestamp": 1770892396.8741615,
     "chain": "solana"
   },
-  "a3tqksbbwwpqcwwa2cw9fvfumkbex9tjwf78pjdsavpn": {
-    "reason": "Rugcheck rejected: rugcheck_score_11400",
-    "timestamp": 1770822177.0765958,
+  "hxvqaqwytolngkwqtge3ojnlhsalwtxpbx48dctlpump": {
+    "reason": "Liquidity too low: $22,025",
+    "timestamp": 1770892396.875951,
+    "chain": "solana"
+  },
+  "abddksnxdamnzfs1vqtoaso2wa5lq21u6n4ujkupebkr": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.13",
+    "timestamp": 1770892396.876532,
+    "chain": "solana"
+  },
+  "6bytpsprnszmogpar5jgrzntek3gce7ojprinz9c3qpt": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.16",
+    "timestamp": 1770892396.8771868,
+    "chain": "solana"
+  },
+  "rqsuenxub1wtumyphblzjizsgfi9plw2pzei1yspump": {
+    "reason": "Liquidity too low: $23,705",
+    "timestamp": 1770892396.8779202,
+    "chain": "solana"
+  },
+  "htciqqija4e2l7ab5hetvgb2fyjywdr6xdgshwr3mplr": {
+    "reason": "Fragile liquidity: liq/mcap=5.6% ($257,580 / $4,586,672, min 10%)",
+    "timestamp": 1770892396.878557,
+    "chain": "solana"
+  },
+  "71mfkdepwywxtif1mqu2aacdmknkun664z2vem2xpump": {
+    "reason": "Fragile liquidity: liq/mcap=9.9% ($105,277 / $1,062,724, min 10%)",
+    "timestamp": 1770892396.879176,
+    "chain": "solana"
+  },
+  "bhha2yy1x3mtf5fgtbbevvt1v8z1e1n2buaobmjsgyy7": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.13",
+    "timestamp": 1770892396.8797631,
+    "chain": "solana"
+  },
+  "2ft9y5rrilafjiciz86xwdcu9yvpkmze3qnyzjdepump": {
+    "reason": "Rugcheck rejected: rugcheck_score_36501",
+    "timestamp": 1770892398.8748071,
+    "chain": "solana"
+  },
+  "5haikwrhtxryxvgdshy6m3g49wwmxmqavfndpm7epump": {
+    "reason": "Rugcheck rejected: rugcheck_score_41301",
+    "timestamp": 1770892398.9416642,
+    "chain": "solana"
+  },
+  "322umngby7k5nz4akdyni6e9dv9kuhxeueerqxgopump": {
+    "reason": "Liquidity too low: $27,748",
+    "timestamp": 1770892398.94225,
     "chain": "solana"
   },
   "8jx8aahj86wbqgutjguj6gttl5ps3cqxkrtvpajapump": {
-    "reason": "Fragile liquidity: liq/mcap=4.0% ($742,398 / $18,668,640, min 10%)",
-    "timestamp": 1770822177.0772483,
+    "reason": "Fragile liquidity: liq/mcap=3.8% ($654,243 / $17,419,235, min 10%)",
+    "timestamp": 1770892398.9429631,
     "chain": "solana"
   },
-  "ekwf2hd6x4rhhr4322ejek9qbgkqhphzqsansumwkecg": {
-    "reason": "Fragile liquidity: liq/mcap=9.9% ($161,428 / $1,631,577, min 10%)",
-    "timestamp": 1770822177.0788524,
+  "4djc8gtgiwlbvcpvepzwsbttq3wtbmnabdreaxy8pump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770892398.943278,
     "chain": "solana"
   },
-  "0x5b2193fdc451c1f847be09ca9d13a4bf60f8c86b": {
-    "reason": "Fragile liquidity: liq/mcap=8.4% ($557,131 / $6,669,820, min 10%)",
-    "timestamp": 1770822177.0793073,
+  "0xd75da6b90318c300b6f138459f67348abcf77c90": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_1010",
+    "timestamp": 1770892408.8751948,
     "chain": "base"
   },
-  "2qt8jvotq2c1gkbqpuqnatkpsbwxikhbxkcytqh9pump": {
-    "reason": "Fragile liquidity: liq/mcap=6.5% ($144,573 / $2,215,070, min 10%)",
-    "timestamp": 1770822177.0797396,
+  "7wned4f3tgnmkcuhrzwt2izhjf7myh1csyhebt33pump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770892408.8763075,
     "chain": "solana"
   },
-  "9s8edqwxowz5lylnxwumwbjnepg35wfdyqp7hqkupump": {
-    "reason": "Fragile liquidity: liq/mcap=8.3% ($202,799 / $2,443,755, min 10%)",
-    "timestamp": 1770822200.783586,
+  "ekguxsq2ucfywaogfwz3supqdepky2vsfpr7jcegpump": {
+    "reason": "Holder concentration: EXTREME_CONCENTRATION_RISK",
+    "timestamp": 1770892428.9455032,
     "chain": "solana"
   },
   "8opvqawysx1oybxutl8phaoatixd69vfyax4smpebonk": {
-    "reason": "Fragile liquidity: liq/mcap=1.9% ($756,654 / $39,313,964, min 10%)",
-    "timestamp": 1770822200.7870107,
+    "reason": "Fragile liquidity: liq/mcap=2.3% ($653,947 / $28,943,516, min 10%)",
+    "timestamp": 1770892428.9466782,
     "chain": "solana"
   },
-  "8kvobfxipivp9b9mxsfzhpjdx9nutbmnfhagggldpump": {
-    "reason": "Liquidity too low: $20,455",
-    "timestamp": 1770822205.5173476,
-    "chain": "solana"
-  },
-  "7qfzzk6kthwrygxwsgncqc4tg1p4cmbrcqp78wxzpump": {
+  "as1tquxmebva4pkvprr1uvcjutsy1ngkamu5oaqupump": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770822218.7848744,
+    "timestamp": 1770892428.9485397,
     "chain": "solana"
   },
-  "dmynp65mub3i7lrpbdb66cgbacelcqnv4gsweci6pump": {
-    "reason": "Fragile liquidity: liq/mcap=7.3% ($144,084 / $1,974,542, min 10%)",
-    "timestamp": 1770822218.7858958,
+  "gbqbsrybhvphev7xlesikxmdpppiapltjesdbbl5pump": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_32011",
+    "timestamp": 1770892433.7504153,
     "chain": "solana"
   },
-  "cfb4ff7w87un9gf2dsj63l7przycjvzqeg1mbgxwbcqc": {
-    "reason": "Fragile liquidity: liq/mcap=8.0% ($88,921 / $1,111,735, min 10%)",
-    "timestamp": 1770822218.7872674,
+  "g8s88jzphikdfcmwtkasherb2vrbrsvdsdbzsxqjpump": {
+    "reason": "Liquidity too low: $21,931",
+    "timestamp": 1770892433.751704,
     "chain": "solana"
   },
-  "lszgsjdmzj38tdexupx7g9yb5cs3wjkfvpsqegppump": {
-    "reason": "Liquidity too low: $0",
-    "timestamp": 1770822224.7850354,
-    "chain": "solana"
-  },
-  "fxnxfw9mxjupebce3vsruke9mucf5ydbvjqc6r1xpump": {
-    "reason": "Liquidity too low: $0",
-    "timestamp": 1770822241.9006329,
-    "chain": "solana"
-  },
-  "61wj56qggyyb966t7ysmzeakrlcmvjpdbpzjkrczc4bi": {
-    "reason": "Fragile liquidity: liq/mcap=4.1% ($449,826 / $11,023,572, min 10%)",
-    "timestamp": 1770822283.6877244,
-    "chain": "solana"
-  },
-  "0xabb77d3bc8a17a5a9ae5ccc227ae5e0691078453": {
-    "reason": "Fragile liquidity: liq/mcap=9.2% ($36,231 / $395,231, min 10%)",
-    "timestamp": 1770822283.6883538,
+  "0x6eefbfc95c7810adf53ac232d1de911839918749": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_10779",
+    "timestamp": 1770892438.8756852,
     "chain": "base"
   },
-  "bafcyauqhseyuebed9kbdsixssobmny78m3kaeaf6rwj": {
-    "reason": "Liquidity too low: $19,315",
-    "timestamp": 1770822283.6886075,
+  "412zdygnwp9dzitnqvgrkufftdmryscfch6p2k39pump": {
+    "reason": "Liquidity too low: $20,592",
+    "timestamp": 1770892438.8769372,
+    "chain": "solana"
+  },
+  "0xa12cc123ba206d4031d1c7f6223d1c2ec249f4f3": {
+    "reason": "Fragile liquidity: liq/mcap=2.1% ($822,101 / $38,662,467, min 10%)",
+    "timestamp": 1770892438.8790922,
+    "chain": "ethereum"
+  },
+  "dmynp65mub3i7lrpbdb66cgbacelcqnv4gsweci6pump": {
+    "reason": "Fragile liquidity: liq/mcap=7.0% ($155,968 / $2,239,933, min 10%)",
+    "timestamp": 1770892456.8760226,
     "chain": "solana"
   },
   "2k8yzajjf61unhriuqdmvbxe7cuheyml5kvjdbcotkju": {
-    "reason": "Fragile liquidity: liq/mcap=5.1% ($270,600 / $5,330,181, min 10%)",
-    "timestamp": 1770822331.814581,
+    "reason": "Fragile liquidity: liq/mcap=4.6% ($288,488 / $6,337,424, min 10%)",
+    "timestamp": 1770892456.8783298,
     "chain": "solana"
   },
-  "8ckfbhnveda62udk4ygnbsycd5wvmqdjhy6kaysgpump": {
-    "reason": "Liquidity too low: $23,188",
-    "timestamp": 1770822338.787629,
+  "6ppgjfavafzdvxmcr8ktqgvhtt2nawzslqbr7pppump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770892456.8795578,
     "chain": "solana"
   },
-  "1hihyf3exd4xskt3itjq1ozdwquhqeydgiubongloox": {
-    "reason": "Liquidity too low: $0",
-    "timestamp": 1770822386.7898157,
+  "0xa448d40f6793773938a6b7427091c35676899125": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_7593",
+    "timestamp": 1770892456.880421,
+    "chain": "base"
+  },
+  "63z3q7jx3sbgdiiwqqnptvvhcuuk6ixkzsyqbkzhpump": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_27134",
+    "timestamp": 1770892473.9932346,
     "chain": "solana"
   },
-  "0xd2ec4e971ddbdff39f980714e830dd06f3770db4": {
-    "reason": "Liquidity too low: $0",
-    "timestamp": 1770822386.792727,
+  "0x16ee7ecac70d1028e7712751e2ee6ba808a7dd92": {
+    "reason": "Fragile liquidity: liq/mcap=9.4% ($552,145 / $5,901,011, min 10%)",
+    "timestamp": 1770892473.994316,
     "chain": "base"
   },
-  "0xd057d594fda1ce7ec472e9bb49e7e39e2ec2ab07": {
+  "4by5iqgyau5tumwu1q4l1m8gxs57z3gu653pxb2wpump": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770822386.7952814,
+    "timestamp": 1770892473.9951212,
+    "chain": "solana"
+  },
+  "0xd88fd4a11255e51f64f78b4a7d74456325c2d8dc": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_13799",
+    "timestamp": 1770892492.881432,
     "chain": "base"
   },
-  "0xc06c37cb0e2b5f9e94de9d4b83b8c1183d2fa878": {
-    "reason": "Liquidity too low: $0",
-    "timestamp": 1770822386.7959871,
+  "akuryic4cq55emfhvsgtdaxydqyltry6u8efgdlrbags": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_26806",
+    "timestamp": 1770892516.0733542,
+    "chain": "solana"
+  },
+  "0xc7584340d6b8444b069de8c0b526caa6961c5b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_4487",
+    "timestamp": 1770892516.8776205,
     "chain": "base"
   },
-  "0x219eb3031981d175b189c260e9e1d91e7d09408a": {
-    "reason": "Liquidity too low: $0",
-    "timestamp": 1770822386.796638,
+  "b13yzmfwe7m2pfxc9feuzntbgqgus4qt8fz8sbhfpump": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_19926",
+    "timestamp": 1770892534.0005739,
+    "chain": "solana"
+  },
+  "0x26c05cb10567dcb07808839c3850ca1c76ab4b07": {
+    "reason": "Fragile liquidity: liq/mcap=1.5% ($39,191 / $2,601,537, min 10%)",
+    "timestamp": 1770892534.0017383,
     "chain": "base"
   },
-  "0x8f98ac4ef3c4ce1999b30756d2d1215f9e7c9b07": {
-    "reason": "Liquidity too low: $0",
-    "timestamp": 1770822386.7972875,
+  "0x2327eba9692cc7fb2119dc1f93389ca752dedb07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_16704",
+    "timestamp": 1770892540.8782663,
     "chain": "base"
   },
-  "0x7bd2b3cceba0e398a60fb4cdc20df333c2323ff1": {
+  "0x1487b61af90472d32eb2da04d0bb5c6efc6e73ff": {
     "reason": "Liquidity too low: $0",
-    "timestamp": 1770822386.7979524,
+    "timestamp": 1770892540.880793,
     "chain": "base"
+  },
+  "0x0c58e73b2ca638bd88f5650067ae72c4dd94ccec": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770892540.8843517,
+    "chain": "base"
+  },
+  "0x852e94363325619f83fb26c6bfd8b5011e4e4a47": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770892540.8859124,
+    "chain": "base"
+  },
+  "0x7ce05c1bb0127ca0be416f90e0f7f50b2c27a394": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770892540.886842,
+    "chain": "base"
+  },
+  "0x59c0d5c34c301ac0600147924d6c9be22a2f0b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_40817",
+    "timestamp": 1770892552.8780046,
+    "chain": "base"
+  },
+  "84hqmeghxqegpvf4kgarp38ivd145dsoebwnmbttpump": {
+    "reason": "Rugcheck rejected: rugcheck_score_120501",
+    "timestamp": 1770892564.9558446,
+    "chain": "solana"
+  },
+  "0xd655790b0486fa681c23b955f5ca7cd5f5c8cb07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_11241",
+    "timestamp": 1770892576.87997,
+    "chain": "base"
+  },
+  "0xc0fe7f77ed2f522978b719372282ca89de8cf3e4": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_909",
+    "timestamp": 1770892588.8804326,
+    "chain": "ethereum"
   },
   "0xa53887f7e7c1bf5010b8627f1c1ba94fe7a5d6e0": {
-    "reason": "Fragile liquidity: liq/mcap=6.1% ($333,344 / $5,480,863, min 10%)",
-    "timestamp": 1770822386.798619,
+    "reason": "Fragile liquidity: liq/mcap=6.5% ($322,738 / $4,999,517, min 10%)",
+    "timestamp": 1770892588.8818758,
+    "chain": "base"
+  },
+  "0xf30bf00edd0c22db54c9274b90d2a4c21fc09b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_21961",
+    "timestamp": 1770892600.8805628,
+    "chain": "base"
+  },
+  "0xe8850bbc9c289c34e7c92c9572be38f77d61cb07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_597",
+    "timestamp": 1770892612.8812363,
+    "chain": "base"
+  },
+  "0xf48bc234855ab08ab2ec0cfaaeb2a80d065a3b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_10879",
+    "timestamp": 1770892624.8808727,
+    "chain": "base"
+  },
+  "0x587cd533f418825521f3a1daa7ccd1e7339a1b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_21087",
+    "timestamp": 1770892636.8801026,
+    "chain": "base"
+  },
+  "0x0c8000cb073e524a814aeb49473f0e9ee50bcbdb": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_0",
+    "timestamp": 1770892647.5664592,
+    "chain": "ethereum"
+  },
+  "0xeff5672a3e73e104a56b7d16c1166f2ae0714b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_15652",
+    "timestamp": 1770892662.9306386,
+    "chain": "base"
+  },
+  "0xa1f72459dfa10bad200ac160ecd78c6b77a747be": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_20353",
+    "timestamp": 1770892678.0681317,
+    "chain": "base"
+  },
+  "5n49qsepbkmzmt1gmmryvwolgyogkmcjqk1pt5f5ygee": {
+    "reason": "Honeypot suspected: sell/buy ratio = 0.05",
+    "timestamp": 1770893684.890286,
+    "chain": "solana"
+  },
+  "0x5b2193fdc451c1f847be09ca9d13a4bf60f8c86b": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_15375",
+    "timestamp": 1770893708.89566,
+    "chain": "base"
+  },
+  "ekwf2hd6x4rhhr4322ejek9qbgkqhphzqsansumwkecg": {
+    "reason": "Fragile liquidity: liq/mcap=9.5% ($176,307 / $1,861,478, min 10%)",
+    "timestamp": 1770893708.89665,
+    "chain": "solana"
+  },
+  "7kevznvmt66ibhbjzgfobeluajycf61k1kngwvhvpump": {
+    "reason": "Rugcheck rejected: rugcheck_score_5301",
+    "timestamp": 1770893712.892248,
+    "chain": "solana"
+  },
+  "7gc9wkxewlgbzndbz9nwz4puveuhy38safk1mxoqpump": {
+    "reason": "Holder concentration: EXTREME_CONCENTRATION_RISK",
+    "timestamp": 1770893712.8948503,
+    "chain": "solana"
+  },
+  "8fnbmcqzp2hvcmwefnbi5yyr7d5xzcycuvzw9flqpump": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770893712.8983316,
+    "chain": "solana"
+  },
+  "61wj56qggyyb966t7ysmzeakrlcmvjpdbpzjkrczc4bi": {
+    "reason": "Fragile liquidity: liq/mcap=4.1% ($465,586 / $11,447,084, min 10%)",
+    "timestamp": 1770893712.899608,
+    "chain": "solana"
+  },
+  "0x9ae5f51d81ff510bf961218f833f79d57bfbab07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_3508",
+    "timestamp": 1770893726.8945403,
+    "chain": "base"
+  },
+  "cvtmseb9rzhphb1cge7pakszomozdv3jjnz28sdbpump": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_4472",
+    "timestamp": 1770893731.9894755,
+    "chain": "solana"
+  },
+  "gz7vjwyqw6uqt1py5s2zvtynefbp4thmi31n5mx1pump": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_40966",
+    "timestamp": 1770893738.0310707,
+    "chain": "solana"
+  },
+  "0xc15a21b1065d66014ad3906a59cdc8215db44b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_4680",
+    "timestamp": 1770893810.8968885,
+    "chain": "base"
+  },
+  "0xd68a5d3949c5ccfe7fd935b73a396170f2b9f2af": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770893810.8980122,
+    "chain": "base"
+  },
+  "0x6126f3aca38e2de7cded58e2ffd29fdd3b91b6c7": {
+    "reason": "Liquidity too low: $0",
+    "timestamp": 1770893810.9010186,
+    "chain": "base"
+  },
+  "0xf27b8ef47842e6445e37804896f1bc5e29381b07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_14386",
+    "timestamp": 1770893883.9706018,
+    "chain": "base"
+  },
+  "0xe2f3fae4bc62e21826018364aa30ae45d430bb07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_16508",
+    "timestamp": 1770893896.5796885,
+    "chain": "base"
+  },
+  "0x16332535e2c27da578bc2e82beb09ce9d3c8eb07": {
+    "reason": "Anti-Fomo rejected: low_h1_volume_16568",
+    "timestamp": 1770893897.1643748,
     "chain": "base"
   }
 }

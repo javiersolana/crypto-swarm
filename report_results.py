@@ -1,101 +1,165 @@
 """
-Report Results - v8.1 Robust Paper Trading Report
+Report Results - v8.8 Bulletproof Paper Trading Report
 
 Reads data/paper_trades.json and generates a PnL report.
-If pnl_pct/final_change_pct is 0 or missing, recalculates from entry/exit prices.
-Shows net PnL after fees.
+Handles all edge cases: missing fields, corrupt data, empty trades,
+old format files. Recalculates from entry/exit prices when stored
+values are 0 or missing. Shows 6-decimal precision on SOL amounts.
+v8.8: Shows tier amount per trade if available.
 """
 import json
 import os
+import sys
 from datetime import datetime
+
 
 TRADES_FILE = "data/paper_trades.json"
 
 
+def _safe_float(val, default=0.0) -> float:
+    """Convert any value to float, never crash."""
+    if val is None:
+        return default
+    try:
+        return float(val)
+    except (TypeError, ValueError):
+        return default
+
+
 def _calc_change_pct(trade: dict) -> float:
-    """Calculate change % from prices if the stored value is 0 or missing."""
-    stored = trade.get("final_change_pct") or trade.get("pnl_pct") or 0.0
-    if stored != 0:
-        return float(stored)
-    # Fallback: calculate from entry/exit prices
-    entry = trade.get("entry_price", 0)
-    exit_p = trade.get("exit_price", 0)
-    if entry and entry > 0 and exit_p:
-        return round(((exit_p - entry) / entry) * 100, 2)
+    """Calculate change % from prices. Tries stored value first, recalculates if 0."""
+    stored = _safe_float(trade.get("final_change_pct")) or _safe_float(trade.get("pnl_pct"))
+    if stored != 0.0:
+        return stored
+    entry = _safe_float(trade.get("entry_price"))
+    exit_p = _safe_float(trade.get("exit_price"))
+    if entry > 0 and exit_p > 0:
+        return round(((exit_p - entry) / entry) * 100, 6)
     return 0.0
 
 
 def _calc_net_pnl(trade: dict) -> float:
-    """Get net PnL in SOL, accounting for fees."""
-    stored = trade.get("pnl_net_sol") or trade.get("pnl_sol") or 0.0
-    return float(stored)
+    """Get net PnL in SOL. Tries stored, recalculates if 0."""
+    stored = _safe_float(trade.get("pnl_net_sol")) or _safe_float(trade.get("pnl_sol"))
+    if stored != 0.0:
+        return stored
+    # Recalculate: (change_pct / 100) * amount_sol - fee
+    change = _calc_change_pct(trade)
+    amount = _safe_float(trade.get("remaining_sol")) or _safe_float(trade.get("amount_sol"), 1.0)
+    fee = _safe_float(trade.get("fee_sol"), 0.006)
+    tp1_pnl = _safe_float(trade.get("tp1_pnl_sol"))
+    return round(amount * (change / 100) + tp1_pnl - fee, 6)
+
+
+def _get_token_name(trade: dict) -> str:
+    """Extract token name from any format."""
+    return (
+        trade.get("token_name")
+        or trade.get("name")
+        or trade.get("token_symbol")
+        or (trade.get("address") or "???")[:12]
+    )
+
+
+def _load_trades() -> dict | None:
+    """Load trades file with multiple fallback paths."""
+    paths = [TRADES_FILE, "data/paper_trades.json", "./paper_trades.json"]
+    for path in paths:
+        if os.path.exists(path):
+            try:
+                with open(path, "r") as f:
+                    content = f.read().strip()
+                if not content:
+                    print(f"  Archivo vacio: {path}")
+                    continue
+                data = json.loads(content)
+                if isinstance(data, dict):
+                    return data
+            except json.JSONDecodeError as e:
+                print(f"  JSON corrupto en {path}: {e}")
+            except OSError as e:
+                print(f"  Error leyendo {path}: {e}")
+    return None
 
 
 def generate_report():
-    if not os.path.exists(TRADES_FILE):
-        print("No se encontro el archivo de trades. Ha generado el bot alguna alerta?")
+    print()
+    data = _load_trades()
+    if not data:
+        print("  No se encontro el archivo de trades o esta corrupto.")
+        print(f"  Buscado en: {TRADES_FILE}")
+        print("  El bot necesita generar al menos 1 alerta primero.")
         return
 
-    try:
-        with open(TRADES_FILE, "r") as f:
-            data = json.load(f)
-    except Exception as e:
-        print(f"Error leyendo el JSON: {e}")
-        return
-
-    # v8.1: Use correct field names from paper_trader.py
-    active = data.get("open_trades", [])
+    # Extract with safe defaults for ANY field name variation
+    active = data.get("open_trades", data.get("active_trades", []))
     closed = data.get("closed_trades", [])
-    session_pnl = data.get("session_pnl_sol", 0.0)
-    total_trades = data.get("total_trades", 0)
-    wins = data.get("wins", 0)
-    losses = data.get("losses", 0)
+    session_pnl = _safe_float(data.get("session_pnl_sol", data.get("total_pnl_sol")))
+    total_trades = int(_safe_float(data.get("total_trades", len(active) + len(closed))))
+    wins = int(_safe_float(data.get("wins", 0)))
+    losses = int(_safe_float(data.get("losses", 0)))
     config_info = data.get("config", {})
+    session_start = data.get("session_start", "N/A")
 
-    amount_sol = config_info.get("amount_sol", 1.0)
+    amount_sol = _safe_float(config_info.get("amount_sol"), 1.0)
 
     print("=" * 65)
-    print(f"  INFORME DE RENTABILIDAD SWARM v8.1 — {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    print(f"  INFORME DE RENTABILIDAD SWARM v8.6")
+    print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 65)
 
-    print(f"\n  RESUMEN DE CARTERA")
+    print(f"\n  CONFIGURACION")
+    print(f"  Session start: {session_start}")
     print(f"  Capital por trade: {amount_sol} SOL")
-    print(f"  TP1: +{config_info.get('tp1_pct', 80)}% (sell {config_info.get('tp1_sell_fraction', 0.5)*100:.0f}%)")
-    print(f"  SL: {config_info.get('sl_pct', -25)}%  |  Trailing: {config_info.get('moonbag_trailing_pct', 20)}%")
+    print(f"  TP1: +{config_info.get('tp1_pct', 80)}% "
+          f"(sell {_safe_float(config_info.get('tp1_sell_fraction', 0.5))*100:.0f}%)")
+    print(f"  SL: {config_info.get('sl_pct', -25)}%  |  "
+          f"Trailing: {config_info.get('moonbag_trailing_pct', 20)}%")
+
+    print(f"\n  ESTADO")
     print(f"  Total trades: {total_trades}  |  Open: {len(active)}  |  Closed: {len(closed)}")
-    print(f"  Session PnL: {session_pnl:+.4f} SOL")
+    print(f"  Session PnL: {session_pnl:+.6f} SOL")
 
+    # ── Closed trades detail ──────────────────────────────────────────
     if closed:
-        win_rate = (wins / len(closed)) * 100 if len(closed) > 0 else 0
-        total_fees = sum(float(t.get("fee_sol", 0.006)) for t in closed)
+        # Recalculate wins/losses if stored values seem wrong
+        recalc_wins = sum(1 for t in closed if _calc_net_pnl(t) > 0)
+        recalc_losses = len(closed) - recalc_wins
+        if wins + losses != len(closed):
+            wins, losses = recalc_wins, recalc_losses
 
-        # Recalculate net PnL from individual trades for accuracy
+        win_rate = (wins / len(closed)) * 100 if len(closed) > 0 else 0
+        total_fees = sum(_safe_float(t.get("fee_sol"), 0.006) for t in closed)
         recalc_pnl = sum(_calc_net_pnl(t) for t in closed)
+        gross_pnl = sum(
+            _safe_float(t.get("pnl_sol")) or (_calc_net_pnl(t) + _safe_float(t.get("fee_sol"), 0.006))
+            for t in closed
+        )
 
         print(f"\n  PERFORMANCE")
         print(f"  Win Rate: {win_rate:.1f}% ({wins}W / {losses}L)")
-        print(f"  Total fees paid: {total_fees:.4f} SOL")
-        print(f"  Net PnL (recalc): {recalc_pnl:+.4f} SOL")
+        print(f"  Gross PnL: {gross_pnl:+.6f} SOL")
+        print(f"  Total fees: -{total_fees:.6f} SOL")
+        print(f"  Net PnL:   {recalc_pnl:+.6f} SOL")
 
-        print(f"\n  {'TOKEN':<20} {'CHANGE':>8} {'PnL SOL':>10} {'FEE':>7} {'REASON':<20}")
-        print(f"  {'-'*20} {'-'*8} {'-'*10} {'-'*7} {'-'*20}")
+        # Per-trade table
+        print(f"\n  {'#':<4} {'TOKEN':<18} {'CHANGE':>9} {'PnL SOL':>12} {'FEE':>9} {'REASON':<20}")
+        print(f"  {'─'*4} {'─'*18} {'─'*9} {'─'*12} {'─'*9} {'─'*20}")
 
-        for t in closed:
-            name = (t.get("token_name") or t.get("address", "???")[:12])[:19]
+        for i, t in enumerate(closed, 1):
+            name = _get_token_name(t)[:17]
             change = _calc_change_pct(t)
             net_pnl = _calc_net_pnl(t)
-            fee = float(t.get("fee_sol", 0.006))
+            fee = _safe_float(t.get("fee_sol"), 0.006)
             reason = t.get("exit_reason", "N/A")
-            icon = "+" if change > 0 else ""
-            print(f"  {name:<20} {icon}{change:>7.1f}% {net_pnl:>+10.4f} {fee:>7.4f} {reason:<20}")
+            sign = "+" if change > 0 else ""
+            print(f"  {i:<4} {name:<18} {sign}{change:>8.2f}% {net_pnl:>+12.6f} {fee:>9.6f} {reason:<20}")
 
-        # Best and worst trades
+        # Best and worst
         best = max(closed, key=lambda x: _calc_change_pct(x))
         worst = min(closed, key=lambda x: _calc_change_pct(x))
-        best_name = (best.get("token_name") or "?")[:20]
-        worst_name = (worst.get("token_name") or "?")[:20]
-        print(f"\n  MEJOR:  {best_name} ({_calc_change_pct(best):+.1f}%)")
-        print(f"  PEOR:   {worst_name} ({_calc_change_pct(worst):+.1f}%)")
+        print(f"\n  MEJOR:  {_get_token_name(best)[:20]} ({_calc_change_pct(best):+.2f}%)")
+        print(f"  PEOR:   {_get_token_name(worst)[:20]} ({_calc_change_pct(worst):+.2f}%)")
 
         # Exit reason breakdown
         reasons = {}
@@ -104,19 +168,55 @@ def generate_report():
             reasons[r] = reasons.get(r, 0) + 1
         print(f"\n  EXIT REASONS:")
         for reason, count in sorted(reasons.items(), key=lambda x: -x[1]):
-            print(f"    {reason}: {count}")
+            pct = count / len(closed) * 100
+            print(f"    {reason}: {count} ({pct:.0f}%)")
 
+        # v8.6: Commission impact analysis
+        gross_pnl_no_fees = sum(
+            (_calc_net_pnl(t) + _safe_float(t.get("fee_sol"), 0.006))
+            for t in closed
+        )
+        total_slippage_cost = sum(
+            _safe_float(t.get("amount_sol"), 0.05) * (_safe_float(t.get("_slippage_pct"), 3.0) / 100)
+            for t in closed
+        )
+        print(f"\n  COMISIONES vs PnL (Day 2 Analysis)")
+        print(f"    PnL SIN comisiones:  {gross_pnl_no_fees:+.6f} SOL")
+        print(f"    Total comisiones:    -{total_fees:.6f} SOL")
+        print(f"    PnL CON comisiones:  {recalc_pnl:+.6f} SOL")
+        print(f"    Impacto comisiones:  {(total_fees / max(abs(gross_pnl_no_fees), 0.000001) * 100):.1f}% del PnL bruto")
+        print(f"    Fee promedio/trade:  {total_fees / max(len(closed), 1):.6f} SOL")
+        if gross_pnl_no_fees > 0 and recalc_pnl <= 0:
+            print(f"    *** Las comisiones convirtieron ganancias en perdidas ***")
+
+        # TP1 moonbag stats
+        tp1_trades = [t for t in closed if t.get("tp1_hit")]
+        if tp1_trades:
+            tp1_pnl = sum(_safe_float(t.get("tp1_pnl_sol")) for t in tp1_trades)
+            print(f"\n  MOONBAG STATS:")
+            print(f"    TP1 triggered: {len(tp1_trades)}/{len(closed)} trades")
+            print(f"    TP1 realized PnL: {tp1_pnl:+.6f} SOL")
+
+    else:
+        print(f"\n  Sin trades cerrados todavia.")
+
+    # ── Open positions ────────────────────────────────────────────────
     if active:
         print(f"\n  POSICIONES ABIERTAS ({len(active)}):")
+        print(f"  {'TOKEN':<18} {'CHANGE':>9} {'MAX':>9} {'SL':>12} {'STATUS':<12}")
+        print(f"  {'─'*18} {'─'*9} {'─'*9} {'─'*12} {'─'*12}")
         for t in active:
-            name = (t.get("token_name") or t.get("address", "?")[:12])[:19]
-            entry = t.get("entry_price", 0)
-            curr = t.get("current_price", entry)
+            name = _get_token_name(t)[:17]
+            entry = _safe_float(t.get("entry_price"))
+            curr = _safe_float(t.get("current_price")) or entry
             change = ((curr - entry) / entry * 100) if entry > 0 else 0
-            highest = t.get("highest_price", entry)
+            highest = _safe_float(t.get("highest_price")) or entry
             max_pct = ((highest - entry) / entry * 100) if entry > 0 else 0
-            tp1 = "TP1-HIT" if t.get("tp1_hit") else ""
-            print(f"    {name:<20} {change:>+7.1f}% (max: {max_pct:+.1f}%) {tp1}")
+            sl = _safe_float(t.get("stop_loss"))
+            status = "TP1-HIT" if t.get("tp1_hit") else "ACTIVE"
+            print(f"  {name:<18} {change:>+8.2f}% {max_pct:>+8.2f}% ${sl:>10.8f} {status:<12}")
+    else:
+        print(f"\n  Sin posiciones abiertas.")
 
     print("\n" + "=" * 65)
 

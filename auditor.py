@@ -4,11 +4,15 @@ Analyzes tokens for rug pull indicators, honeypots, and other red flags.
 Score of 0 = auto-reject. Minimum score of 7 to proceed.
 
 v2.0: DexScreener-first strategy to reduce GeckoTerminal load.
-      GeckoTerminal reserved for trade distribution analysis only.
-v3.0: Parallel audit with ThreadPoolExecutor. Conditional trade analysis
-      (only for tokens passing basic checks). Callback for early alerting.
-v4.0: Audit blacklist — tokens rejected with score=0 are cached and
-      skipped for AUDIT_BLACKLIST_TTL seconds, saving API calls.
+v3.0: Parallel audit with ThreadPoolExecutor. Conditional trade analysis.
+v4.0: Audit blacklist — rejected tokens cached for AUDIT_BLACKLIST_TTL.
+v8.2: [SAFETY] REJECTED verbose logs with exact metric values.
+v8.5: Anti-Fomo filter (RSI + h1 volume).
+v8.6: SOL Trend filter — blocks ALL buys if SOL bleeding.
+v8.8: Sweet Spot — relaxed Anti-Fomo: h1_vol $10k (was $50k), RSI 70 (was 65),
+      RSI period 9 (was 14), NEW vol_h1/liquidity ratio >= 0.3 filter.
+      Keeps safety (RSI catches GIRAFFLUNA -98%) while allowing fresh gems
+      (SPIRIT +1630%, SWAM +1929% would now pass).
 """
 import json
 import os
@@ -111,6 +115,12 @@ class Forense:
         """
         log.info(f"=== THE FORENSE: Auditing {len(candidates)} candidates ===")
         t_start = time.monotonic()
+
+        # v8.6: SOL Trend Filter — block ALL buys if SOL is bleeding
+        sol_blocked = self._check_sol_trend()
+        if sol_blocked:
+            log.warning(f"=== THE FORENSE: ALL BUYS BLOCKED — SOL bleeding ({sol_blocked}) ===")
+            return []
 
         # Filter blacklisted tokens before any API calls
         self.blacklist.cleanup()
@@ -227,11 +237,13 @@ class Forense:
             pool_age_seconds = max(pool_age_seconds, age_ms / 1000)
 
         min_age = config.AUDIT_MIN_TOKEN_AGE_SECONDS
+        token_name = token.get("name") or token.get("address", "???")[:12]
         if 0 < pool_age_seconds < min_age:
             checks["forense_score"] = 0
             checks["forense_reject_reason"] = (
                 f"Token too young: {pool_age_seconds:.0f}s (min {min_age}s)"
             )
+            log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Age ({pool_age_seconds:.0f}s < {min_age}s)")
             self.blacklist.add(
                 token.get("address", ""),
                 checks["forense_reject_reason"],
@@ -248,6 +260,7 @@ class Forense:
         if liquidity < config.AUDIT_MIN_LIQUIDITY:
             checks["forense_score"] = 0
             checks["forense_reject_reason"] = f"Liquidity too low: ${liquidity:,.0f}"
+            log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Liquidity (${liquidity:,.0f} < ${config.AUDIT_MIN_LIQUIDITY:,.0f})")
             self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
             return checks
 
@@ -265,6 +278,7 @@ class Forense:
                     f"Fragile liquidity: liq/mcap={liq_mcap_ratio:.1%} "
                     f"(${liquidity:,.0f} / ${mcap:,.0f}, min {config.AUDIT_MIN_LIQ_MCAP_RATIO:.0%})"
                 )
+                log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Liquidity Ratio ({liq_mcap_ratio:.1%} < {config.AUDIT_MIN_LIQ_MCAP_RATIO:.0%})")
                 self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
                 return checks
 
@@ -289,6 +303,7 @@ class Forense:
             if sell_buy_ratio < config.AUDIT_MIN_BUY_SELL_RATIO and total_txns > 20:
                 checks["forense_score"] = 0
                 checks["forense_reject_reason"] = f"Honeypot suspected: sell/buy ratio = {sell_buy_ratio:.2f}"
+                log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Honeypot (sell/buy={sell_buy_ratio:.2f}, buys={buys}, sells={sells})")
                 self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
                 return checks
 
@@ -375,6 +390,7 @@ class Forense:
             if concentration_score == 0:
                 checks["forense_score"] = 0
                 checks["forense_reject_reason"] = "Extreme holder concentration detected"
+                log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Holder Concentration (extreme, top3 trades >70% volume)")
                 self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
                 return checks
 
@@ -386,6 +402,7 @@ class Forense:
         if rugcheck_score == 0:
             checks["forense_score"] = 0
             checks["forense_reject_reason"] = f"Rugcheck rejected: {', '.join(rugcheck_flags)}"
+            log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Rugcheck ({', '.join(rugcheck_flags)})")
             self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
             return checks
 
@@ -397,6 +414,7 @@ class Forense:
         if holder_score == 0:
             checks["forense_score"] = 0
             checks["forense_reject_reason"] = f"Holder concentration: {', '.join(holder_flags)}"
+            log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Top Holders ({', '.join(holder_flags)})")
             self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
             return checks
 
@@ -411,6 +429,19 @@ class Forense:
         if bundled_score == 0:
             checks["forense_score"] = 0
             checks["forense_reject_reason"] = f"Bundled supply: {', '.join(bundled_flags)}"
+            log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Bundled Wallets ({', '.join(bundled_flags)})")
+            self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
+            return checks
+
+        # ─── PHASE 5: Anti-Fomo Filter (v8.5) ──────────────────────────
+        # Reject tokens that are overbought (RSI > 65) or have low h1 volume
+        antifomo_score, antifomo_flags = self._check_anti_fomo(token, dex_pair)
+        flags.extend(antifomo_flags)
+
+        if antifomo_score == 0:
+            checks["forense_score"] = 0
+            checks["forense_reject_reason"] = f"Anti-Fomo rejected: {', '.join(antifomo_flags)}"
+            log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Anti-Fomo ({', '.join(antifomo_flags)})")
             self.blacklist.add(token.get("address", ""), checks["forense_reject_reason"], token.get("chain", ""))
             return checks
 
@@ -630,6 +661,8 @@ class Forense:
                 rugcheck_report, config.AUDIT_MAX_CREATOR_PCT
             )
             if is_dev_heavy:
+                token_name = token.get("name") or token.get("address", "???")[:12]
+                log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Dev Wallet ({insider_pct:.1f}% > {config.AUDIT_MAX_CREATOR_PCT}%)")
                 return 0, [f"LARGE_DEV_WALLET_{insider_pct:.1f}pct"]
 
         holders = []
@@ -747,3 +780,139 @@ class Forense:
             return 6.0, ["possible_bundled_pair"]
 
         return 8.0, ["no_bundling_detected"]
+
+    def _check_anti_fomo(self, token: dict, dex_pair: dict | None) -> tuple[float, list]:
+        """Phase 5: Anti-Fomo filter (v8.8 Sweet Spot).
+
+        Three checks:
+        1. Minimum h1 volume ($10k) — rejects truly dead tokens
+        2. Vol_h1 / Liquidity ratio >= 0.3 — validates real traction
+           (SPIRIT had ratio 1.13, dead tokens have 0.01)
+        3. RSI(9) on 1-min candles > 70 = reject (buying the peak)
+           (RSI period 9 for faster response on 1-min timeframe)
+
+        v8.8: Relaxed from v8.5 ($50k→$10k, RSI 65→70, period 14→9).
+        Added vol/liq ratio to distinguish "low volume because new" from
+        "low volume because dead". This would have allowed SPIRIT (+1630%),
+        SWAM (+1929%), CQ (+1794%) while still blocking GIRAFFLUNA (-98%).
+        """
+        flags = []
+        token_name = token.get("name") or token.get("address", "???")[:12]
+
+        # ─── Check 1: Minimum h1 volume from DexScreener ────────────────
+        vol_h1 = 0
+        if dex_pair:
+            vol_h1 = safe_float(dex_pair.get("volume", {}).get("h1"))
+        min_vol = getattr(config, 'AUDIT_MIN_VOLUME_H1', 10_000)
+        if vol_h1 < min_vol:
+            log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Anti-Fomo Volume "
+                     f"(h1=${vol_h1:,.0f} < ${min_vol:,.0f})")
+            return 0, [f"low_h1_volume_{vol_h1:.0f}"]
+
+        # ─── Check 2: Vol_h1 / Liquidity ratio (v8.8 NEW) ───────────────
+        # Fresh gems have vol/liq > 0.3 (SPIRIT: $35k/$31k = 1.13)
+        # Dead tokens have vol/liq < 0.1 (random shitcoins)
+        liquidity = safe_float(token.get("liquidity_usd", 0))
+        if dex_pair:
+            liquidity = max(liquidity, safe_float(
+                dex_pair.get("liquidity", {}).get("usd")))
+        min_ratio = getattr(config, 'AUDIT_MIN_VOL_LIQ_RATIO_H1', 0.3)
+        if liquidity > 0 and vol_h1 > 0:
+            vol_liq_ratio = vol_h1 / liquidity
+            if vol_liq_ratio < min_ratio:
+                log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Anti-Fomo Vol/Liq "
+                         f"(ratio={vol_liq_ratio:.2f} < {min_ratio}, "
+                         f"h1=${vol_h1:,.0f}, liq=${liquidity:,.0f})")
+                return 0, [f"low_vol_liq_ratio_{vol_liq_ratio:.2f}"]
+            flags.append(f"vol_liq_h1_{vol_liq_ratio:.2f}")
+
+        # ─── Check 3: RSI on 1-min candles (v8.8: period 9, threshold 70) ──
+        network_id = token.get("network_id", "")
+        pool_address = token.get("pool_address", "")
+        max_rsi = getattr(config, 'AUDIT_MAX_RSI_1M', 70)
+        rsi_period = getattr(config, 'RSI_PERIOD_ANTIFOMO', 9)
+
+        if network_id and pool_address:
+            try:
+                ohlcv = self.gecko.get_pool_ohlcv(
+                    network_id, pool_address,
+                    timeframe="minute", aggregate=1, limit=20
+                )
+                if ohlcv and len(ohlcv) >= rsi_period + 1:
+                    closes = [safe_float(c[4]) for c in ohlcv if safe_float(c[4]) > 0]
+                    rsi = self._calculate_rsi_simple(closes, rsi_period)
+                    if rsi is not None and rsi > max_rsi:
+                        log.info(f"  [SAFETY] REJECTED: {token_name} | Reason: Anti-Fomo RSI "
+                                 f"(RSI({rsi_period})={rsi:.1f} > {max_rsi})")
+                        return 0, [f"overbought_rsi_{rsi:.0f}"]
+                    if rsi is not None:
+                        flags.append(f"rsi_{rsi_period}m_{rsi:.0f}")
+            except Exception as e:
+                log.debug(f"  Anti-Fomo RSI check failed for {token_name}: {e}")
+
+        return 7.0, flags
+
+    def _check_sol_trend(self) -> str | None:
+        """v8.6: Check if SOL dropped >2% in the last hour.
+
+        Uses DexScreener to get the SOL/USDC pair's h1 price change.
+        Returns a description string if buys should be blocked, None otherwise.
+        """
+        max_drop = getattr(config, 'SOL_TREND_MAX_DROP_PCT', -2.0)
+        try:
+            sol_mint = getattr(config, 'SOL_USDC_PAIR_ADDRESS',
+                               'So11111111111111111111111111111111111111112')
+            pairs = self.dex.get_token_pairs("solana", sol_mint)
+            if not pairs:
+                log.debug("SOL trend check: no pairs found, allowing buys")
+                return None
+
+            # Find the highest-liquidity SOL/USDC or SOL/USDT pair
+            best_pair = None
+            best_liq = 0
+            for p in pairs:
+                quote = p.get("quoteToken", {}).get("symbol", "").upper()
+                if quote in ("USDC", "USDT"):
+                    liq = safe_float(p.get("liquidity", {}).get("usd", 0))
+                    if liq > best_liq:
+                        best_liq = liq
+                        best_pair = p
+
+            if not best_pair:
+                log.debug("SOL trend check: no SOL/USDC pair found, allowing buys")
+                return None
+
+            h1_change = safe_float(best_pair.get("priceChange", {}).get("h1", 0))
+            log.info(f"[SOL TREND] SOL/USDC h1 change: {h1_change:+.2f}% "
+                     f"(threshold: {max_drop}%)")
+
+            if h1_change < max_drop:
+                return f"SOL h1={h1_change:+.2f}% < {max_drop}%"
+
+        except Exception as e:
+            log.warning(f"SOL trend check failed: {e} — allowing buys")
+
+        return None
+
+    @staticmethod
+    def _calculate_rsi_simple(closes: list[float], period: int = 14) -> float | None:
+        """Calculate RSI using Wilder's smoothing method."""
+        if len(closes) < period + 1:
+            return None
+        gains = []
+        losses = []
+        for i in range(1, len(closes)):
+            change = closes[i] - closes[i - 1]
+            gains.append(max(change, 0))
+            losses.append(max(-change, 0))
+        if len(gains) < period:
+            return None
+        avg_gain = sum(gains[:period]) / period
+        avg_loss = sum(losses[:period]) / period
+        for i in range(period, len(gains)):
+            avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+            avg_loss = (avg_loss * (period - 1) + losses[i]) / period
+        if avg_loss == 0:
+            return 100.0
+        rs = avg_gain / avg_loss
+        return 100 - (100 / (1 + rs))

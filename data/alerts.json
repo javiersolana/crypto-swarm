@@ -10,5 +10,17 @@
     "liquidity_usd": 157337.1694,
     "forense_score": 7.1,
     "rsi": 32.6
+  },
+  {
+    "timestamp": "2026-02-11T22:49:18.353592+00:00",
+    "name": "COS / WETH",
+    "address": "0x6eefbfc95c7810adf53ac232d1de911839918749",
+    "network": "base",
+    "composite_score": 7.39,
+    "price_usd": 4.0111366720212e-06,
+    "price_change_24h": 30.772,
+    "liquidity_usd": 197296.4647,
+    "forense_score": 7.8,
+    "rsi": 37.0
   }
 ]

@@ -1,0 +1,277 @@
+2026-02-12 01:01:45 [alpha_monitor] INFO: Alpha Monitor v8.6 daemon starting (interval: 15 min)
+2026-02-12 01:01:45 [alpha_monitor] INFO: APIs configured: Helius (wallet tracking), CryptoPanic (news), GitHub (dev activity)
+2026-02-12 01:01:45 [paper_trader] INFO: Paper trader DATA_DIR verified: /home/solana/crypto-swarm/data
+2026-02-12 01:01:45 [paper_trader] INFO: Paper trader ready: file=/home/solana/crypto-swarm/data/paper_trades.json, open=3, closed=3
+2026-02-12 01:01:45 [alpha_monitor] INFO: Paper trading: 3 open, -0.9376 SOL PnL
+2026-02-12 01:01:46 [alert_monitor] INFO: Telegram alert sent successfully
+2026-02-12 01:01:46 [alpha_monitor] INFO: Wallet background thread launched
+2026-02-12 01:01:46 [alpha_monitor] INFO: Exit manager thread launched
+2026-02-12 01:01:46 [alpha_monitor] INFO: 
+--- Alpha Cycle #1 at 00:01 UTC ---
+2026-02-12 01:01:46 [alpha_monitor] INFO: Exit manager thread started
+2026-02-12 01:01:46 [alpha_monitor] INFO: Wallet background thread started (50 wallets)
+2026-02-12 01:01:46 [wallet_tracker] INFO: [WS] Started monitoring 50 Solana wallets
+2026-02-12 01:01:46 [wallet_tracker] INFO: Scanning 50 tracked wallets (sequential, 1.0s delay)...
+2026-02-12 01:01:46 [alpha_monitor] INFO: ==================================================
+2026-02-12 01:01:46 [alpha_monitor] INFO: ALPHA MONITOR v8.6 - Starting scan cycle
+2026-02-12 01:01:46 [alpha_monitor] INFO: ==================================================
+2026-02-12 01:01:46 [scout] INFO: === THE SCOUT: Starting token scan ===
+2026-02-12 01:01:46 [scout] INFO: Scanning new pools on solana (2 pages, priority)...
+2026-02-12 01:01:46 [api_client] INFO:   [gecko] solana new_pools page 1: 20 pools
+2026-02-12 01:01:46 [paper_trader] INFO: PAPER STOP_LOSS: Cucumber  PnL=-29.7% (remaining: -0.2967 SOL, TP1: +0.0000 SOL, fees: -0.006 SOL, net: -0.3027 SOL)
+2026-02-12 01:01:46 [wallet_tracker] WARNING: [WS] Helius WebSocket returned 403 (requires Business plan). Disabling WebSocket permanently for this session.
+2026-02-12 01:01:47 [alert_monitor] INFO: Telegram alert sent successfully
+2026-02-12 01:01:47 [alpha_monitor] INFO:   [EXIT] Token: Cucumber  | Cambio: -29.7% | Motivo: stop_loss | Tiempo en posición: 149 seg
+2026-02-12 01:01:52 [api_client] INFO:   [gecko] solana new_pools page 2: 20 pools
+2026-02-12 01:01:52 [scout] INFO:   Found 40 new pools on solana
+2026-02-12 01:01:52 [scout] INFO: Scanning new pools on base (2 pages, priority)...
+2026-02-12 01:01:58 [api_client] INFO:   [gecko] base new_pools page 1: 20 pools
+2026-02-12 01:02:04 [api_client] INFO:   [gecko] base new_pools page 2: 20 pools
+2026-02-12 01:02:04 [scout] INFO:   Found 40 new pools on base
+2026-02-12 01:02:04 [scout] INFO: Scanning new pools on ethereum (1 pages, low-prio)...
+2026-02-12 01:02:10 [api_client] INFO:   [gecko] eth new_pools page 1: 20 pools
+2026-02-12 01:02:10 [scout] INFO:   Found 20 new pools on ethereum
+2026-02-12 01:02:10 [scout] INFO: Scanning trending pools on solana (2 pages)...
+2026-02-12 01:02:22 [scout] INFO:   Found 40 trending pools on solana
+2026-02-12 01:02:22 [scout] INFO: Scanning trending pools on base (2 pages)...
+2026-02-12 01:02:46 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.1s...
+2026-02-12 01:03:06 [scout] INFO:   Found 40 trending pools on base
+2026-02-12 01:03:06 [scout] INFO: Scanning trending pools on ethereum (1 pages)...
+2026-02-12 01:03:19 [scout] INFO:   Found 20 trending pools on ethereum
+2026-02-12 01:03:19 [scout] INFO: Checking DexScreener boosted tokens...
+2026-02-12 01:03:19 [scout] INFO: Checking CoinGecko trending...
+2026-02-12 01:03:27 [scout] INFO: Total raw candidates: 222 (scan took 101.7s)
+2026-02-12 01:03:27 [scout] INFO: After filters: 66 candidates
+2026-02-12 01:03:27 [scout] INFO: === THE SCOUT: Returning top 66 candidates ===
+2026-02-12 01:03:27 [alpha_monitor] INFO: Scout: 66 candidates (101.7s)
+2026-02-12 01:03:27 [forense] INFO: === THE FORENSE: Auditing 66 candidates ===
+2026-02-12 01:03:28 [forense] INFO: [SOL TREND] SOL/USDC h1 change: -0.12% (threshold: -2.0%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token htciqqija4e2... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=6.2% ($231,965 / $3,723,693, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 3mdgfdncuq8g... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $19,024
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 8jx8aahj86wb... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=3.8% ($714,797 / $18,742,607, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 6qkj2yfbnoeh... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $19,724
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token algebg1hsy98... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $28,103
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 4fswew2wbyeu... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=9.1% ($136,407 / $1,494,277, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 8opvqawysx1o... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=2.0% ($746,362 / $38,065,783, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 9s8edqwxowz5... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=8.1% ($207,618 / $2,559,109, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 5txkk2cfvneb... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 0x5b2193fdc4... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=9.4% ($613,149 / $6,529,650, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token hxvqaqwytoln... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $24,846
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token dmynp65mub3i... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=7.0% ($151,129 / $2,168,841, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token drlnhjm7jusy... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $17,534
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token ekwf2hd6x4rh... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=8.3% ($195,822 / $2,351,696, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token hbqb6j9rkaro... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $23,770
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 2k8yzajjf61u... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=5.3% ($275,652 / $5,220,721, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 61wj56qggyyb... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=3.9% ($470,209 / $12,083,960, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 0xa12cc123ba... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=2.1% ($871,132 / $40,991,118, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token ekguxsq2ucfy... saltado por Blacklist (Ahorrada 1 llamada) - Holder concentration: EXTREME_CONCENTRATION_RISK
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 2qt8jvotq2c1... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=8.3% ($128,621 / $1,552,754, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token g8s88jzphikd... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $17,396
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 0x16ee7ecac7... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=9.9% ($573,494 / $5,791,742, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token akuryic4cq55... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $23,410
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 412zdygnwp9d... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $25,174
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token h5y61nkxfbdj... saltado por Blacklist (Ahorrada 1 llamada) - Liquidity too low: $0
+2026-02-12 01:03:28 [forense] INFO:   [Forense] Token 0xa53887f7e7... saltado por Blacklist (Ahorrada 1 llamada) - Fragile liquidity: liq/mcap=6.3% ($327,293 / $5,183,359, min 10%)
+2026-02-12 01:03:28 [forense] INFO:   [Blacklist] Skipped 26 blacklisted tokens
+2026-02-12 01:03:29 [forense] INFO:   [SAFETY] REJECTED: TUBE / SOL | Reason: Liquidity ($19,596 < $30,000)
+2026-02-12 01:03:29 [forense] INFO:   [SAFETY] REJECTED: CLAWBSTR / WETH | Reason: Honeypot (sell/buy=0.14, buys=6517, sells=932)
+2026-02-12 01:03:29 [forense] INFO:   [SAFETY] REJECTED: big / SOL | Reason: Age (117s < 180s)
+2026-02-12 01:03:29 [forense] INFO:   [SAFETY] REJECTED: GTA / SOL | Reason: Liquidity ($23,021 < $30,000)
+2026-02-12 01:03:29 [forense] INFO:   REJECTED: TUBE / SOL - Liquidity too low: $19,596
+2026-02-12 01:03:29 [forense] INFO:   REJECTED: CLAWBSTR / WETH - Honeypot suspected: sell/buy ratio = 0.14
+2026-02-12 01:03:29 [forense] INFO:   REJECTED: big / SOL - Token too young: 117s (min 180s)
+2026-02-12 01:03:29 [forense] INFO:   REJECTED: GTA / SOL - Liquidity too low: $23,021
+2026-02-12 01:03:53 [forense] INFO:   [SAFETY] REJECTED: ADHD / WETH 1.2% | Reason: Anti-Fomo Volume (h1=$1,490 < $50,000)
+2026-02-12 01:03:53 [forense] INFO:   [SAFETY] REJECTED: ADHD / WETH 1.2% | Reason: Anti-Fomo (low_h1_volume_1490)
+2026-02-12 01:03:53 [forense] INFO:   [SAFETY] REJECTED: CRAIG / WETH | Reason: Anti-Fomo Volume (h1=$11,176 < $50,000)
+2026-02-12 01:03:53 [forense] INFO:   [SAFETY] REJECTED: CRAIG / WETH | Reason: Anti-Fomo (low_h1_volume_11176)
+2026-02-12 01:03:53 [forense] INFO:   REJECTED: ADHD / WETH 1.2% - Anti-Fomo rejected: low_h1_volume_1490
+2026-02-12 01:03:53 [forense] INFO:   REJECTED: CRAIG / WETH - Anti-Fomo rejected: low_h1_volume_11176
+2026-02-12 01:03:56 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:03:56 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:03:56 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:03:57 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:03:57 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:03:58 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:03:58 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:03:59 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:03:59 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:00 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:00 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:00 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:00 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:01 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:01 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:01 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:01 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:01 [forense] INFO:   [SAFETY] REJECTED: LIQUID / SOL | Reason: Anti-Fomo Volume (h1=$14,646 < $50,000)
+2026-02-12 01:04:01 [forense] INFO:   [SAFETY] REJECTED: LIQUID / SOL | Reason: Anti-Fomo (low_h1_volume_14646)
+2026-02-12 01:04:01 [forense] INFO:   REJECTED: LIQUID / SOL - Anti-Fomo rejected: low_h1_volume_14646
+2026-02-12 01:04:02 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:02 [forense] INFO:   [SAFETY] REJECTED: GIRAFFES / SOL | Reason: Anti-Fomo Volume (h1=$42,360 < $50,000)
+2026-02-12 01:04:02 [forense] INFO:   [SAFETY] REJECTED: GIRAFFES / SOL | Reason: Anti-Fomo (low_h1_volume_42360)
+2026-02-12 01:04:02 [forense] INFO:   REJECTED: GIRAFFES / SOL - Anti-Fomo rejected: low_h1_volume_42360
+2026-02-12 01:04:03 [api_client] WARNING: [rugcheck] Request failed: https://api.rugcheck.xyz/v1/tokens/8vgr1ex9vfpootwiupya5kyogx9btury2xc4dnmrpump/report - 400 Client Error: Bad Request for url: https://api.rugcheck.xyz/v1/tokens/8vgr1ex9vfpootwiupya5kyogx9btury2xc4dnmrpump/report
+2026-02-12 01:04:05 [api_client] WARNING: [rugcheck] Request failed: https://api.rugcheck.xyz/v1/tokens/71mfkdepwywxtif1mqu2aacdmknkun664z2vem2xpump/report - 400 Client Error: Bad Request for url: https://api.rugcheck.xyz/v1/tokens/71mfkdepwywxtif1mqu2aacdmknkun664z2vem2xpump/report
+2026-02-12 01:04:05 [forense] INFO:   [SAFETY] REJECTED: COS / WETH | Reason: Anti-Fomo Volume (h1=$11,158 < $50,000)
+2026-02-12 01:04:05 [forense] INFO:   [SAFETY] REJECTED: MLTL / flETH | Reason: Anti-Fomo Volume (h1=$21,527 < $50,000)
+2026-02-12 01:04:05 [forense] INFO:   [SAFETY] REJECTED: COS / WETH | Reason: Anti-Fomo (low_h1_volume_11158)
+2026-02-12 01:04:05 [forense] INFO:   [SAFETY] REJECTED: MLTL / flETH | Reason: Anti-Fomo (low_h1_volume_21527)
+2026-02-12 01:04:05 [forense] INFO:   REJECTED: COS / WETH - Anti-Fomo rejected: low_h1_volume_11158
+2026-02-12 01:04:05 [forense] INFO:   REJECTED: MLTL / flETH - Anti-Fomo rejected: low_h1_volume_21527
+2026-02-12 01:04:29 [forense] INFO:   [SAFETY] REJECTED: OSO / flETH | Reason: Anti-Fomo Volume (h1=$37,687 < $50,000)
+2026-02-12 01:04:29 [forense] INFO:   [SAFETY] REJECTED: OSO / flETH | Reason: Anti-Fomo (low_h1_volume_37687)
+2026-02-12 01:04:29 [forense] INFO:   [SAFETY] REJECTED: builderarena / WETH | Reason: Anti-Fomo Volume (h1=$6,981 < $50,000)
+2026-02-12 01:04:29 [forense] INFO:   [SAFETY] REJECTED: builderarena / WETH | Reason: Anti-Fomo (low_h1_volume_6981)
+2026-02-12 01:04:29 [forense] INFO:   [SAFETY] REJECTED: SELFCLAW / WETH | Reason: Anti-Fomo Volume (h1=$12,358 < $50,000)
+2026-02-12 01:04:29 [forense] INFO:   [SAFETY] REJECTED: SELFCLAW / WETH | Reason: Anti-Fomo (low_h1_volume_12358)
+2026-02-12 01:04:29 [forense] INFO:   REJECTED: OSO / flETH - Anti-Fomo rejected: low_h1_volume_37687
+2026-02-12 01:04:29 [forense] INFO:   REJECTED: builderarena / WETH - Anti-Fomo rejected: low_h1_volume_6981
+2026-02-12 01:04:29 [forense] INFO:   REJECTED: SELFCLAW / WETH - Anti-Fomo rejected: low_h1_volume_12358
+2026-02-12 01:04:32 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:32 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:33 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:34 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:35 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:36 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:36 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:37 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.8s...
+2026-02-12 01:04:42 [wallet_tracker] INFO: Found 47 new buy signals from smart wallets!
+2026-02-12 01:04:42 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 2m 56s (50 wallets, 50 scanned, 0 cached, 0 errors)
+2026-02-12 01:04:43 [alpha_monitor] INFO: Signal accumulator: +31 new, 31 total (TTL=1800s)
+2026-02-12 01:04:43 [alpha_monitor] INFO: [HEARTBEAT] Wallet scan: 47 whale signals found | 1 passed initial safety (liq>=$30,000) | 31 total in accumulator | 176.8s
+2026-02-12 01:04:47 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.3s...
+2026-02-12 01:04:48 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:49 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:51 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:51 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:52 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:53 [forense] INFO:   [SAFETY] REJECTED: GIRAFFLUNA / SOL | Reason: Anti-Fomo RSI (RSI=75.4 > 65)
+2026-02-12 01:04:53 [forense] INFO:   [SAFETY] REJECTED: GIRAFFLUNA / SOL | Reason: Anti-Fomo (overbought_rsi_75)
+2026-02-12 01:04:53 [forense] INFO:   REJECTED: GIRAFFLUNA / SOL - Anti-Fomo rejected: overbought_rsi_75
+2026-02-12 01:04:53 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:54 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:55 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:55 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:04:55 [forense] INFO:   [SAFETY] REJECTED: SAFEMOON / SOL | Reason: Anti-Fomo Volume (h1=$20,636 < $50,000)
+2026-02-12 01:04:55 [forense] INFO:   [SAFETY] REJECTED: SAFEMOON / SOL | Reason: Anti-Fomo (low_h1_volume_20636)
+2026-02-12 01:04:56 [forense] INFO:   REJECTED: SAFEMOON / SOL - Anti-Fomo rejected: low_h1_volume_20636
+2026-02-12 01:04:59 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.0s...
+2026-02-12 01:05:11 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 15.4s...
+2026-02-12 01:05:23 [forense] INFO:   [SAFETY] REJECTED: Doppel / WETH | Reason: Anti-Fomo Volume (h1=$13,734 < $50,000)
+2026-02-12 01:05:23 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.8s...
+2026-02-12 01:05:23 [forense] INFO:   [SAFETY] REJECTED: Doppel / WETH | Reason: Anti-Fomo (low_h1_volume_13734)
+2026-02-12 01:05:23 [forense] INFO:   REJECTED: Doppel / WETH - Anti-Fomo rejected: low_h1_volume_13734
+2026-02-12 01:05:29 [forense] INFO:   LOW SCORE: AntiHunter / WETH = 6.2/10
+2026-02-12 01:05:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 12.9s...
+2026-02-12 01:05:41 [forense] INFO:   [SAFETY] REJECTED: Molten / WETH | Reason: Anti-Fomo Volume (h1=$46,751 < $50,000)
+2026-02-12 01:05:41 [forense] INFO:   [SAFETY] REJECTED: Molten / WETH | Reason: Anti-Fomo (low_h1_volume_46751)
+2026-02-12 01:05:41 [forense] INFO:   REJECTED: Molten / WETH - Anti-Fomo rejected: low_h1_volume_46751
+2026-02-12 01:05:53 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.0s...
+2026-02-12 01:05:53 [forense] INFO:   [SAFETY] REJECTED: bio / WETH | Reason: Anti-Fomo Volume (h1=$10,112 < $50,000)
+2026-02-12 01:05:53 [forense] INFO:   [SAFETY] REJECTED: bio / WETH | Reason: Anti-Fomo (low_h1_volume_10112)
+2026-02-12 01:05:53 [forense] INFO:   REJECTED: bio / WETH - Anti-Fomo rejected: low_h1_volume_10112
+2026-02-12 01:05:59 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 29.0s...
+2026-02-12 01:06:05 [forense] INFO:   [SAFETY] REJECTED: CloudX / WETH | Reason: Anti-Fomo Volume (h1=$32,255 < $50,000)
+2026-02-12 01:06:05 [forense] INFO:   [SAFETY] REJECTED: CloudX / WETH | Reason: Anti-Fomo (low_h1_volume_32255)
+2026-02-12 01:06:05 [forense] INFO:   [SAFETY] REJECTED: clawvity / WETH | Reason: Honeypot (sell/buy=0.24, buys=93, sells=22)
+2026-02-12 01:06:05 [forense] INFO:   REJECTED: CloudX / WETH - Anti-Fomo rejected: low_h1_volume_32255
+2026-02-12 01:06:05 [forense] INFO:   REJECTED: clawvity / WETH - Honeypot suspected: sell/buy ratio = 0.24
+2026-02-12 01:06:13 [wallet_tracker] INFO: Scanning 50 tracked wallets (sequential, 1.0s delay)...
+2026-02-12 01:06:13 [wallet_tracker] INFO: Found 47 new buy signals from smart wallets!
+2026-02-12 01:06:13 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 0 scanned, 50 cached, 0 errors)
+2026-02-12 01:06:13 [alpha_monitor] INFO: [HEARTBEAT] Wallet scan: 47 whale signals found | 1 passed initial safety (liq>=$30,000) | 31 total in accumulator | 0.0s
+2026-02-12 01:06:17 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.2s...
+2026-02-12 01:06:17 [forense] INFO:   [SAFETY] REJECTED: BNKRW / WETH | Reason: Anti-Fomo Volume (h1=$15,387 < $50,000)
+2026-02-12 01:06:17 [forense] INFO:   [SAFETY] REJECTED: BNKRW / WETH | Reason: Anti-Fomo (low_h1_volume_15387)
+2026-02-12 01:06:17 [forense] INFO:   REJECTED: BNKRW / WETH - Anti-Fomo rejected: low_h1_volume_15387
+2026-02-12 01:06:23 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 28.0s...
+2026-02-12 01:06:29 [forense] INFO:   [SAFETY] REJECTED: DEATHSTR / ETH | Reason: Anti-Fomo Volume (h1=$63 < $50,000)
+2026-02-12 01:06:29 [forense] INFO:   [SAFETY] REJECTED: DEATHSTR / ETH | Reason: Anti-Fomo (low_h1_volume_63)
+2026-02-12 01:06:29 [forense] INFO:   [SAFETY] REJECTED: ZYPP / SOL | Reason: Liquidity ($0 < $30,000)
+2026-02-12 01:06:29 [forense] INFO:   REJECTED: DEATHSTR / ETH - Anti-Fomo rejected: low_h1_volume_63
+2026-02-12 01:06:29 [forense] INFO:   [SAFETY] REJECTED: LUCIFERSCARETAKERFLESH / USDC 1% | Reason: Liquidity ($0 < $30,000)
+2026-02-12 01:06:29 [forense] INFO:   REJECTED: ZYPP / SOL - Liquidity too low: $0
+2026-02-12 01:06:29 [forense] INFO:   [SAFETY] REJECTED: MoltBunker / WETH | Reason: Liquidity ($0 < $30,000)
+2026-02-12 01:06:29 [forense] INFO:   REJECTED: LUCIFERSCARETAKERFLESH / USDC 1% - Liquidity too low: $0
+2026-02-12 01:06:29 [forense] INFO:   [SAFETY] REJECTED: MYST / WETH | Reason: Liquidity ($0 < $30,000)
+2026-02-12 01:06:29 [forense] INFO:   REJECTED: MoltBunker / WETH - Liquidity too low: $0
+2026-02-12 01:06:29 [forense] INFO:   REJECTED: MYST / WETH - Liquidity too low: $0
+2026-02-12 01:06:39 [alpha_monitor] INFO: Exit manager thread stopped
+2026-02-12 01:06:41 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.3s...
+2026-02-12 01:06:42 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 13.2s...
+2026-02-12 01:06:45 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:06:46 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:06:47 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:06:48 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:06:49 [forense] INFO:   [SAFETY] REJECTED: FELIX / WETH | Reason: Anti-Fomo Volume (h1=$7,970 < $50,000)
+2026-02-12 01:06:49 [forense] INFO:   [SAFETY] REJECTED: FELIX / WETH | Reason: Anti-Fomo (low_h1_volume_7970)
+2026-02-12 01:06:49 [forense] INFO:   REJECTED: FELIX / WETH - Anti-Fomo rejected: low_h1_volume_7970
+2026-02-12 01:06:49 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:06:50 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:06:50 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:06:51 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:06:51 [forense] INFO:   [SAFETY] REJECTED: HAL / SOL | Reason: Anti-Fomo Volume (h1=$11,951 < $50,000)
+2026-02-12 01:06:51 [forense] INFO:   [SAFETY] REJECTED: HAL / SOL | Reason: Anti-Fomo (low_h1_volume_11951)
+2026-02-12 01:06:51 [forense] INFO:   REJECTED: HAL / SOL - Anti-Fomo rejected: low_h1_volume_11951
+2026-02-12 01:07:00 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.8s...
+2026-02-12 01:07:12 [forense] INFO:   [SAFETY] REJECTED: STARKBOT / WETH | Reason: Anti-Fomo Volume (h1=$13,225 < $50,000)
+2026-02-12 01:07:12 [forense] INFO:   [SAFETY] REJECTED: STARKBOT / WETH | Reason: Anti-Fomo (low_h1_volume_13225)
+2026-02-12 01:07:12 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 7.0s...
+2026-02-12 01:07:12 [forense] INFO:   [SAFETY] REJECTED: clawvity / WETH 20% | Reason: Anti-Fomo Volume (h1=$17,739 < $50,000)
+2026-02-12 01:07:12 [forense] INFO:   [SAFETY] REJECTED: clawvity / WETH 20% | Reason: Anti-Fomo (low_h1_volume_17739)
+2026-02-12 01:07:12 [forense] INFO:   REJECTED: STARKBOT / WETH - Anti-Fomo rejected: low_h1_volume_13225
+2026-02-12 01:07:12 [forense] INFO:   REJECTED: clawvity / WETH 20% - Anti-Fomo rejected: low_h1_volume_17739
+2026-02-12 01:07:24 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 25.1s...
+2026-02-12 01:07:26 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:07:27 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:07:28 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:07:29 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:07:30 [forense] INFO:   [SAFETY] REJECTED: fomolt / WETH | Reason: Anti-Fomo Volume (h1=$11,358 < $50,000)
+2026-02-12 01:07:30 [forense] INFO:   [SAFETY] REJECTED: fomolt / WETH | Reason: Anti-Fomo (low_h1_volume_11358)
+2026-02-12 01:07:30 [forense] INFO:   REJECTED: fomolt / WETH - Anti-Fomo rejected: low_h1_volume_11358
+2026-02-12 01:07:30 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:07:31 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:07:32 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:07:32 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:07:36 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 12.1s...
+2026-02-12 01:07:42 [forense] INFO:   [SAFETY] REJECTED: SPIRIT / WETH | Reason: Anti-Fomo Volume (h1=$35,142 < $50,000)
+2026-02-12 01:07:42 [forense] INFO:   [SAFETY] REJECTED: SPIRIT / WETH | Reason: Anti-Fomo (low_h1_volume_35142)
+2026-02-12 01:07:42 [forense] INFO:   REJECTED: SPIRIT / WETH - Anti-Fomo rejected: low_h1_volume_35142
+2026-02-12 01:07:48 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 13.6s...
+2026-02-12 01:07:54 [forense] INFO:   [SAFETY] REJECTED: CLAWD / WETH | Reason: Anti-Fomo Volume (h1=$9,380 < $50,000)
+2026-02-12 01:07:54 [forense] INFO:   [SAFETY] REJECTED: CLAWD / WETH | Reason: Anti-Fomo (low_h1_volume_9380)
+2026-02-12 01:07:54 [forense] INFO:   REJECTED: CLAWD / WETH - Anti-Fomo rejected: low_h1_volume_9380
+2026-02-12 01:08:06 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.9s...
+2026-02-12 01:08:06 [forense] INFO:   [SAFETY] REJECTED: BV7X / WETH | Reason: Anti-Fomo Volume (h1=$12,986 < $50,000)
+2026-02-12 01:08:06 [forense] INFO:   [SAFETY] REJECTED: BV7X / WETH | Reason: Anti-Fomo (low_h1_volume_12986)
+2026-02-12 01:08:06 [forense] INFO:   [SAFETY] REJECTED: FLONT / WETH | Reason: Anti-Fomo Volume (h1=$12,346 < $50,000)
+2026-02-12 01:08:06 [forense] INFO:   [SAFETY] REJECTED: FLONT / WETH | Reason: Anti-Fomo (low_h1_volume_12346)
+2026-02-12 01:08:06 [forense] INFO:   REJECTED: BV7X / WETH - Anti-Fomo rejected: low_h1_volume_12986
+2026-02-12 01:08:06 [forense] INFO:   REJECTED: FLONT / WETH - Anti-Fomo rejected: low_h1_volume_12346
+2026-02-12 01:08:12 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 3), backing off 29.3s...
+2026-02-12 01:08:18 [forense] INFO:   [SAFETY] REJECTED: CATCOIN / WETH | Reason: Anti-Fomo Volume (h1=$4,058 < $50,000)
+2026-02-12 01:08:18 [forense] INFO:   [SAFETY] REJECTED: CATCOIN / WETH | Reason: Anti-Fomo (low_h1_volume_4058)
+2026-02-12 01:08:18 [forense] INFO:   REJECTED: CATCOIN / WETH - Anti-Fomo rejected: low_h1_volume_4058
+2026-02-12 01:08:19 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 1), backing off 6.3s...
+2026-02-12 01:08:27 [forense] INFO:   [SAFETY] REJECTED: CLAWNCH / WETH | Reason: Anti-Fomo Volume (h1=$41,968 < $50,000)
+2026-02-12 01:08:27 [forense] INFO:   [SAFETY] REJECTED: CLAWNCH / WETH | Reason: Anti-Fomo (low_h1_volume_41968)
+2026-02-12 01:08:27 [forense] INFO:   REJECTED: CLAWNCH / WETH - Anti-Fomo rejected: low_h1_volume_41968
+2026-02-12 01:08:31 [api_client] WARNING: [geckoterminal] 429 rate limited (attempt 2), backing off 12.5s...
+2026-02-12 01:08:46 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:08:46 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:08:47 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:08:48 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:08:49 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:08:50 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:08:50 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:08:51 [wallet_tracker] WARNING: Solana RPC getSignaturesForAddress failed: HTTP Error 429: Too Many Requests
+2026-02-12 01:08:53 [forense] INFO:   LOW SCORE: BIG / SOL = 5.2/10
+2026-02-12 01:09:06 [forense] INFO:   LOW SCORE: SHARK / SOL = 4.9/10
+2026-02-12 01:09:06 [forense] INFO: === THE FORENSE: 0/40 passed audit (37 rejected, 3 low-score) in 338.7s ===
+2026-02-12 01:09:06 [forense] INFO:   DexScreener cache: 40 tokens | GeckoTerminal trade calls: 28
+2026-02-12 01:09:06 [alpha_monitor] INFO: Forense: 0 passed (338.7s)
+2026-02-12 01:09:06 [alpha_monitor] INFO: Scan cycle complete. 0 early alerts sent.
+2026-02-12 01:09:06 [alpha_monitor] INFO: Cycle #1: 0 alerts
+2026-02-12 01:09:07 [alert_monitor] INFO: Telegram alert sent successfully

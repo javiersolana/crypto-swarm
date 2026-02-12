@@ -1,5 +1,5 @@
 """
-Crypto Swarm Intelligence System - Central Configuration
+Crypto Swarm Intelligence System - Central Configuration (v8.8 Sweet Spot)
 """
 import os
 
@@ -51,7 +51,8 @@ NETWORKS = {
 }
 
 # Priority networks get full scan; lower-priority ones get reduced pages
-PRIORITY_NETWORKS = ["solana", "base"]
+# v8.8: Base first — missed_opportunities.json showed 100% of +1000% gems were on Base
+PRIORITY_NETWORKS = ["base", "solana"]
 
 # DexScreener uses different chain IDs
 DEXSCREENER_CHAINS = {
@@ -152,24 +153,49 @@ AUDIT_BLACKLIST_FILE = os.path.join(DATA_DIR, "audit_blacklist.json")
 AUDIT_BLACKLIST_TTL = 3600  # 60 minutes — rejected tokens are skipped for this long
 WALLET_WS_FALLBACK_INTERVAL = 600  # 10 min polling when WebSocket is primary
 
-# ─── Paper Trading (v7.0 Moonbag Strategy) ────────────────────────────
-PAPER_TRADE_AMOUNT_SOL = 1.0           # SOL per trade (v8.1: higher for visible PnL)
+# ─── Paper Trading (v8.8 Sweet Spot — Educated Sniper) ────────────────
+PAPER_TRADE_AMOUNT_SOL = 0.05          # SOL per trade — default (Tier A)
 PAPER_TP_PCT = 50                      # Legacy TP (used as fallback)
-PAPER_SL_PCT = -25                     # Initial Stop Loss at -25%
+PAPER_SL_PCT = -12                     # v8.8: -12% SL (was -18%). With ~3% slippage = ~-15% real loss.
+                                        # Day 1 data: -25% SL still exited at -28 to -33%. Cut faster.
 PAPER_TRAILING_ACTIVATION_PCT = 100    # Legacy trailing activation (unused in v7.0)
 PAPER_EXIT_CHECK_INTERVAL = 45         # seconds between exit checks
 PAPER_TRADES_FILE = os.path.join(DATA_DIR, "paper_trades.json")
-PAPER_MAX_OPEN_TRADES = 20             # prevent unbounded open positions
+PAPER_MAX_OPEN_TRADES = 5              # v8.8: was 20. With 0.5 SOL, max 5 concurrent positions.
 
-# v7.0 Moonbag settings
-PAPER_TP1_PCT = 80                     # TP1: take profit at +80%
-PAPER_TP1_SELL_FRACTION = 0.50         # Sell 50% of position at TP1
-PAPER_MOONBAG_TRAILING_PCT = 20        # 20% trailing stop on remaining position
+# v8.8 Tiered Position Sizing — confidence-based amount
+PAPER_TIER_A_SOL = 0.05                # Whale + forense>=8 + RSI<60 (highest confidence)
+PAPER_TIER_B_SOL = 0.025               # forense>=8 + RSI<70 + h1_vol>$15k
+PAPER_TIER_C_SOL = 0.015               # forense>=7.5 + h1_vol>$10k + chain=base
+
+# v8.8 Moonbag settings (retuned for achievable targets)
+PAPER_TP1_PCT = 40                     # v8.8: was 80%. Day 1 max upside was +35%. 40% is reachable.
+PAPER_TP1_SELL_FRACTION = 0.60         # v8.8: was 0.50. Sell 60% at TP1 to secure more capital.
+PAPER_MOONBAG_TRAILING_PCT = 15        # v8.8: was 20%. Tighter trailing on moonbag.
 PAPER_EMERGENCY_RUGCHECK = True        # Close immediately on Rugcheck "Danger"
 
 # v8.0 Realistic simulation
 PAPER_FEE_SOL = 0.006                  # Simulated fees per trade (0.003 entry + 0.003 exit)
-PAPER_SLIPPAGE_PCT = 2.0               # Buy slippage percentage
+PAPER_SLIPPAGE_PCT = 5.0               # v8.8: was 3.0. Real data showed 3-8% slippage on DEX exits.
+
+# v8.8 Anti-Fomo: RELAXED but SMARTER
+AUDIT_MAX_RSI_1M = 70                  # v8.8: was 65. RSI 65 rejected BIG (+5.4%). 70 still catches
+                                        # GIRAFFLUNA (RSI 75 → -98%). Sweet spot between safety & opportunity.
+RSI_PERIOD_ANTIFOMO = 9                # v8.8: NEW. Was hardcoded 14. RSI(9) on 1-min candles is more
+                                        # responsive to real peaks vs lagging momentum from 14+ min ago.
+AUDIT_MIN_VOLUME_H1 = 10_000          # v8.8: was $50k — THE KILLER FILTER. All 17 tokens that pumped
+                                        # +1000% had h1_vol between $26k-$48k. $10k filters dead tokens
+                                        # (h1_vol <$5k) without blocking fresh gems.
+AUDIT_MIN_VOL_LIQ_RATIO_H1 = 0.3      # v8.8: NEW. h1_volume / liquidity >= 0.3 = real traction.
+                                        # SPIRIT had ratio 1.13 ($35k/$31k). Dead tokens have ratio 0.01.
+
+# v8.8 Break-even trailing stop
+PAPER_BREAKEVEN_PCT = 20               # v8.8: was 15%. Memecoins retrace 15-20% in healthy runs.
+                                        # At +20% there's confirmed momentum.
+
+# v8.8 Minimum alpha score to open any trade (prevents blind entries)
+MIN_ALPHA_SCORE_FOR_TRADE = 1.0        # Day 1: all 4 losses had alpha_score 0.83-2.5 and signal_count=0.
+                                        # Require at least 1.0 alpha to prevent pure-forense entries.
 
 # v8.0 Anti-rug: minimum token age
 AUDIT_MIN_TOKEN_AGE_SECONDS = 180      # 3 minutes — reject instant rugs
@@ -178,3 +204,15 @@ AUDIT_MIN_TOKEN_AGE_SECONDS = 180      # 3 minutes — reject instant rugs
 AUDIT_MIN_LIQ_MCAP_RATIO = 0.10       # Reject if liq < 10% of mcap (price gap risk)
 AUDIT_MAX_CREATOR_PCT = 15.0           # Reject if creator/insiders hold >15% supply
 WHALE_MIN_LIQUIDITY = 30_000           # Minimum liq for whale fast-track trades ($)
+
+# v8.8 Whale Confirmation (relaxed from v8.6)
+DOUBLE_WHALE_MIN_WALLETS = 1           # v8.8: was 2. Requiring 2 whales is too rare in practice.
+                                        # 1 whale + forense>=7.0 is sufficient signal.
+SOL_TREND_MAX_DROP_PCT = -2.0          # Block ALL buys if SOL dropped more than 2% in last hour
+SOL_USDC_PAIR_ADDRESS = "So11111111111111111111111111111111111111112"  # Wrapped SOL mint
+
+# v8.6 Missed Opportunities Tracker
+MISSED_OPPORTUNITIES_FILE = os.path.join(DATA_DIR, "missed_opportunities.json")
+MISSED_OPP_CHECK_INTERVAL = 300        # Check rejected tokens every 5 minutes
+MISSED_OPP_PUMP_THRESHOLD = 50         # Log if token pumped >50% after rejection
+MISSED_OPP_TTL = 86400                 # Track for 24 hours
