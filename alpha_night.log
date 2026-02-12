@@ -6335,3 +6335,19 @@ nohup: ignoring input
 2026-02-12 11:59:21 [wallet_tracker] INFO: Found 2 new buy signals from smart wallets!
 2026-02-12 11:59:21 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 15s (50 wallets, 8 scanned, 42 cached, 0 errors)
 2026-02-12 11:59:21 [alpha_monitor] INFO: [HEARTBEAT] Wallet scan: 2 whale signals found | 0 passed initial safety (liq>=$30,000) | 6 total in accumulator | 15.2s
+2026-02-12 12:00:51 [wallet_tracker] INFO: Scanning 50 tracked wallets (sequential, 1.0s delay)...
+2026-02-12 12:00:51 [wallet_tracker] INFO: Found 2 new buy signals from smart wallets!
+2026-02-12 12:00:51 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 0s (50 wallets, 0 scanned, 50 cached, 0 errors)
+2026-02-12 12:00:51 [alpha_monitor] INFO: [HEARTBEAT] Wallet scan: 2 whale signals found | 0 passed initial safety (liq>=$30,000) | 6 total in accumulator | 0.0s
+2026-02-12 12:02:17 [api_client] WARNING: [rugcheck] Request failed: https://api.rugcheck.xyz/v1/tokens/8vgr1ex9vfpootwiupya5kyogx9btury2xc4dnmrpump/report - 400 Client Error: Bad Request for url: https://api.rugcheck.xyz/v1/tokens/8vgr1ex9vfpootwiupya5kyogx9btury2xc4dnmrpump/report
+2026-02-12 12:02:19 [api_client] WARNING: [rugcheck] Request failed: https://api.rugcheck.xyz/v1/tokens/71mfkdepwywxtif1mqu2aacdmknkun664z2vem2xpump/report - 400 Client Error: Bad Request for url: https://api.rugcheck.xyz/v1/tokens/71mfkdepwywxtif1mqu2aacdmknkun664z2vem2xpump/report
+2026-02-12 12:02:21 [wallet_tracker] INFO: Scanning 50 tracked wallets (sequential, 1.0s delay)...
+2026-02-12 12:04:07 [wallet_tracker] INFO: Found 3 new buy signals from smart wallets!
+2026-02-12 12:04:07 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 1m 45s (50 wallets, 42 scanned, 8 cached, 0 errors)
+2026-02-12 12:04:07 [alpha_monitor] INFO: [HEARTBEAT] Wallet scan: 3 whale signals found | 1 passed initial safety (liq>=$30,000) | 6 total in accumulator | 106.0s
+2026-02-12 12:05:20 [api_client] WARNING: [rugcheck] Request failed: https://api.rugcheck.xyz/v1/tokens/8vgr1ex9vfpootwiupya5kyogx9btury2xc4dnmrpump/report - 400 Client Error: Bad Request for url: https://api.rugcheck.xyz/v1/tokens/8vgr1ex9vfpootwiupya5kyogx9btury2xc4dnmrpump/report
+2026-02-12 12:05:22 [api_client] WARNING: [rugcheck] Request failed: https://api.rugcheck.xyz/v1/tokens/71mfkdepwywxtif1mqu2aacdmknkun664z2vem2xpump/report - 400 Client Error: Bad Request for url: https://api.rugcheck.xyz/v1/tokens/71mfkdepwywxtif1mqu2aacdmknkun664z2vem2xpump/report
+2026-02-12 12:05:37 [wallet_tracker] INFO: Scanning 50 tracked wallets (sequential, 1.0s delay)...
+2026-02-12 12:05:53 [wallet_tracker] INFO: Found 3 new buy signals from smart wallets!
+2026-02-12 12:05:53 [wallet_tracker] INFO: [wallet_tracker] Scan completed in 0m 15s (50 wallets, 8 scanned, 42 cached, 0 errors)
+2026-02-12 12:05:53 [alpha_monitor] INFO: [HEARTBEAT] Wallet scan: 3 whale signals found | 1 passed initial safety (liq>=$30,000) | 6 total in accumulator | 15.5s
