@@ -3,6 +3,10 @@ Alpha Hunter System - Configuration for Advanced Data Sources
 Fill in API keys below. All APIs have free tiers.
 """
 import os
+from dotenv import load_dotenv
+
+# Load .env from project root
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 # ─── Helius API (Solana Enhanced Transactions) ────────────────────────────
 # Free tier: ~100k credits/day (enough for wallet tracking)

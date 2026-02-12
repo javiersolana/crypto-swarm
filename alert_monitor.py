@@ -31,9 +31,13 @@ import time
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone
+from dotenv import load_dotenv
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# Load .env from project root
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 import config
 from utils import setup_logging, get_logger, load_json, save_json, ensure_data_dirs, now_utc
